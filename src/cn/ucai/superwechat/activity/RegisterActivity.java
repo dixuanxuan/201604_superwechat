@@ -14,15 +14,24 @@
 package cn.ucai.superwechat.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import cn.ucai.superwechat.DemoApplication;
+import cn.ucai.superwechat.I;
+import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.listener.OnSetAvatarListener;
 
 import com.easemob.exceptions.EaseMobException;
 
@@ -34,22 +43,77 @@ public class RegisterActivity extends BaseActivity {
 	private EditText userNameEditText;
 	private EditText passwordEditText;
 	private EditText confirmPwdEditText;
+	private RelativeLayout mLayoutRegister;
+	private  ImageView ivAvatar;
+	private  EditText metNick;
+	private  OnSetAvatarListener mOnSetAvatarListener;
+	private  String avatarName;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(cn.ucai.superwechat.R.layout.activity_register);
-		userNameEditText = (EditText) findViewById(cn.ucai.superwechat.R.id.username);
+		initView();
+		setListener();
+
+	}
+
+	private void setListener() {
+		findViewById(R.id.btnLogin).setOnClickListener(
+				new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		findViewById(R.id.btnRegister).setOnClickListener(
+				new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				register();
+			}
+		});
+		mLayoutRegister.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mOnSetAvatarListener= new OnSetAvatarListener(RegisterActivity.
+						this,R.id.layouutRegister,getUserName(),I.AVATAR_TYPE_USER_PATH);
+			}
+		});
+
+
+	}
+
+	private String getUserName() {
+		avatarName = String.valueOf(System.currentTimeMillis());
+		return avatarName;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode!=RESULT_OK){
+			return;
+		}
+		mOnSetAvatarListener.setAvatar(requestCode,data,ivAvatar);
+
+	}
+
+	private void initView() {
+		ivAvatar = (ImageView) findViewById(R.id.iv_avatar);
+		metNick = (EditText) findViewById(R.id.Nick);
+		mLayoutRegister = (RelativeLayout) findViewById(R.id.layouutRegister);
+		userNameEditText = (EditText) findViewById(R.id.username);
 		passwordEditText = (EditText) findViewById(cn.ucai.superwechat.R.id.password);
 		confirmPwdEditText = (EditText) findViewById(cn.ucai.superwechat.R.id.confirm_password);
 	}
 
 	/**
 	 * 注册
-	 * 
-	 * @param view
+	 *
 	 */
-	public void register(View view) {
+	private void register() {
+		final String  nick=metNick.getText().toString().trim();
 		final String username = userNameEditText.getText().toString().trim();
 		final String pwd = passwordEditText.getText().toString().trim();
 		String confirm_pwd = confirmPwdEditText.getText().toString().trim();
@@ -57,7 +121,17 @@ public class RegisterActivity extends BaseActivity {
 			Toast.makeText(this, getResources().getString(cn.ucai.superwechat.R.string.User_name_cannot_be_empty), Toast.LENGTH_SHORT).show();
 			userNameEditText.requestFocus();
 			return;
-		} else if (TextUtils.isEmpty(pwd)) {
+		}
+		else if (!username.matches("[\\w][\\w\\d_]+")) {
+			Toast.makeText(this, getResources().getString(R.string.illegal_user_name), Toast.LENGTH_SHORT).show();
+			userNameEditText.requestFocus();
+			return;
+		}
+		else if (TextUtils.isEmpty(nick)) {
+			Toast.makeText(this, getResources().getString(R.string.toast_nick_not_isnull), Toast.LENGTH_SHORT).show();
+			metNick.requestFocus();
+			return;
+		}else if (TextUtils.isEmpty(pwd)) {
 			Toast.makeText(this, getResources().getString(cn.ucai.superwechat.R.string.Password_cannot_be_empty), Toast.LENGTH_SHORT).show();
 			passwordEditText.requestFocus();
 			return;
@@ -86,7 +160,7 @@ public class RegisterActivity extends BaseActivity {
 									pd.dismiss();
 								// 保存用户名
 								DemoApplication.getInstance().setUserName(username);
-								Toast.makeText(getApplicationContext(), getResources().getString(cn.ucai.superwechat.R.string.Registered_successfully), 0).show();
+								Toast.makeText(getApplicationContext(), getResources().getString(cn.ucai.superwechat.R.string.Registered_successfully), Toast.LENGTH_LONG).show();
 								finish();
 							}
 						});
