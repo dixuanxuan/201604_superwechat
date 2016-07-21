@@ -22,6 +22,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -32,15 +33,24 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.easemob.EMCallBack;
+
+import cn.ucai.superwechat.I;
+import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
+
 import cn.ucai.superwechat.Constant;
-import cn.ucai.superwechat.DemoApplication;
+import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.DemoHXSDKHelper;
+import cn.ucai.superwechat.bean.Result;
+import cn.ucai.superwechat.bean.UserAvatar;
+import cn.ucai.superwechat.data.OkHttpUtils2;
 import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.domain.User;
+import cn.ucai.superwechat.task.DownloadContactListTask;
 import cn.ucai.superwechat.utils.CommonUtils;
+import cn.ucai.superwechat.video.util.Utils;
 
 /**
  * 登陆页面
@@ -58,6 +68,8 @@ public class LoginActivity extends BaseActivity {
 	private String currentUsername;
 	private String currentPassword;
 
+	ProgressDialog pd;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -73,7 +85,15 @@ public class LoginActivity extends BaseActivity {
 
 		usernameEditText = (EditText) findViewById(cn.ucai.superwechat.R.id.username);
 		passwordEditText = (EditText) findViewById(cn.ucai.superwechat.R.id.password);
+		setListener();
 
+
+		if (SuperWeChatApplication.getInstance().getUserName() != null) {
+			usernameEditText.setText(SuperWeChatApplication.getInstance().getUserName());
+		}
+	}
+
+	private void setListener() {
 		// 如果用户名改变，清空密码
 		usernameEditText.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -91,11 +111,54 @@ public class LoginActivity extends BaseActivity {
 
 			}
 		});
-		if (DemoApplication.getInstance().getUserName() != null) {
-			usernameEditText.setText(DemoApplication.getInstance().getUserName());
-		}
 	}
 
+
+	private  void  loginSuccessful(UserAvatar user){
+		// 登陆成功，保存用户名密码
+		SuperWeChatApplication.getInstance().setUserName(currentUsername);
+		SuperWeChatApplication.getInstance().setPassword(currentPassword);
+		SuperWeChatApplication.getInstance().setUser(user);
+		SuperWeChatApplication.currentUserNick=user.getMUserNick();
+
+		new DownloadContactListTask(LoginActivity.this,currentUsername).excute();
+
+		try {
+			// ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
+			// ** manually load all local groups and
+			EMGroupManager.getInstance().loadAllGroups();
+			EMChatManager.getInstance().loadAllConversations();
+			// 处理好友和群组
+			initializeContacts();
+		} catch (Exception e) {
+			e.printStackTrace();
+			// 取好友或者群聊失败，不让进入主页面
+			runOnUiThread(new Runnable() {
+				public void run() {
+					pd.dismiss();
+					DemoHXSDKHelper.getInstance().logout(true,null);
+					Toast.makeText(getApplicationContext(), cn.ucai.superwechat.R.string.login_failure_failed, Toast.LENGTH_LONG).show();
+				}
+			});
+			return;
+		}
+		// 更新当前用户的nickname 此方法的作用是在ios离线推送时能够显示用户nick
+		boolean updatenick = EMChatManager.getInstance().updateCurrentUserNick(
+				SuperWeChatApplication.currentUserNick.trim());
+		if (!updatenick) {
+			Log.e("LoginActivity", "update current user nick fail");
+		}
+		if (!LoginActivity.this.isFinishing() && pd.isShowing()) {
+			pd.dismiss();
+		}
+		// 进入主页面
+		Intent intent = new Intent(LoginActivity.this,
+				MainActivity.class);
+		startActivity(intent);
+
+		finish();
+
+	}
 	/**
 	 * 登录
 	 * 
@@ -119,7 +182,7 @@ public class LoginActivity extends BaseActivity {
 		}
 
 		progressShow = true;
-		final ProgressDialog pd = new ProgressDialog(LoginActivity.this);
+		  pd = new ProgressDialog(LoginActivity.this);
 		pd.setCanceledOnTouchOutside(false);
 		pd.setOnCancelListener(new OnCancelListener() {
 
@@ -140,44 +203,8 @@ public class LoginActivity extends BaseActivity {
 				if (!progressShow) {
 					return;
 				}
-				// 登陆成功，保存用户名密码
-				DemoApplication.getInstance().setUserName(currentUsername);
-				DemoApplication.getInstance().setPassword(currentPassword);
+				loginAppServer();
 
-				try {
-					// ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
-					// ** manually load all local groups and
-				    EMGroupManager.getInstance().loadAllGroups();
-					EMChatManager.getInstance().loadAllConversations();
-					// 处理好友和群组
-					initializeContacts();
-				} catch (Exception e) {
-					e.printStackTrace();
-					// 取好友或者群聊失败，不让进入主页面
-					runOnUiThread(new Runnable() {
-						public void run() {
-							pd.dismiss();
-							DemoHXSDKHelper.getInstance().logout(true,null);
-							Toast.makeText(getApplicationContext(), cn.ucai.superwechat.R.string.login_failure_failed, 1).show();
-						}
-					});
-					return;
-				}
-				// 更新当前用户的nickname 此方法的作用是在ios离线推送时能够显示用户nick
-				boolean updatenick = EMChatManager.getInstance().updateCurrentUserNick(
-						DemoApplication.currentUserNick.trim());
-				if (!updatenick) {
-					Log.e("LoginActivity", "update current user nick fail");
-				}
-				if (!LoginActivity.this.isFinishing() && pd.isShowing()) {
-					pd.dismiss();
-				}
-				// 进入主页面
-				Intent intent = new Intent(LoginActivity.this,
-						MainActivity.class);
-				startActivity(intent);
-				
-				finish();
 			}
 
 			@Override
@@ -198,6 +225,59 @@ public class LoginActivity extends BaseActivity {
 				});
 			}
 		});
+	}
+
+	private void loginAppServer() {
+		final OkHttpUtils2<String> utils2=new OkHttpUtils2<>();
+		utils2.setRequestUrl(I.REQUEST_LOGIN)
+				.addParam(I.User.USER_NAME,currentUsername)
+				.addParam(I.User.PASSWORD,currentPassword)
+				.targetClass(String.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<String>() {
+					@Override
+					public void onSuccess(String s) {
+						Log.e(TAG,"s"+s);
+						Result result=cn.ucai.superwechat.utils.Utils.getResultFromJson(s,UserAvatar.class);
+						Log.e(TAG,"result"+result);
+
+
+
+							if (result!=null&&result.isRetMsg()){
+								UserAvatar user= (UserAvatar) result.getRetData();
+								Log.e(TAG,"user"+user);
+								if (user!=null){
+									saveUseRToDB(user);
+									loginSuccessful(user);
+								}
+
+
+						}else {
+							pd.dismiss();
+								Toast.makeText(getApplicationContext(), getResources().getString(R.string.Login_failed)+
+										cn.ucai.superwechat.utils.Utils.getResourceString(LoginActivity.this,result.getRetCode()), Toast.LENGTH_SHORT).show();
+						}
+					}
+
+					@Override
+					public void onError(String error) {
+						Log.e(TAG,"error"+error);
+						pd.dismiss();
+						DemoHXSDKHelper.getInstance().logout(true,null);
+						Toast.makeText(getApplicationContext(), R.string.Login_failed, Toast.LENGTH_LONG).show();
+
+					}
+				});
+
+
+	}
+
+	private void saveUseRToDB(UserAvatar user) {
+
+			UserDao dao=new UserDao(LoginActivity.this);
+			dao.saveUserAvatar(user);
+
+
+
 	}
 
 	private void initializeContacts() {
