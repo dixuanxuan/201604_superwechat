@@ -33,6 +33,7 @@ import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.data.OkHttpUtils2;
 import cn.ucai.superwechat.listener.OnSetAvatarListener;
+import cn.ucai.superwechat.utils.Utils;
 
 import com.easemob.exceptions.EaseMobException;
 
@@ -43,7 +44,7 @@ import java.io.File;
  * 
  */
 public class RegisterActivity extends BaseActivity {
-	private    static  final String TAG=RegisterActivity.class.getSimpleName();
+	private static  final String TAG=RegisterActivity.class.getSimpleName();
 	private EditText userNameEditText;
 	private EditText passwordEditText;
 	private EditText confirmPwdEditText;
@@ -161,6 +162,30 @@ public class RegisterActivity extends BaseActivity {
 		}
 	}
 
+	private  void  unRegisterServer(){
+		final  OkHttpUtils2<Result> utile=new OkHttpUtils2<>();
+		utile.setRequestUrl(I.REQUEST_UNREGISTER)
+				.addParam(I.User.USER_NAME,username)
+				.addParam(I.User.PASSWORD,pwd)
+				.targetClass(Result.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+					@Override
+					public void onSuccess(Result result) {
+						Log.i(TAG,"result ..."+result);
+
+
+					}
+
+					@Override
+					public void onError(String error) {
+						Log.i(TAG,"register fail ..."+error);
+
+
+
+
+					}
+				});
+	}
 	private void registerAppServer() {
 
 		File file=new File(OnSetAvatarListener.getAvatarPath(RegisterActivity.this,
@@ -182,12 +207,14 @@ public class RegisterActivity extends BaseActivity {
 						}else {
 							Log.e(TAG,"register fail ..."+result.getRetCode());
 							pd.dismiss();
-							Toast.makeText(getApplicationContext(), getResources().getString(cn.ucai.superwechat.R.string.Registration_failed), Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), getResources().getString(cn.ucai.superwechat.R.string.Registration_failed)+
+									Utils.getResourceString(RegisterActivity.this,result.getRetCode()), Toast.LENGTH_SHORT).show();
 						}
 					}
 
 					@Override
 					public void onError(String error) {
+
 						Log.i(TAG,"register fail ..."+error);
 						pd.dismiss();
 
@@ -214,6 +241,7 @@ public class RegisterActivity extends BaseActivity {
 						}
 					});
 				} catch (final EaseMobException e) {
+					unRegisterServer();
 					runOnUiThread(new Runnable() {
 						public void run() {
 							if (!RegisterActivity.this.isFinishing())
