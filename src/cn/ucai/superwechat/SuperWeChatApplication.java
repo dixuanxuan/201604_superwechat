@@ -147,4 +147,7 @@ public class SuperWeChatApplication extends Application {
 		this.userlist = userlist;
 	}
 
+	public List<UserAvatar> getUserlist() {
+		return userlist;
+	}
 }
