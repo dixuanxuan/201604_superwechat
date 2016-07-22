@@ -22,7 +22,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -36,12 +35,12 @@ import com.easemob.EMCallBack;
 
 import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 
 import cn.ucai.superwechat.Constant;
-import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.bean.UserAvatar;
@@ -50,7 +49,6 @@ import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.domain.User;
 import cn.ucai.superwechat.task.DownloadContactListTask;
 import cn.ucai.superwechat.utils.CommonUtils;
-import cn.ucai.superwechat.video.util.Utils;
 
 /**
  * 登陆页面
@@ -264,7 +262,6 @@ public class LoginActivity extends BaseActivity {
 						pd.dismiss();
 						DemoHXSDKHelper.getInstance().logout(true,null);
 						Toast.makeText(getApplicationContext(), R.string.Login_failed, Toast.LENGTH_LONG).show();
-
 					}
 				});
 
@@ -272,11 +269,8 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	private void saveUseRToDB(UserAvatar user) {
-
 			UserDao dao=new UserDao(LoginActivity.this);
 			dao.saveUserAvatar(user);
-
-
 
 	}
 
@@ -297,14 +291,21 @@ public class LoginActivity extends BaseActivity {
 		groupUser.setNick(strGroup);
 		groupUser.setHeader("");
 		userlist.put(Constant.GROUP_USERNAME, groupUser);
-		
+
+
+
+
+		/*
 		// 添加"Robot"
 		User robotUser = new User();
 		String strRobot = getResources().getString(cn.ucai.superwechat.R.string.robot_chat);
 		robotUser.setUsername(Constant.CHAT_ROBOT);
 		robotUser.setNick(strRobot);
 		robotUser.setHeader("");
-		userlist.put(Constant.CHAT_ROBOT, robotUser);
+		userlist.put(Constant.CHAT_ROBOT, robotUser);*/
+
+
+
 		
 		// 存入内存
 		((DemoHXSDKHelper)HXSDKHelper.getInstance()).setContactList(userlist);
