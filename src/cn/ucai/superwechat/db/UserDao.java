@@ -19,10 +19,21 @@ import java.util.Map;
 import android.content.Context;
 
 
+import cn.ucai.superwechat.bean.UserAvatar;
 import cn.ucai.superwechat.domain.RobotUser;
 import cn.ucai.superwechat.domain.User;
 
 public class UserDao {
+	public static final String USER_TABLE_NAME = "t_superwechat_user";
+	public static final String USER_COLUMN_NAME_ID = "muserName";
+	public static final String USER_COLUMN_NAME_NICK = "muserNick";
+	public static final String USER_COLUMN_NAME_AVATAR = "mavatarId";
+	public static final String USER_COLUMN_AVATAR_PATH = "mavatrPath";
+	public static final String USER_COLUMN_AVATAR_TYPE = "mavatarType";
+	public static final String USER_COLUMN_AVATAR_LAST_UPDATE_TIME = "mavatarLastUpdateTime";
+
+
+
 	public static final String TABLE_NAME = "uers";
 	public static final String COLUMN_NAME_ID = "username";
 	public static final String COLUMN_NAME_NICK = "nick";
@@ -100,4 +111,20 @@ public class UserDao {
     public void saveRobotUser(List<RobotUser> robotList){
     	DemoDBManager.getInstance().saveRobotList(robotList);
     }
+
+	/**
+	 * 保存当前登录用户
+	 *
+	 * @param user
+	 */
+	public void saveUserAvatar(UserAvatar user) {
+		DemoDBManager.getInstance().saveUserAvatar(user);
+	}
+	/*
+	根据用户名获取用户信息
+	 */
+	public  UserAvatar getUserAvatar(String username){
+		return  DemoDBManager.getInstance().getUserAvatar(username);
+
+	}
 }
