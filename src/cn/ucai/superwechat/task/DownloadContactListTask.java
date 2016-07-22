@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import java.util.List;
+import java.util.Map;
 
 import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.SuperWeChatApplication;
@@ -26,7 +27,7 @@ public class DownloadContactListTask {
         this.userName = userName;
     }
     public  void  excute (){
-        final OkHttpUtils2<String>  utils2=new OkHttpUtils2<>();
+        final OkHttpUtils2<String> utils2=new OkHttpUtils2<>();
         utils2.setRequestUrl(I.REQUEST_DOWNLOAD_CONTACT_ALL_LIST)
                 .addParam(I.Contact.USER_NAME,userName)
                 .targetClass(String.class)
@@ -41,7 +42,10 @@ public class DownloadContactListTask {
                         if (list!=null&&list.size()>0){
                             SuperWeChatApplication.getInstance().setUserlist(list);
                             mContext.sendStickyBroadcast(new Intent("update_contact_list"));
-
+                            Map<String ,UserAvatar> userMap=SuperWeChatApplication.getInstance().getUserMap();
+                            for (UserAvatar u:list){
+                                userMap.put(u.getMUserName(),u);
+                            }
                         }
                     }
 

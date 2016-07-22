@@ -32,6 +32,11 @@ public class UserAvatar implements Serializable {
 		this.mavatarLastUpdateTime = mavatarLastUpdateTime;
 	}
 
+	public UserAvatar(String username) {
+		muserName=username;
+
+	}
+
 	public String getMUserName() {
 		return muserName;
 	}
