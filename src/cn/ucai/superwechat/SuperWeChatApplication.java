@@ -119,7 +119,7 @@ public class SuperWeChatApplication extends Application {
 	}
 	private UserAvatar user;
 	/*全局的当前登录用户的好友集合*/
-	private List<UserAvatar>  userlist=new ArrayList<>();
+	private List<UserAvatar>  userlist=new ArrayList<UserAvatar>();
 	/*全局的当前登录用户的好友的Map集合*/
 	private  Map<String ,UserAvatar> userMap=new HashMap<String ,UserAvatar>();
 

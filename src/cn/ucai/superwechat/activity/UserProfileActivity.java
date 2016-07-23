@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.easemob.EMValueCallBack;
+
+import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import cn.ucai.superwechat.DemoHXSDKHelper;
@@ -76,11 +78,12 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		}
 		if (username == null||username.equals(EMChatManager.getInstance().getCurrentUser())) {
 			tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
-			UserUtils.setAppCurrentUserNick(tvNickName);
+			UserUtils.setAppUserNick(SuperWeChatApplication.getInstance().getUser().getMUserNick(),tvNickName);
 			UserUtils.setAppUserAvatar(this,EMChatManager.getInstance().getCurrentUser(), headAvatar);
+
 		} else {
 			tvUsername.setText(username);
-			UserUtils.setUserNick(username, tvNickName);
+			UserUtils.setAppUserNick(username,tvNickName);
 			UserUtils.setAppUserAvatar(this, username, headAvatar);
 			//asyncFetchUserInfo(username);
 		}

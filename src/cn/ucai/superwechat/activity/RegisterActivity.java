@@ -15,7 +15,6 @@ package cn.ucai.superwechat.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.CursorJoiner;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,9 +26,10 @@ import android.widget.Toast;
 
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
-import cn.ucai.superwechat.SuperWeChatApplication;
+
 import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.data.OkHttpUtils2;
 import cn.ucai.superwechat.listener.OnSetAvatarListener;
@@ -163,7 +163,7 @@ public class RegisterActivity extends BaseActivity {
 	}
 
 	private  void  unRegisterServer(){
-		final  OkHttpUtils2<Result> utile=new OkHttpUtils2<>();
+		final OkHttpUtils2<Result> utile=new OkHttpUtils2<>();
 		utile.setRequestUrl(I.REQUEST_UNREGISTER)
 				.addParam(I.User.USER_NAME,username)
 				.addParam(I.User.PASSWORD,pwd)

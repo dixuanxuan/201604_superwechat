@@ -71,6 +71,7 @@ import cn.ucai.superwechat.domain.InviteMessage.InviteMesageStatus;
 import cn.ucai.superwechat.domain.User;
 import cn.ucai.superwechat.utils.CommonUtils;
 import cn.ucai.superwechat.utils.SmileUtils;
+import cn.ucai.superwechat.utils.Utils;
 
 import com.easemob.util.EMLog;
 import com.easemob.util.HanziToPinyin;
@@ -528,11 +529,12 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 	public class MyContactListener implements EMContactListener {
 
 		@Override
-		public void onContactAdded(List<String> usernameList) {			
+		public void onContactAdded(List<String> usernameList) {
 			// 保存增加的联系人
 			Map<String, User> localUsers = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList();
 			Map<String, User> toAddUsers = new HashMap<String, User>();
-			Map<String ,UserAvatar> userMap= SuperWeChatApplication.getInstance().getUserMap();
+
+			Map<String ,UserAvatar> userMap= new HashMap<>();
 			List<String > toAddUserName=new ArrayList<String>();
 			for (final String username : usernameList) {
 				User user = setUserHead(username);
@@ -541,43 +543,46 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 					userDao.saveContact(user);
 				}
 				toAddUsers.put(username, user);
-				if (userMap.containsKey(username)){
+				if (!userMap.containsKey(username)){
 					toAddUserName.add(username);
-					final  OkHttpUtils2<String > utils=new OkHttpUtils2<>();
-					utils.setRequestUrl(I.REQUEST_ADD_CONTACT)
-							.addParam(I.Contact.USER_NAME, SuperWeChatApplication.getInstance().getUserName())
-							.addParam(I.Contact.CU_NAME,username)
-							.targetClass(String.class)
-							.execute(new OkHttpUtils2.OnCompleteListener<String>() {
-								@Override
-								public void onSuccess(String s) {
-									Log.e(TAG,"s"+s);
-									Result result=cn.ucai.superwechat.utils.Utils.getResultFromJson(s,UserAvatar.class);
-									Log.e(TAG,"result"+result);
 
+				}
+			}
 
+			localUsers.putAll(toAddUsers);
+			for (String name: toAddUserName){
+				Log.e(TAG, "name===================" + name);
+				final  OkHttpUtils2<String > utils=new OkHttpUtils2<>();
+				utils.setRequestUrl(I.REQUEST_ADD_CONTACT)
+						.addParam(I.Contact.USER_NAME, SuperWeChatApplication.getInstance().getUser().getMUserName())
+						.addParam(I.Contact.CU_NAME,name)
+						.targetClass(String.class)
+						.execute(new OkHttpUtils2.OnCompleteListener<String>() {
+							@Override
+							public void onSuccess(String s) {
+								Log.e(TAG,"s"+s);
+								Result result= Utils.getResultFromJson(s,UserAvatar.class);
+								Log.e(TAG,"result"+result);
 
-									if (result!=null&&result.isRetMsg()){
-										UserAvatar user= (UserAvatar) result.getRetData();
-										Log.e(TAG,"user"+user);
-										if (user!=null){
-											if (!SuperWeChatApplication.getInstance().getUserMap().containsKey(user.getMUserName())){
-												SuperWeChatApplication.getInstance().getUserMap().put(user.getMUserName(),user);
-												SuperWeChatApplication.getInstance().getUserlist().add(user);
-												sendStickyBroadcast(new Intent("update_contact_list"));
-											}
+								if (result!=null&&result.isRetMsg()){
+									UserAvatar user= (UserAvatar) result.getRetData();
+									Log.e(TAG,"user"+user);
+									if (user!=null){
+										if (!SuperWeChatApplication.getInstance().getUserMap().containsKey(user.getMUserName())){
+											SuperWeChatApplication.getInstance().getUserMap().put(user.getMUserName(),user);
+											SuperWeChatApplication.getInstance().getUserlist().add(user);
+											sendStickyBroadcast(new Intent("update_contact_list"));
 										}
 									}
 								}
+							}
 
-								@Override
-								public void onError(String error) {
-									Log.e(TAG,"error"+error);
-								}
-							});
-				}
+							@Override
+							public void onError(String error) {
+								Log.e(TAG,"error"+error);
+							}
+						});
 			}
-			localUsers.putAll(toAddUsers);
 
 			// 刷新ui
 			if (currentTabIndex == 1)
