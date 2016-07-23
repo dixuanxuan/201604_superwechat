@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.easemob.chat.EMVideoCallHelper;
+
 import cn.ucai.superwechat.SuperWeChatApplication;
 
 public class CameraHelper implements PreviewCallback {
