@@ -593,12 +593,33 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 		@Override
 		public void onContactDeleted(final List<String> usernameList) {
 			// 被删除
-			Map<String, User> localUsers = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList();
-			for (String username : usernameList) {
-				localUsers.remove(username);
-				userDao.deleteContact(username);
-				inviteMessgeDao.deleteMessage(username);
+			String currentUserName=SuperWeChatApplication.getInstance().getUserName();
+			for (final String username : usernameList) {
+				final  OkHttpUtils2<Result> utils=new OkHttpUtils2<>();
+				utils.setRequestUrl(I.REQUEST_DELETE_CONTACT)
+						.addParam(I.Contact.USER_NAME,currentUserName)
+						.addParam(I.Contact.CU_NAME,username)
+						.targetClass(Result.class)
+						.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+							@Override
+							public void onSuccess(Result result) {
+								if (result.isRetMsg()){
+									((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList().remove(username);
+									UserAvatar u = SuperWeChatApplication.getInstance().getUserMap().get(username);
+									SuperWeChatApplication.getInstance().getUserlist().remove(u);
+									SuperWeChatApplication.getInstance().getUserMap().remove(u);
+									userDao.deleteContact(username);
+									inviteMessgeDao.deleteMessage(username);
+									sendStickyBroadcast(new Intent("update_contact_list"));
+								}
+							}
+
+							@Override
+							public void onError(String error) {
+							}
+						});
 			}
+
 			runOnUiThread(new Runnable() {
 				public void run() {
 					// 如果正在与此用户的聊天页面

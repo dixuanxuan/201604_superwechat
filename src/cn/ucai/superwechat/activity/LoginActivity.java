@@ -237,9 +237,6 @@ public class LoginActivity extends BaseActivity {
 						Log.e(TAG,"s"+s);
 						Result result=cn.ucai.superwechat.utils.Utils.getResultFromJson(s,UserAvatar.class);
 						Log.e(TAG,"result"+result);
-
-
-
 							if (result!=null&&result.isRetMsg()){
 								UserAvatar user= (UserAvatar) result.getRetData();
 								Log.e(TAG,"user"+user);
@@ -247,8 +244,6 @@ public class LoginActivity extends BaseActivity {
 									saveUseRToDB(user);
 									loginSuccessful(user);
 								}
-
-
 						}else {
 							pd.dismiss();
 								Toast.makeText(getApplicationContext(), getResources().getString(R.string.Login_failed)+
