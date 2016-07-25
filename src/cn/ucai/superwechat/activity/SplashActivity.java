@@ -68,7 +68,6 @@ public class SplashActivity extends BaseActivity {
 					Log.e(TAG,"currentuser="+ SuperWeChatApplication.getInstance().getUserName());
 					Log.e(TAG,"currentuser="+SuperWeChatApplication.getInstance().getUser());
 
-
 					String username = SuperWeChatApplication.getInstance().getUserName();
 					Log.e(TAG,"username="+username);
 					UserDao dao=new UserDao(SplashActivity.this);
@@ -101,6 +100,7 @@ public class SplashActivity extends BaseActivity {
 										Log.e(TAG,"error"+error);
 									}	 });
 					}
+
 					else {
 						SuperWeChatApplication.getInstance().setUser(user);
 						SuperWeChatApplication.currentUserNick=user.getMUserNick();
