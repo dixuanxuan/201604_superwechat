@@ -291,10 +291,11 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode!=RESULT_OK){
 			return;
+
 		}
 		mOnSetAvatarListener.setAvatar(requestCode,data,headAvatar);
 		if (requestCode==OnSetAvatarListener.REQUEST_CROP_PHOTO){
-			Log.e(TAG,"update load avatar to server...");
+			Log.e(TAG,"update load avatar to app server...");
 			uploadUserAvatar();
 		}
 	}

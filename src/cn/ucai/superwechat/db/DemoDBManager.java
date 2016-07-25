@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
 import cn.ucai.superwechat.Constant;
+import cn.ucai.superwechat.bean.UserAvatar;
 import cn.ucai.superwechat.domain.InviteMessage;
 import cn.ucai.superwechat.domain.InviteMessage.InviteMesageStatus;
 import cn.ucai.superwechat.domain.RobotUser;
@@ -123,6 +124,28 @@ public class DemoDBManager {
             db.replace(UserDao.TABLE_NAME, null, values);
         }
     }
+
+
+
+
+
+    /**
+     * 保存一个当前登录用户
+     * @param user
+     */
+    synchronized public void saveUserAvatar(UserAvatar user){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(UserDao.USER_COLUMN_NAME_ID,user.getMUserName());
+        values.put(UserDao.USER_COLUMN_NAME_NICK, user.getMUserNick());
+        values.put(UserDao.USER_COLUMN_NAME_AVATAR, user.getMAvatarId());
+        values.put(UserDao.USER_COLUMN_AVATAR_PATH, user.getMAvatarPath());
+        values.put(UserDao.USER_COLUMN_AVATAR_TYPE, user.getMAvatarType());
+        values.put(UserDao.USER_COLUMN_AVATAR_LAST_UPDATE_TIME, user.getMAvatarLastUpdateTime());
+        if(db.isOpen())
+            db.replace(UserDao.USER_TABLE_NAME,null,values);
+
+    }
     
     public void setDisabledGroups(List<String> groups){
         setList(UserDao.COLUMN_NAME_DISABLED_GROUPS, groups);
@@ -137,6 +160,7 @@ public class DemoDBManager {
     }
     
     public List<String> getDisabledIds(){
+
         return getList(UserDao.COLUMN_NAME_DISABLED_IDS);
     }
     
@@ -345,7 +369,34 @@ public class DemoDBManager {
 		}
 		return users;
 	}
-    
-    
-    
+
+
+    synchronized public UserAvatar getUserAvatar(String username){
+    SQLiteDatabase db = dbHelper.getReadableDatabase();
+    Cursor cursor = db.rawQuery("select * from "+
+            UserDao.USER_TABLE_NAME+" where "+UserDao.USER_COLUMN_NAME_ID+"=?",new String[]{username});
+        UserAvatar user=null;
+   if (cursor.moveToNext()){
+        user=new UserAvatar();
+       user.setMUserName(username);
+       user.setMUserNick(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_NAME_NICK)));
+       user.setMAvatarId(cursor.getInt(cursor.getColumnIndex(UserDao.USER_COLUMN_NAME_AVATAR)));
+       user.setMAvatarLastUpdateTime(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_LAST_UPDATE_TIME)));
+       user.setMAvatarPath(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_PATH)));
+       user.setMAvatarType(cursor.getInt(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_TYPE)));
+
+       return  user;
+   }
+        return user;
+    }
+
+    synchronized public void updateUserNick(UserAvatar user) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues  values=new ContentValues();
+        values.put(UserDao.USER_COLUMN_NAME_NICK,user.getMUserNick());
+        if(db.isOpen()){
+            db.update(UserDao.USER_TABLE_NAME, values, UserDao.USER_COLUMN_NAME_ID + " = ?", new String[]{user.getMUserName()});
+        }
+
+    }
 }
