@@ -95,6 +95,7 @@ public class AddContactActivity extends BaseActivity{
 				startActivity(new Intent(this, AlertDialog.class).putExtra("msg", str));
 				return;
 			}
+
 			UserAvatar userAvatar = SuperWeChatApplication.getInstance().getUserMap().get(toAddUsername);
 			if (userAvatar!=null){
 				startActivity(new Intent(AddContactActivity.this,UserProfileActivity.class).putExtra("username",toAddUsername));
@@ -114,7 +115,8 @@ public class AddContactActivity extends BaseActivity{
 							if (result!=null&&result.isRetMsg()){
 								UserAvatar user= (UserAvatar) result.getRetData();
 								Log.e(TAG,"user"+user);
-								if (user!=null){
+								if (user!=null&&isContact().length==1){
+                                    Log.e(TAG,"他俩是好友了已经是了！");
 									//服务器存在此用户，显示此用户和添加按钮
 									searchedUserLayout.setVisibility(View.VISIBLE);
 									UserUtils.setAppUserAvatar(AddContactActivity.this,toAddUsername,avatar);
@@ -137,9 +139,35 @@ public class AddContactActivity extends BaseActivity{
 
 			
 		} 
-	}	
-	
-	/**
+	}
+    public String[] isContact() {
+        final String[] is = {null};
+        final OkHttpUtils2<String> utils2 = new OkHttpUtils2<String>();
+        utils2.setRequestUrl(I.REQUEST_DOWNLOAD_CONTACT_ALL_LIST)
+                .addParam(I.Contact.USER_NAME,SuperWeChatApplication.getInstance().getUserName())
+                .targetClass(String.class)
+                .execute(new OkHttpUtils2.OnCompleteListener<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        Result result = Utils.getResultFromJson(s, UserAvatar.class);
+                        if (result != null && result.isRetMsg()) {
+                            UserAvatar user = (UserAvatar) result.getRetData();
+                            if (user.getMUserName().equals(toAddUsername)) {
+                                is[0] = "abc";
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
+        return is;
+    }
+
+
+    /**
 	 *  添加contact
 	 * @param view
 	 */
