@@ -129,5 +129,11 @@
                 android:textSize="18sp" />
         </LinearLayout>
     </RelativeLayout>
-
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="设置服务器的IP"
+    android:gravity="center_horizontal"
+    android:textSize="20sp"
+    android:layout_marginBottom="30dp"/>
 </LinearLayout>
