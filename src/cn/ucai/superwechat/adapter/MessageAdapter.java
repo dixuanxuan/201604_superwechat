@@ -570,7 +570,7 @@ public class MessageAdapter extends BaseAdapter{
 	private void setUserAvatar(final EMMessage message, ImageView imageView){
 	    if(message.direct == Direct.SEND){
 	        //显示自己头像
-	        UserUtils.setAappCurrentUserAvatar(context, imageView);
+	        UserUtils.setCurrentUserAvatar(context, imageView);
 	    }else{
 	        UserUtils.setAppUserAvatar(context, message.getFrom(), imageView);
 	    }
@@ -809,7 +809,7 @@ public class MessageAdapter extends BaseAdapter{
 								// message.setProgress(0);
 								holder.staus_iv.setVisibility(View.VISIBLE);
 								Toast.makeText(activity,
-										activity.getString(cn.ucai.superwechat.R.string.send_fail) + activity.getString(cn.ucai.superwechat.R.string.connect_failuer_toast), 0)
+										activity.getString(cn.ucai.superwechat.R.string.send_fail) + activity.getString(cn.ucai.superwechat.R.string.connect_failuer_toast), Toast.LENGTH_SHORT)
 										.show();
 								timer.cancel();
 							}
@@ -935,7 +935,7 @@ public class MessageAdapter extends BaseAdapter{
 								// message.setProgress(0);
 								holder.staus_iv.setVisibility(View.VISIBLE);
 								Toast.makeText(activity,
-										activity.getString(cn.ucai.superwechat.R.string.send_fail) + activity.getString(cn.ucai.superwechat.R.string.connect_failuer_toast), 0)
+										activity.getString(cn.ucai.superwechat.R.string.send_fail) + activity.getString(cn.ucai.superwechat.R.string.connect_failuer_toast), Toast.LENGTH_SHORT)
 										.show();
 								timer.cancel();
 							}
