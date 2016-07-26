@@ -21,6 +21,7 @@ import cn.ucai.superwechat.bean.UserAvatar;
 import cn.ucai.superwechat.data.OkHttpUtils2;
 import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.task.DownloadContactListTask;
+import cn.ucai.superwechat.task.DownloadGroupListTask;
 import cn.ucai.superwechat.utils.UserUtils;
 import cn.ucai.superwechat.utils.Utils;
 
@@ -107,6 +108,7 @@ public class SplashActivity extends BaseActivity {
 
 					}
 					new DownloadContactListTask(SplashActivity.this,username).excute();
+					new DownloadGroupListTask(SplashActivity.this,username).excute();
 					long costTime = System.currentTimeMillis() - start;
 					//等待sleeptime时长
 					if (sleepTime - costTime > 0) {
