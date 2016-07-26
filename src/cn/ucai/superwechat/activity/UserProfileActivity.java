@@ -94,7 +94,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		if (username == null||username.equals(EMChatManager.getInstance().getCurrentUser())) {
 			tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
 			UserUtils.setAppUserNick(SuperWeChatApplication.getInstance().getUser().getMUserNick(),tvNickName);
-			UserUtils.setAppUserAvatar(this,EMChatManager.getInstance().getCurrentUser(), headAvatar);
+			UserUtils.setCurrentUserAvatar(this, headAvatar);
 
 		} else {
 			tvUsername.setText(username);
@@ -296,6 +296,8 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		mOnSetAvatarListener.setAvatar(requestCode,data,headAvatar);
 		if (requestCode==OnSetAvatarListener.REQUEST_CROP_PHOTO){
 			Log.e(TAG,"update load avatar to app server...");
+			dialog = ProgressDialog.show(this, getString(cn.ucai.superwechat.R.string.dl_update_nick), getString(cn.ucai.superwechat.R.string.dl_waiting));
+			dialog.show();
 			uploadUserAvatar();
 		}
 	}
@@ -316,13 +318,22 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 					public void onSuccess(Result result) {
 						Log.e(TAG,"result+"+result);
 						if (result.isRetMsg()){
+							dialog.dismiss();
+							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success),
+									Toast.LENGTH_SHORT).show();
+						}else {dialog.dismiss();
+							dialog.dismiss();
 							Toast.makeText(UserProfileActivity.this, getString(cn.ucai.superwechat.R.string.toast_updatephoto_fail),
 									Toast.LENGTH_SHORT).show();
+
 						}
 					}
 
 					@Override
 					public void onError(String error) {
+						Log.e(TAG,"error="+error);
+						dialog.dismiss();
+
 						Toast.makeText(UserProfileActivity.this, getString(cn.ucai.superwechat.R.string.toast_updatephoto_fail),
 								Toast.LENGTH_SHORT).show();
 
