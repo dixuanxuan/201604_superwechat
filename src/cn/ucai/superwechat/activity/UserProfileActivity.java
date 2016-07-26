@@ -43,7 +43,8 @@ import cn.ucai.superwechat.utils.Utils;
 
 import com.squareup.picasso.Picasso;
 
-public class UserProfileActivity extends BaseActivity implements OnClickListener{
+public class
+UserProfileActivity extends BaseActivity implements OnClickListener{
 	final  static  String TAG=UserProfileActivity.class.getSimpleName();
 	
 	private static final int REQUESTCODE_PICK = 1;
