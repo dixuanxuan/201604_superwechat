@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,7 +43,12 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 
+import cn.ucai.superwechat.I;
+import cn.ucai.superwechat.bean.GroupAvatar;
+import cn.ucai.superwechat.bean.Result;
+import cn.ucai.superwechat.data.OkHttpUtils2;
 import cn.ucai.superwechat.utils.UserUtils;
+import cn.ucai.superwechat.utils.Utils;
 import cn.ucai.superwechat.widget.ExpandGridView;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
@@ -362,6 +368,49 @@ GroupDetailsActivity extends BaseActivity implements OnClickListener {
 				}
 			}
 		}).start();
+
+	}
+	private void addGroupMembers(final  String st2,String hxid , String[] members) {
+		Log.e(TAG,"members="+members);
+		Log.e(TAG,"members="+members.toString());
+		String memberArr="";
+		for (String m:members){
+			memberArr+=m+",";
+		}
+		memberArr=memberArr.substring(0,memberArr.length()-1);
+		Log.e(TAG,"memberArr="+memberArr);
+		final OkHttpUtils2<String> utils=new OkHttpUtils2<>();
+		utils.setRequestUrl(I.REQUEST_ADD_GROUP_MEMBERS)
+				.addParam(I.Member.GROUP_HX_ID,hxid)
+				.addParam(I.Member.USER_NAME,memberArr)
+				.targetClass(String.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<String>() {
+					@Override
+					public void onSuccess(String s) {
+						Log.e(TAG,"s="+s);
+						Result result = Utils.getResultFromJson(s, GroupAvatar.class);
+						GroupAvatar groupAvatar= (GroupAvatar) result.getRetData();
+						Log.e(TAG,"result="+result);
+						if (result!=null&&result.isRetMsg()){
+							runOnUiThread(new Runnable() {
+								public void run() {
+									progressDialog.dismiss();
+									setResult(RESULT_OK);
+									finish();
+								}
+							});
+						}else {
+							progressDialog.dismiss();
+							Toast.makeText(getApplicationContext(), st2, Toast.LENGTH_LONG).show();
+						}
+					}
+					@Override
+					public void onError(String error) {
+						Log.e(TAG,"error="+error);
+						progressDialog.dismiss();
+						Toast.makeText(getApplicationContext(), st2 + error, Toast.LENGTH_LONG).show();
+					}
+				});
 	}
 
 	/**
@@ -432,6 +481,7 @@ GroupDetailsActivity extends BaseActivity implements OnClickListener {
 				}
 			}
 		}).start();
+		addGroupMembers(st6,groupId,newmembers);
 	}
 
 	@Override
