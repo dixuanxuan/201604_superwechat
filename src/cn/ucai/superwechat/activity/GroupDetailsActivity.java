@@ -17,8 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -144,6 +146,7 @@ GroupDetailsActivity extends BaseActivity implements OnClickListener {
 			deleteBtn.setVisibility(View.GONE);
 			blacklistLayout.setVisibility(View.GONE);
 			changeGroupNameLayout.setVisibility(View.GONE);
+
 		}
 		// 如果自己是群主，显示解散按钮
 		if (EMChatManager.getInstance().getCurrentUser().equals(group.getOwner())) {
@@ -185,6 +188,7 @@ GroupDetailsActivity extends BaseActivity implements OnClickListener {
 		clearAllHistory.setOnClickListener(this);
 		blacklistLayout.setOnClickListener(this);
 		changeGroupNameLayout.setOnClickListener(this);
+		setUpdateMemberListener();
 
 	}
 
@@ -735,8 +739,10 @@ GroupDetailsActivity extends BaseActivity implements OnClickListener {
 							public void run() {
 								try {
 									// 删除被选中的成员
+
 								    EMGroupManager.getInstance().removeUserFromGroup(groupId, username);
 									isInDeleteMode = false;
+
 									runOnUiThread(new Runnable() {
 
 										@Override
@@ -758,8 +764,10 @@ GroupDetailsActivity extends BaseActivity implements OnClickListener {
 
 							}
 						}).start();
+
 					}
 				});
+
 
 				button.setOnLongClickListener(new OnLongClickListener() {
 
@@ -781,11 +789,17 @@ GroupDetailsActivity extends BaseActivity implements OnClickListener {
 			return convertView;
 		}
 
+
 		@Override
 		public int getCount() {
 			return super.getCount() + 2;
 		}
 	}
+
+
+
+
+
 
 	protected void updateGroup() {
 		new Thread(new Runnable() {
@@ -849,12 +863,29 @@ GroupDetailsActivity extends BaseActivity implements OnClickListener {
 	protected void onDestroy() {
 		super.onDestroy();
 		instance = null;
+		if (mReceiver!=null){
+			unregisterReceiver(mReceiver);
+		}
+
 	}
 	
 	private static class ViewHolder{
 	    ImageView imageView;
 	    TextView textView;
 	    ImageView badgeDeleteView;
+	}
+	class    UpdateMemberReceiver extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			refreshMembers();
+		}
+	}
+	UpdateMemberReceiver mReceiver;
+	private  void  setUpdateMemberListener(){
+		mReceiver=new UpdateMemberReceiver();
+		IntentFilter filter=new IntentFilter("update_member_list");
+		registerReceiver(mReceiver,filter);
 	}
 
 }
