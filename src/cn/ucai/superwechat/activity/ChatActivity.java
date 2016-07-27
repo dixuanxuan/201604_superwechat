@@ -527,6 +527,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         // 监听当前会话的群聊解散被T事件
         groupListener = new GroupListener();
         EMGroupManager.getInstance().addGroupChangeListener(groupListener);
+
 	}
 	
 	protected void onChatRoomViewCreation(){
@@ -1476,7 +1477,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		if(groupListener != null){
 		    EMGroupManager.getInstance().removeGroupChangeListener(groupListener);
 		}
-		unregisterReceiver(mReceiver);
+		if (mReceiver != null) {
+
+			unregisterReceiver(mReceiver);
+		}
 	}
 
 	@Override

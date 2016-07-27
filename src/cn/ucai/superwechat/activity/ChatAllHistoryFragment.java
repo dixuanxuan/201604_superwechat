@@ -41,6 +41,7 @@ import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.adapter.ChatAllHistoryAdapter;
 import cn.ucai.superwechat.db.InviteMessgeDao;
+import cn.ucai.superwechat.task.DownloadGroupListTask;
 
 /**
  * 显示所有会话记录，比较简单的实现，更好的可能是把陌生人存入本地，这样取到的聊天记录是可控的
@@ -102,7 +103,7 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 	                        intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
 	                        intent.putExtra("groupId", username);
 				        }
-				        
+
 				    }else{
 				        // it is single chat
                         intent.putExtra("userId", username);

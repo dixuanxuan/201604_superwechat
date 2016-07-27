@@ -31,7 +31,7 @@ public class DownloadMemberMapTask {
     public  void  excute (){
         final OkHttpUtils2<String> utils2=new OkHttpUtils2<>();
         utils2.setRequestUrl(I.REQUEST_DOWNLOAD_GROUP_MEMBERS_BY_HXID)
-                .addParam(I.Contact.USER_NAME, hxid)
+                .addParam(I.Member.GROUP_HX_ID, hxid)
                 .targetClass(String.class)
                 .execute(new OkHttpUtils2.OnCompleteListener<String>() {
                     @Override
@@ -41,7 +41,7 @@ public class DownloadMemberMapTask {
                         Log.e(TAG,"result="+result);
                         List<MemberUserAvatar> list= (List<MemberUserAvatar>) result.getRetData();
                         if (list!=null&&list.size()>0){
-                            Log.e(TAG,"list="+list.size());
+                            Log.e(TAG,"list="+list.size()+"");
                             Map<String, HashMap<String, MemberUserAvatar>> memberMap = SuperWeChatApplication.getInstance().getMemberMap();
                             if (!memberMap.containsKey(hxid)){
                                 memberMap.put(hxid,new HashMap<String, MemberUserAvatar>());
