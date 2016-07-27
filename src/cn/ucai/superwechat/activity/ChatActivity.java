@@ -22,7 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -95,6 +98,7 @@ import cn.ucai.superwechat.adapter.ExpressionPagerAdapter;
 import cn.ucai.superwechat.adapter.MessageAdapter;
 import cn.ucai.superwechat.adapter.VoicePlayClickListener;
 import cn.ucai.superwechat.domain.RobotUser;
+import cn.ucai.superwechat.task.DownloadMemberMapTask;
 import cn.ucai.superwechat.utils.CommonUtils;
 import cn.ucai.superwechat.utils.ImageUtils;
 import cn.ucai.superwechat.utils.SmileUtils;
@@ -422,6 +426,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	            // 显示发送要转发的消息
 	            forwardMessage(forward_msg_id);
 	        }
+			setUpdateMemberListener();
 		}
 	}
 
@@ -518,7 +523,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         }else{
             ((TextView) findViewById(cn.ucai.superwechat.R.id.name)).setText(toChatUsername);
         }
-        
+        new DownloadMemberMapTask(getApplicationContext(),toChatUsername).excute();
         // 监听当前会话的群聊解散被T事件
         groupListener = new GroupListener();
         EMGroupManager.getInstance().addGroupChangeListener(groupListener);
@@ -1471,6 +1476,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		if(groupListener != null){
 		    EMGroupManager.getInstance().removeGroupChangeListener(groupListener);
 		}
+		unregisterReceiver(mReceiver);
 	}
 
 	@Override
@@ -1754,5 +1760,17 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	public ListView getListView() {
 		return listView;
 	}
+	class  UpdateMemberListener extends BroadcastReceiver{
 
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			adapter.notifyDataSetChanged();
+		}
+	}
+	UpdateMemberListener mReceiver;
+	private  void  setUpdateMemberListener(){
+		mReceiver=new UpdateMemberListener();
+		IntentFilter filter=new IntentFilter("update_member_list");
+		registerReceiver(mReceiver,filter);
+	}
 }
