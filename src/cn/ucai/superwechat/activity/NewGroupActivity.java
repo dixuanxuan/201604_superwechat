@@ -79,10 +79,11 @@ public class NewGroupActivity extends BaseActivity {
 				}
 			}
 		});
-		findViewById(R.id.layout_group).setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.layout_group_icon).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mOnSetAvatarListener=new OnSetAvatarListener(NewGroupActivity.this,R.id.layout_group,getAvatarName(), I.AVATAR_TYPE_GROUP_PATH);
+				mOnSetAvatarListener=new OnSetAvatarListener(NewGroupActivity.this,
+                        R.id.layout_group,getAvatarName(), I.AVATAR_TYPE_GROUP_PATH);
 
 			}
 		});
@@ -199,29 +200,20 @@ public class NewGroupActivity extends BaseActivity {
 									}
 								});
 							}
-
 						}
-
 					}
-
 					@Override
 					public void onError(String error) {
 						Log.e(TAG,"error="+error);
 						progressDialog.dismiss();
-						Toast.makeText(NewGroupActivity.this, error, Toast.LENGTH_LONG).show();
-
-
+                        Toast.makeText(NewGroupActivity.this, st2 + error, Toast.LENGTH_LONG).show();
 					}
 				});
-
-
-
 	}
 
 	private void addGroupMembers(String hxid , String[] members) {
 		Log.e(TAG,"members="+members);
 		Log.e(TAG,"members="+members.toString());
-
 		String memberArr="";
 		for (String m:members){
 			memberArr+=m+",";
@@ -238,6 +230,7 @@ public class NewGroupActivity extends BaseActivity {
 					public void onSuccess(String s) {
 						Log.e(TAG,"s="+s);
 						Result result = Utils.getResultFromJson(s, GroupAvatar.class);
+                        GroupAvatar groupAvatar= (GroupAvatar) result.getRetData();
 						Log.e(TAG,"result="+result);
 						if (result!=null&&result.isRetMsg()){
 							runOnUiThread(new Runnable() {
@@ -250,21 +243,15 @@ public class NewGroupActivity extends BaseActivity {
 						}else {
 							progressDialog.dismiss();
 							Toast.makeText(NewGroupActivity.this, st2, Toast.LENGTH_LONG).show();
-
 						}
 					}
-
 					@Override
 					public void onError(String error) {
 						Log.e(TAG,"error="+error);
 						progressDialog.dismiss();
-						Toast.makeText(NewGroupActivity.this, error, Toast.LENGTH_LONG).show();
-
-
+                        Toast.makeText(NewGroupActivity.this, st2 + error, Toast.LENGTH_LONG).show();
 					}
 				});
-
-
 	}
 
 

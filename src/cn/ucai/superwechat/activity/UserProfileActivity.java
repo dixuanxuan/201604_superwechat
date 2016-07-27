@@ -64,6 +64,7 @@ UserProfileActivity extends BaseActivity implements OnClickListener{
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
+
 		super.onCreate(arg0);
 		setContentView(cn.ucai.superwechat.R.layout.activity_user_profile);
 		initView();

@@ -273,33 +273,27 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	private void downloadUserAvatar() {
-
 		OkHttpUtils2<Message> utils=new OkHttpUtils2<>();
 		utils.url(UserUtils.getUserAvatarPath(currentUsername)
 		).targetClass(Message.class).doInBackground(new Callback() {
 			@Override
 			public void onFailure(Request request, IOException e) {
 				Log.e(TAG,"IOException="+e);
-
 			}
-
 			@Override
 			public void onResponse(Response response) throws IOException {
 				byte[] date=response.body().bytes();
 				final String avatarUrl = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getUserProfileManager().uploadUserAvatar(date);
 				Log.e(TAG,"avatarUrl="+avatarUrl);
-
 			}
 		}).execute(new OkHttpUtils2.OnCompleteListener<Message>() {
 			@Override
 			public void onSuccess(Message result) {
 				Log.e(TAG,"result="+result);
 			}
-
 			@Override
 			public void onError(String error) {
 				Log.e(TAG,"error="+error);
-
 			}
 		});
 

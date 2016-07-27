@@ -113,6 +113,7 @@ public class GroupAdapter extends ArrayAdapter<EMGroup> {
 
 		} else {
 			if (convertView == null) {
+
 				convertView = inflater.inflate(cn.ucai.superwechat.R.layout.row_group, null);
 			}
 			((TextView) convertView.findViewById(cn.ucai.superwechat.R.id.name)).setText(getItem(position - 3).getGroupName());
