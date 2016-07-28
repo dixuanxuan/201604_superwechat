@@ -182,4 +182,5 @@ public class SuperWeChatApplication extends Application {
 	public void setGroupMap(Map<String, GroupAvatar> groupMap) {
 		this.groupMap = groupMap;
 	}
+
 }

@@ -129,4 +129,29 @@ public class GroupAdapter extends ArrayAdapter<EMGroup> {
 		return super.getCount() + 3;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		GroupAdapter that = (GroupAdapter) o;
+
+		if (inflater != null ? !inflater.equals(that.inflater) : that.inflater != null)
+			return false;
+		if (newGroup != null ? !newGroup.equals(that.newGroup) : that.newGroup != null)
+			return false;
+		if (addPublicGroup != null ? !addPublicGroup.equals(that.addPublicGroup) : that.addPublicGroup != null)
+			return false;
+		return mContext != null ? mContext.equals(that.mContext) : that.mContext == null;
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = inflater != null ? inflater.hashCode() : 0;
+		result = 31 * result + (newGroup != null ? newGroup.hashCode() : 0);
+		result = 31 * result + (addPublicGroup != null ? addPublicGroup.hashCode() : 0);
+		result = 31 * result + (mContext != null ? mContext.hashCode() : 0);
+		return result;
+	}
 }

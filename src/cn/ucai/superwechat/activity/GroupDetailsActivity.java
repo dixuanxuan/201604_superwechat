@@ -268,6 +268,7 @@ GroupDetailsActivity extends BaseActivity implements OnClickListener {
 							}
 						}
 					}).start();
+					updateGroupUserName(returnData);
 				}
 				break;
 			case REQUEST_CODE_ADD_TO_BALCKLIST:
@@ -300,6 +301,30 @@ GroupDetailsActivity extends BaseActivity implements OnClickListener {
 				break;
 			}
 		}
+	}
+	private  void  updateGroupUserName(String  newGroupName){
+		final  GroupAvatar group = SuperWeChatApplication.getInstance().getGroupMap().get(groupId);
+		final  OkHttpUtils2<String > utils=new OkHttpUtils2<>();
+		utils.setRequestUrl(I.REQUEST_UPDATE_GROUP_NAME)
+				.addParam(I.Group.GROUP_ID,String.valueOf(group.getMGroupId()))
+				.addParam(I.Group.NAME,newGroupName)
+				.targetClass(String.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<String>() {
+					@Override
+					public void onSuccess(String s) {
+						Result result = Utils.getResultFromJson(s, GroupAvatar.class);
+						if (result!=null&&result.isRetMsg()){
+							GroupAvatar groupAvatar=(GroupAvatar) result.getRetData();
+							SuperWeChatApplication.getInstance().getGroupMap().put(groupId,groupAvatar);
+							SuperWeChatApplication.getInstance().getGrouplist().add(groupAvatar);
+						}
+					}
+					@Override
+					public void onError(String error) {
+						Log.e(TAG,"error="+error);
+
+					}
+				});
 	}
 
 	private void refreshMembers(){
@@ -346,8 +371,6 @@ GroupDetailsActivity extends BaseActivity implements OnClickListener {
 
 	/**
 	 * 退出群组
-	 * 
-	 * @param
 	 */
 	private void exitGrop() {
 		String st1 = getResources().getString(cn.ucai.superwechat.R.string.Exit_the_group_chat_failure);
@@ -463,15 +486,11 @@ GroupDetailsActivity extends BaseActivity implements OnClickListener {
 					public void onSuccess(Result result) {
 						if(result!=null&&result.isRetMsg()){
 							Log.e(TAG,"deletGroupFromApp.result="+result);
-
 						}
-
 					}
-
 					@Override
 					public void onError(String error) {
 						Log.e(TAG,"error="+error);
-
 					}
 				});
 	}
