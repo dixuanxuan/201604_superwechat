@@ -450,6 +450,30 @@ GroupDetailsActivity extends BaseActivity implements OnClickListener {
 				}
 			}
 		}).start();
+		deletGroupFromApp();
+	}
+	private  void  deletGroupFromApp(){
+		final  GroupAvatar group = SuperWeChatApplication.getInstance().getGroupMap().get(groupId);
+		final  OkHttpUtils2<Result> utils=new OkHttpUtils2<>();
+		utils.setRequestUrl(I.REQUEST_DELETE_GROUP)
+				.addParam(I.Group.GROUP_ID,String.valueOf(group.getMGroupId()))
+				.targetClass(Result.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+					@Override
+					public void onSuccess(Result result) {
+						if(result!=null&&result.isRetMsg()){
+							Log.e(TAG,"deletGroupFromApp.result="+result);
+
+						}
+
+					}
+
+					@Override
+					public void onError(String error) {
+						Log.e(TAG,"error="+error);
+
+					}
+				});
 	}
 
 	/**
@@ -818,18 +842,12 @@ GroupDetailsActivity extends BaseActivity implements OnClickListener {
 									GroupAvatar group = SuperWeChatApplication.getInstance().getGroupMap().remove(groupId);
 									SuperWeChatApplication.getInstance().getGrouplist().remove(group);
 									SuperWeChatApplication.getInstance().getGroupMap().remove(groupId);
-
 								}else {
 									SuperWeChatApplication.getInstance().getMemberMap().get(groupId).remove(username);
-									
-
 								}
 								Log.e(TAG,"delete member success");
-
 							}
-
 						}
-
 						@Override
 						public void onError(String error) {
 							Log.e(TAG,"error="+error);
