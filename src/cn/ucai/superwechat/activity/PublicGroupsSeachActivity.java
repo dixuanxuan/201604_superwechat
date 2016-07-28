@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,11 +16,18 @@ import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.exceptions.EaseMobException;
 
-public class PublicGroupsSeachActivity extends BaseActivity{
+import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.utils.UserUtils;
+
+import static cn.ucai.superwechat.R.id.avatar;
+
+public class PublicGroupsSeachActivity extends BaseActivity {
     private RelativeLayout containerLayout;
     private EditText idET;
     private TextView nameText;
+    private ImageView ivavatar;
     public static EMGroup searchedGroup;
+
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -29,7 +37,7 @@ public class PublicGroupsSeachActivity extends BaseActivity{
         containerLayout = (RelativeLayout) findViewById(cn.ucai.superwechat.R.id.rl_searched_group);
         idET = (EditText) findViewById(cn.ucai.superwechat.R.id.et_search_id);
         nameText = (TextView) findViewById(cn.ucai.superwechat.R.id.name);
-        
+        ivavatar= (ImageView) findViewById(R.id.avatar);
         searchedGroup = null;
     }
     
@@ -57,6 +65,7 @@ public class PublicGroupsSeachActivity extends BaseActivity{
                             pd.dismiss();
                             containerLayout.setVisibility(View.VISIBLE);
                             nameText.setText(searchedGroup.getGroupName());
+                            UserUtils.setAppGroupAvatar(PublicGroupsSeachActivity.this,searchedGroup.getGroupId(),ivavatar);
                         }
                     });
                     
@@ -68,9 +77,9 @@ public class PublicGroupsSeachActivity extends BaseActivity{
                             searchedGroup = null;
                             containerLayout.setVisibility(View.GONE);
                             if(e.getErrorCode() == EMError.GROUP_NOT_EXIST){
-                                Toast.makeText(getApplicationContext(), getResources().getString(cn.ucai.superwechat.R.string.group_not_existed), 0).show();
+                                Toast.makeText(getApplicationContext(), getResources().getString(cn.ucai.superwechat.R.string.group_not_existed), Toast.LENGTH_SHORT).show();
                             }else{
-                                Toast.makeText(getApplicationContext(), getResources().getString(cn.ucai.superwechat.R.string.group_search_failed) + " : " + getString(cn.ucai.superwechat.R.string.connect_failuer_toast), 0).show();
+                                Toast.makeText(getApplicationContext(), getResources().getString(cn.ucai.superwechat.R.string.group_search_failed) + " : " + getString(cn.ucai.superwechat.R.string.connect_failuer_toast), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

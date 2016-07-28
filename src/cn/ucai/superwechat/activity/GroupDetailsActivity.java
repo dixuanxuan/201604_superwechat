@@ -322,7 +322,6 @@ GroupDetailsActivity extends BaseActivity implements OnClickListener {
 					@Override
 					public void onError(String error) {
 						Log.e(TAG,"error="+error);
-
 					}
 				});
 	}
@@ -333,7 +332,6 @@ GroupDetailsActivity extends BaseActivity implements OnClickListener {
         List<String> members = new ArrayList<String>();
         members.addAll(group.getMembers());
         adapter.addAll(members);
-
         adapter.notifyDataSetChanged();
 	}
 	
