@@ -46,7 +46,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuLiCenterServerApplication;
 import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContact;
@@ -98,8 +98,8 @@ public class ChatHistoryFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				EMContact emContact = adapter.getItem(position);
-				if (adapter.getItem(position).getUsername().equals(SuperWeChatApplication.getInstance().getUserName()))
-					Toast.makeText(getActivity(), st, 0).show();
+				if (adapter.getItem(position).getUsername().equals(FuLiCenterServerApplication.getInstance().getUserName()))
+					Toast.makeText(getActivity(), st, Toast.LENGTH_SHORT).show();
 				else {
 					// 进入聊天页面
 					  Intent intent = new Intent(getActivity(), ChatActivity.class);
@@ -206,7 +206,7 @@ public class ChatHistoryFragment extends Fragment {
 	/**
 	 * 获取有聊天记录的users和groups
 	 * 
-	 * @param context
+
 	 * @return
 	 */
 	private List<EMContact> loadUsersWithRecentChat() {
@@ -234,7 +234,7 @@ public class ChatHistoryFragment extends Fragment {
 	/**
 	 * 根据最后一条消息的时间排序
 	 * 
-	 * @param usernames
+	 * @param contactList
 	 */
 	private void sortUserByLastChatTime(List<EMContact> contactList) {
 		Collections.sort(contactList, new Comparator<EMContact>() {

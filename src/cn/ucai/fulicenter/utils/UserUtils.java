@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuLiCenterServerApplication;
 import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.bean.MemberUserAvatar;
@@ -47,7 +47,7 @@ public class UserUtils {
 	 * @return
 	 */
 	public static UserAvatar getAppUserInfo(String username){
-		UserAvatar user = SuperWeChatApplication.getInstance().getUserMap().get(username);
+		UserAvatar user = FuLiCenterServerApplication.getInstance().getUserMap().get(username);
 		if(user == null){
 			user = new UserAvatar(username);
 		}
@@ -56,7 +56,7 @@ public class UserUtils {
 
 	public  static MemberUserAvatar getAppMemberInfo(String hxid,String username){
 		MemberUserAvatar member=null;
-		HashMap<String, MemberUserAvatar> members = SuperWeChatApplication.getInstance().getMemberMap().get(hxid);
+		HashMap<String, MemberUserAvatar> members = FuLiCenterServerApplication.getInstance().getMemberMap().get(hxid);
 		if (members==null||members.size()<0){
 			return  null;
 		}else {
@@ -149,7 +149,7 @@ public class UserUtils {
 	 */
 	public static void setAappCurrentUserAvatar(Context context, ImageView imageView) {
 	 EMChatManager.getInstance().getCurrentUser();
-		String userName=SuperWeChatApplication.getInstance().getUserName();
+		String userName= FuLiCenterServerApplication.getInstance().getUserName();
 		setAppUserAvatar(context,userName,imageView);
 	}
     
@@ -197,7 +197,7 @@ public class UserUtils {
 	 * 设置当前用户昵称
 	 */
 	public static void setAppCurrentUserNick(TextView textView){
-		UserAvatar user1 = SuperWeChatApplication.getInstance().getUser();
+		UserAvatar user1 = FuLiCenterServerApplication.getInstance().getUser();
 		if(textView != null&&user1.getMUserName()!=null){
 			if (user1.getMUserName()!=null){
 				textView.setText(user1.getMUserNick());

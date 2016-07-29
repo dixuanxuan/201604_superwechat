@@ -52,7 +52,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import cn.ucai.fulicenter.I;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuLiCenterServerApplication;
 import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 import cn.ucai.fulicenter.applib.controller.HXSDKHelper.HXSyncListener;
 import com.easemob.chat.EMContactManager;
@@ -335,7 +335,7 @@ public class ContactlistFragment extends Fragment {
 		pd.setMessage(st1);
 		pd.setCanceledOnTouchOutside(false);
 		pd.show();
-		final UserAvatar user = SuperWeChatApplication.getInstance().getUser();
+		final UserAvatar user = FuLiCenterServerApplication.getInstance().getUser();
 		final OkHttpUtils2<String> utils2 = new OkHttpUtils2();
 		utils2.setRequestUrl(I.REQUEST_DELETE_CONTACT)
 				.addParam(I.Contact.USER_NAME,user.getMUserName())
@@ -345,11 +345,11 @@ public class ContactlistFragment extends Fragment {
 					@Override
 					public void onSuccess(String result) {
 						Toast.makeText(getActivity(), "删除成功啦！", Toast.LENGTH_SHORT).show();
-						SuperWeChatApplication.getInstance().getUserMap().remove(user.getMUserName());
-						SuperWeChatApplication.getInstance().getUserMap().remove(toBeProcessUsername);
+						FuLiCenterServerApplication.getInstance().getUserMap().remove(user.getMUserName());
+						FuLiCenterServerApplication.getInstance().getUserMap().remove(toBeProcessUsername);
 
-						SuperWeChatApplication.getInstance().getUserlist().remove(user);
-						SuperWeChatApplication.getInstance().getUserlist().remove(toBeProcessUser);
+						FuLiCenterServerApplication.getInstance().getUserlist().remove(user);
+						FuLiCenterServerApplication.getInstance().getUserlist().remove(toBeProcessUser);
 					}
 
 					@Override

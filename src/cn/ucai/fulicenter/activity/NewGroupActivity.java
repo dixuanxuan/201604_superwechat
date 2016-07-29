@@ -35,7 +35,7 @@ import java.io.File;
 
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuLiCenterServerApplication;
 import cn.ucai.fulicenter.bean.GroupAvatar;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
@@ -168,7 +168,7 @@ public class NewGroupActivity extends BaseActivity {
 				I.AVATAR_TYPE_GROUP_PATH),avatarName+I.AVATAR_SUFFIX_JPG);
 		boolean isPubllic=checkBox.isChecked();
 		boolean invite=!isPubllic;
-		String own= SuperWeChatApplication.getInstance().getUserName();
+		String own= FuLiCenterServerApplication.getInstance().getUserName();
 		final OkHttpUtils2<String> utils=new OkHttpUtils2<>();
 		utils.setRequestUrl(I.REQUEST_CREATE_GROUP)
 				.addParam(I.Group.HX_ID,groupId)
@@ -204,8 +204,8 @@ public class NewGroupActivity extends BaseActivity {
 	}
 
 	private void createGroupSuccess(GroupAvatar group) {
-		SuperWeChatApplication.getInstance().getGroupMap().put(group.getMGroupHxid(),group);
-		SuperWeChatApplication.getInstance().getGrouplist().add(group);
+		FuLiCenterServerApplication.getInstance().getGroupMap().put(group.getMGroupHxid(),group);
+		FuLiCenterServerApplication.getInstance().getGrouplist().add(group);
 		runOnUiThread(new Runnable() {
 			public void run() {
 				progressDialog.dismiss();

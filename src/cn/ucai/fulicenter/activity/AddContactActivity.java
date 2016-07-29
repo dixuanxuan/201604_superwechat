@@ -28,7 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import cn.ucai.fulicenter.I;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuLiCenterServerApplication;
 import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMContactManager;
 
@@ -93,13 +93,13 @@ public class AddContactActivity extends BaseActivity{
 				return;
 			}
 
-			if(SuperWeChatApplication.getInstance().getUserName().equals(toAddUsername)){
+			if(FuLiCenterServerApplication.getInstance().getUserName().equals(toAddUsername)){
 				String str = getString(R.string.not_add_myself);
 				startActivity(new Intent(this, AlertDialog.class).putExtra("msg", str));
 				return;
 			}
 
-			UserAvatar userAvatar = SuperWeChatApplication.getInstance().getUserMap().get(toAddUsername);
+			UserAvatar userAvatar = FuLiCenterServerApplication.getInstance().getUserMap().get(toAddUsername);
 			if (userAvatar!=null){
 				startActivity(new Intent(AddContactActivity.this,UserProfileActivity.class).putExtra("username",toAddUsername));
 				return;
@@ -148,7 +148,7 @@ public class AddContactActivity extends BaseActivity{
 	public void isContact(final String name) {
 		final OkHttpUtils2<String> utils2 = new OkHttpUtils2<String>();
 		utils2.setRequestUrl(I.REQUEST_DOWNLOAD_CONTACT_ALL_LIST)
-				.addParam(I.Contact.USER_NAME,SuperWeChatApplication.getInstance().getUserName())
+				.addParam(I.Contact.USER_NAME, FuLiCenterServerApplication.getInstance().getUserName())
 				.targetClass(String.class)
 				.execute(new OkHttpUtils2.OnCompleteListener<String>() {
 					@Override
@@ -161,12 +161,12 @@ public class AddContactActivity extends BaseActivity{
 							for (UserAvatar user : list) {
 								if (user.getMUserName().equals(name)) {
 									int b=1;
-									SuperWeChatApplication.getInstance().setB(b);
+									FuLiCenterServerApplication.getInstance().setB(b);
 									Log.e(TAG, "bbbbbbbbbbbbbbbbbbbb=" + 1);
 									return;
 								}else {
 									int b=0;
-									SuperWeChatApplication.getInstance().setB(b);
+									FuLiCenterServerApplication.getInstance().setB(b);
 									Log.e(TAG,"bbbbbbbbbbbbbbbbbb="+0);
 								}
 							}
