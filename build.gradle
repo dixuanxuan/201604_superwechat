@@ -24,7 +24,7 @@ android {
     buildToolsVersion "23.0.3"
    // buildToolsVersion "21.1.2"
     defaultConfig {
-        applicationId "cn.ucai.superwechat"
+        applicationId "cn.ucai.fulicenter"
     }
 
 
