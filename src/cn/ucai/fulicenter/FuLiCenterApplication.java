@@ -27,9 +27,9 @@ import cn.ucai.fulicenter.bean.GroupAvatar;
 import cn.ucai.fulicenter.bean.MemberUserAvatar;
 import cn.ucai.fulicenter.bean.UserAvatar;
 
-public class FuLiCenterServerApplication extends Application {
+public class FuLiCenterApplication extends Application {
 	public static Context applicationContext;
-	private static FuLiCenterServerApplication instance;
+	private static FuLiCenterApplication instance;
 	// login user name
 	public final String PREF_USERNAME = "username";
 
@@ -40,7 +40,7 @@ public class FuLiCenterServerApplication extends Application {
 	public static String currentUserNick = "";
 	public static DemoHXSDKHelper hxSDKHelper = new DemoHXSDKHelper();
 
-	public FuLiCenterServerApplication() {
+	public FuLiCenterApplication() {
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class FuLiCenterServerApplication extends Application {
 		hxSDKHelper.onInit(applicationContext);
 	}
 
-	public static FuLiCenterServerApplication getInstance() {
+	public static FuLiCenterApplication getInstance() {
 		return instance;
 	}
 
@@ -139,7 +139,7 @@ public class FuLiCenterServerApplication extends Application {
 		this.user = user;
 	}
 
-	public FuLiCenterServerApplication(Map<String, UserAvatar> userMap) {
+	public FuLiCenterApplication(Map<String, UserAvatar> userMap) {
 		this.userMap = userMap;
 	}
 
@@ -191,4 +191,5 @@ public class FuLiCenterServerApplication extends Application {
 	public void setB(int b) {
 		this.b = b;
 	}
+
 }

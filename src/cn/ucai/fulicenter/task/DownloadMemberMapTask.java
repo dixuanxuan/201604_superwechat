@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.ucai.fulicenter.I;
-import cn.ucai.fulicenter.FuLiCenterServerApplication;
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.bean.MemberUserAvatar;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
@@ -41,7 +41,7 @@ public class DownloadMemberMapTask {
                         List<MemberUserAvatar> list= (List<MemberUserAvatar>) result.getRetData();
                         if (list!=null&&list.size()>0){
                             Log.e(TAG,"list="+list.size()+"");
-                            Map<String, HashMap<String, MemberUserAvatar>> memberMap = FuLiCenterServerApplication.getInstance().getMemberMap();
+                            Map<String, HashMap<String, MemberUserAvatar>> memberMap = FuLiCenterApplication.getInstance().getMemberMap();
                             if (!memberMap.containsKey(hxid)){
                                 memberMap.put(hxid,new HashMap<String, MemberUserAvatar>());
                             }

@@ -38,7 +38,7 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMConversation.EMConversationType;
 import cn.ucai.fulicenter.Constant;
-import cn.ucai.fulicenter.FuLiCenterServerApplication;
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.adapter.ChatAllHistoryAdapter;
 import cn.ucai.fulicenter.db.InviteMessgeDao;
 
@@ -87,7 +87,7 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				EMConversation conversation = adapter.getItem(position);
 				String username = conversation.getUserName();
-				if (username.equals(FuLiCenterServerApplication.getInstance().getUserName()))
+				if (username.equals(FuLiCenterApplication.getInstance().getUserName()))
 					Toast.makeText(getActivity(), st2, Toast.LENGTH_SHORT).show();
 				else {
 				    // 进入聊天页面

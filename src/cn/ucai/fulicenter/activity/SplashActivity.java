@@ -14,7 +14,7 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.I;
-import cn.ucai.fulicenter.FuLiCenterServerApplication;
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
@@ -64,10 +64,10 @@ public class SplashActivity extends BaseActivity {
 
 
 
-					Log.e(TAG,"currentuser="+ FuLiCenterServerApplication.getInstance().getUserName());
-					Log.e(TAG,"currentuser="+ FuLiCenterServerApplication.getInstance().getUser());
+					Log.e(TAG,"currentuser="+ FuLiCenterApplication.getInstance().getUserName());
+					Log.e(TAG,"currentuser="+ FuLiCenterApplication.getInstance().getUser());
 
-					String username = FuLiCenterServerApplication.getInstance().getUserName();
+					String username = FuLiCenterApplication.getInstance().getUserName();
 					Log.e(TAG,"username="+username);
 					UserDao dao=new UserDao(SplashActivity.this);
 					UserAvatar user=dao.getUserAvatar(username);
@@ -88,8 +88,8 @@ public class SplashActivity extends BaseActivity {
 											Log.e(TAG,"user"+user);
 											if (user!=null){
 												//服务器存在此用户，显示此用户和添加按钮
-												FuLiCenterServerApplication.getInstance().setUser(user);
-												FuLiCenterServerApplication.currentUserNick=user.getMUserNick();
+												FuLiCenterApplication.getInstance().setUser(user);
+												FuLiCenterApplication.currentUserNick=user.getMUserNick();
 											}
 										}
 									}
@@ -101,8 +101,8 @@ public class SplashActivity extends BaseActivity {
 					}
 
 					else {
-						FuLiCenterServerApplication.getInstance().setUser(user);
-						FuLiCenterServerApplication.currentUserNick=user.getMUserNick();
+						FuLiCenterApplication.getInstance().setUser(user);
+						FuLiCenterApplication.currentUserNick=user.getMUserNick();
 
 					}
 					new DownloadContactListTask(SplashActivity.this,username).excute();

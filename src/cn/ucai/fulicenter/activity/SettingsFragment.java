@@ -31,7 +31,7 @@ import android.widget.Toast;
 
 import com.easemob.EMCallBack;
 
-import cn.ucai.fulicenter.FuLiCenterServerApplication;
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
@@ -358,10 +358,10 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 			public void onSuccess() {
 				getActivity().runOnUiThread(new Runnable() {
 					public void run() {
-						FuLiCenterServerApplication.getInstance().setUser(null);
-						FuLiCenterServerApplication.getInstance().getUserMap().clear();
-						FuLiCenterServerApplication.getInstance().getUserlist().clear();
-						FuLiCenterServerApplication.getInstance().getGrouplist().clear();
+						FuLiCenterApplication.getInstance().setUser(null);
+						FuLiCenterApplication.getInstance().getUserMap().clear();
+						FuLiCenterApplication.getInstance().getUserlist().clear();
+						FuLiCenterApplication.getInstance().getGrouplist().clear();
 
 						pd.dismiss();
 						// 重新显示登陆页面
