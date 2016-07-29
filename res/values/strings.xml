@@ -295,4 +295,47 @@
     <string name="toast_updatenick_fail">update nickname fail!</string>
     <string name="toast_updatephoto_success">update photo success!</string>
     <string name="toast_updatephoto_fail">update photo fail!</string>
+
+
+
+
+
+
+    <string name="msg101">msg:REGISTER USERNAME EXISTS</string>
+    <string name="msg102">msg:REGISTER FAIL</string>
+    <string name="msg103">msg:UNREGISTER FAIL</string>
+    <string name="msg104">msg:USER SEARCH FAIL</string>
+    <string name="msg105">msg:LOGIN UNKNOW USER</string>
+    <string name="msg106">msg:LOGIN ERROR PASSWORD</string>
+    <string name="msg107">msg:LOGIN SUCCESS</string>
+    <string name="msg108">msg:USER SAME NICK</string>
+    <string name="msg109">msg:USER UPDATE NICK FAIL</string>
+    <string name="msg110">msg:USER SAME PASSWORD</string>
+    <string name="msg111">msg:USER UPDATE PASSWORD FAIL</string>
+    <string name="msg112">msg:LOCATION UPLOAD FAIL</string>
+    <string name="msg113">msg:LOCATION UPDATE FAIL</string>
+    <string name="msg201">msg:REGISTER UPLOAD AVATAR FAIL</string>
+    <string name="msg202">msg:UPLOAD AVATAR FAIL</string>
+    <string name="msg301">msg:CONTACT FIRENDED</string>
+    <string name="msg302">msg:CONTACT ADD FAIL</string>
+    <string name="msg303">msg:CONTACT DEL FAIL</string>
+    <string name="msg304">msg:GET CONTACT ALL FAIL</string>
+    <string name="msg305">msg:GET CONTACT PAGES FAIL</string>
+    <string name="msg401">msg:GROUP HXID EXISTS</string>
+    <string name="msg402">msg:GROUP CREATE FAIL</string>
+    <string name="msg403">msg:GROUP ADD MEMBER FAIL</string>
+    <string name="msg404">msg:GROUP GET MEMBERS FAIL</string>
+    <string name="msg405">msg:GROUP UNKONW</string>
+    <string name="msg406">msg:GROUP SAME NAME</string>
+    <string name="msg407">msg:GROUP UPDATE NAME FAIL</string>
+    <string name="msg408">msg:GROUP DELETE MEMBER FAIL</string>
+    <string name="msg409">msg:GROUP DELETE MEMBERS FAIL	</string>
+    <string name="msg410">msg:GROUP DELETE FAIL</string>
+    <string name="msg411">msg:GROUP FIND BY GOURP ID FAIL</string>
+    <string name="msg412">msg:GROUP FIND BY HX ID FAIL</string>
+    <string name="msg413">msg:GROUP FIND BY USER NAME FAIL</string>
+    <string name="msg414">msg:GROUP FIND BY GROUP NAME FAIL</string>
+    <string name="msg415">msg:PUBLIC GROUP FAIL</string>
+    <string name="msg501">msg:LOCATION GET FAIL</string>
+    <string name="msg999">msg:UNKNOW</string>
 </resources>

@@ -65,7 +65,8 @@ public class PublicGroupsSeachActivity extends BaseActivity {
                             pd.dismiss();
                             containerLayout.setVisibility(View.VISIBLE);
                             nameText.setText(searchedGroup.getGroupName());
-                            UserUtils.setAppGroupAvatar(PublicGroupsSeachActivity.this,searchedGroup.getGroupId(),ivavatar);
+                            UserUtils.setAppGroupAvatar(PublicGroupsSeachActivity.
+                                    this,searchedGroup.getGroupId(),ivavatar);
                         }
                     });
                     

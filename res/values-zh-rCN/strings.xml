@@ -305,4 +305,49 @@
     <string name="toast_updatenick_fail">更新昵称失败!</string>
     <string name="toast_updatephoto_success">更新头像成功!</string>
     <string name="toast_updatephoto_fail">更新头像失败!</string>
+
+
+
+
+
+
+
+    <string name="msg101">账号已经存在</string>
+    <string name="msg102">注册失败</string>
+    <string name="msg103">解除注册失败</string>
+    <string name="msg104"> 查找用户失败</string>
+    <string name="msg105">账户不存在</string>
+    <string name="msg106">账户密码错误</string>
+    <string name="msg107">登陆成功</string>
+    <string name="msg108">昵称未修改</string>
+    <string name="msg109">昵称修改失败</string>
+    <string name="msg110">昵称未修改</string>
+    <string name="msg111">昵称修改失败</string>
+    <string name="msg112">用户上传地理位置失败</string>
+    <string name="msg113">用户更新地理位置失败</string>
+    <string name="msg201">上传头像失败</string>
+    <string name="msg202">更新头像失败</string>
+    <string name="msg301">已经是好友关系</string>
+    <string name="msg302">好友关系添加失败</string>
+    <string name="msg303">好友关系删除失败</string>
+    <string name="msg304"> 获取全部好友列表失败</string>
+    <string name="msg305"> 分页获取好友列表失败</string>
+    <string name="msg401">群组环信ID已经存在</string>
+    <string name="msg402">创建群组失败</string>
+    <string name="msg403">添加群组成员失败</string>
+    <string name="msg404">获取群成员失败</string>
+    <string name="msg405">群组不存在</string>
+    <string name="msg406">有相同群组名称</string>
+    <string name="msg407">群组名称修改失败</string>
+    <string name="msg408">删除群组成员失败</string>
+    <string name="msg409">删除多群组成员失败</string>
+    <string name="msg410">删除群组失败</string>
+    <string name="msg411">根据群组id查找群组失败</string>
+    <string name="msg412">根据环信id查找群组失败</string>
+    <string name="msg413">查找用户名称查找查找群组失败</string>
+    <string name="msg414">查找群组名称查找查找群组失败</string>
+    <string name="msg415">查找公开群失败</string>
+    <string name="msg501">获取附近的人失败</string>
+    <string name="msg999">未知错误</string>
+
 </resources>

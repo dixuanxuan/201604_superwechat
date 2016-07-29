@@ -32,6 +32,8 @@ import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMContactManager;
 
+import java.util.List;
+
 import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.bean.Result;
@@ -79,7 +81,8 @@ public class AddContactActivity extends BaseActivity{
 	public void searchContact(View v) {
 		final String name = editText.getText().toString();
 		String saveText = searchBtn.getText().toString();
-		
+		isContact(name);
+
 		if (getString(R.string.button_search).equals(saveText)) {
 			toAddUsername = name;
 
@@ -115,17 +118,18 @@ public class AddContactActivity extends BaseActivity{
 							if (result!=null&&result.isRetMsg()){
 								UserAvatar user= (UserAvatar) result.getRetData();
 								Log.e(TAG,"user"+user);
-								if (user!=null&&isContact().length==1){
-                                    Log.e(TAG,"他俩是好友了已经是了！");
+								if (user!=null){
+                                    Log.e(TAG,"他俩不是好友！");
 									//服务器存在此用户，显示此用户和添加按钮
 									searchedUserLayout.setVisibility(View.VISIBLE);
 									UserUtils.setAppUserAvatar(AddContactActivity.this,toAddUsername,avatar);
 									nameText.setText(user.getMUserNick());
 									tvNothing.setVisibility(View.GONE);
-								}
-							}else {
-								searchedUserLayout.setVisibility(View.GONE);
-								tvNothing.setVisibility(View.VISIBLE);
+
+								}else {
+									searchedUserLayout.setVisibility(View.GONE);
+									tvNothing.setVisibility(View.VISIBLE);
+							}
 							}
 						}
 
@@ -140,31 +144,42 @@ public class AddContactActivity extends BaseActivity{
 			
 		} 
 	}
-    public String[] isContact() {
-        final String[] is = {null};
-        final OkHttpUtils2<String> utils2 = new OkHttpUtils2<String>();
-        utils2.setRequestUrl(I.REQUEST_DOWNLOAD_CONTACT_ALL_LIST)
-                .addParam(I.Contact.USER_NAME,SuperWeChatApplication.getInstance().getUserName())
-                .targetClass(String.class)
-                .execute(new OkHttpUtils2.OnCompleteListener<String>() {
-                    @Override
-                    public void onSuccess(String s) {
-                        Result result = Utils.getResultFromJson(s, UserAvatar.class);
-                        if (result != null && result.isRetMsg()) {
-                            UserAvatar user = (UserAvatar) result.getRetData();
-                            if (user.getMUserName().equals(toAddUsername)) {
-                                is[0] = "abc";
-                            }
-                        }
-                    }
+	//如果是好友则保存到全局变量B的值为1， 否则保存为0；
+	public void isContact(final String name) {
+		final OkHttpUtils2<String> utils2 = new OkHttpUtils2<String>();
+		utils2.setRequestUrl(I.REQUEST_DOWNLOAD_CONTACT_ALL_LIST)
+				.addParam(I.Contact.USER_NAME,SuperWeChatApplication.getInstance().getUserName())
+				.targetClass(String.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<String>() {
+					@Override
+					public void onSuccess(String s) {
+						Log.e(TAG, "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+						Result result = Utils.getListResultFromJson(s, UserAvatar.class);
+						if (result != null && result.isRetMsg()) {
+							List<UserAvatar> list= (List<UserAvatar>) result.getRetData();
+							Log.e(TAG, "111111111111111111111111111111111111" + list);
+							for (UserAvatar user : list) {
+								if (user.getMUserName().equals(name)) {
+									int b=1;
+									SuperWeChatApplication.getInstance().setB(b);
+									Log.e(TAG, "bbbbbbbbbbbbbbbbbbbb=" + 1);
+									return;
+								}else {
+									int b=0;
+									SuperWeChatApplication.getInstance().setB(b);
+									Log.e(TAG,"bbbbbbbbbbbbbbbbbb="+0);
+								}
+							}
+						}
 
-                    @Override
-                    public void onError(String error) {
+					}
 
-                    }
-                });
-        return is;
-    }
+					@Override
+					public void onError(String error) {
+					}
+				});
+	}
+
 
 
     /**
