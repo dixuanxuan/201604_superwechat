@@ -1244,6 +1244,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	 * 
 	 * @param view
 	 */
+/*
 	public void toGroupDetails(View view) {
 		if (room == null && group == null) {
 			Toast.makeText(getApplicationContext(), cn.ucai.fulicenter.R.string.gorup_not_found, Toast.LENGTH_SHORT).show();
@@ -1257,6 +1258,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 					REQUEST_CODE_GROUP_DETAIL);
 		}
 	}
+*/
 
 	/**
 	 * 显示或隐藏图标按钮页

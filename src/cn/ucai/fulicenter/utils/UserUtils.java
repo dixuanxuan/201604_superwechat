@@ -84,20 +84,7 @@ public class UserUtils {
 		}
 	}
 
-	/**
-	 * 设置群组头像
-	 * @param hxid
-	 */
-	public static void setAppGroupAvatar(Context context, String hxid, ImageView imageView){
-		String path="";
-		if(path != null && hxid!= null){
-			path=getGroupAvatarPath(hxid);
-			Log.e(TAG,"path="+path);
-			Picasso.with(context).load(path).placeholder(R.drawable.group_icon).into(imageView);
-		}else{
-			Picasso.with(context).load(cn.ucai.fulicenter.R.drawable.default_avatar).into(imageView);
-		}
-	}
+
 
 
 	public   static   String getGroupAvatarPath(String hxid){

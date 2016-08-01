@@ -99,11 +99,7 @@ UserProfileActivity extends BaseActivity implements OnClickListener{
 			UserUtils.setAppUserNick(FuLiCenterApplication.getInstance().getUser().getMUserNick(),tvNickName);
 			UserUtils.setCurrentUserAvatar(this, headAvatar);
 
-		} else  if (hxid!=null){
-			tvUsername.setText(username);
-			UserUtils.setAppMemberNick(hxid,username,tvNickName);
-			UserUtils.setAppUserAvatar(this, username, headAvatar);
-		}else {
+		} else {
 			tvUsername.setText(username);
 			UserUtils.setAppUserNick(username,tvNickName);
 			UserUtils.setAppUserAvatar(this, username, headAvatar);

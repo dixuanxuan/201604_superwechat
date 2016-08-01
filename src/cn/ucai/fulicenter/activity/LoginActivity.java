@@ -41,6 +41,7 @@ import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
+import com.google.gson.Gson;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -241,6 +242,8 @@ public class LoginActivity extends BaseActivity {
 					@Override
 					public void onSuccess(String s) {
 						Log.e(TAG,"s"+s);
+						Gson gson=new Gson();
+						UserAvatar avatar = gson.fromJson(s, UserAvatar.class);
 						Result result=cn.ucai.fulicenter.utils.Utils.getResultFromJson(s,UserAvatar.class);
 						Log.e(TAG,"result"+result);
 							if (result!=null&&result.isRetMsg()){
@@ -253,8 +256,7 @@ public class LoginActivity extends BaseActivity {
 								}
 						}else {
 							pd.dismiss();
-								Toast.makeText(getApplicationContext(), getResources().getString(R.string.Login_failed)+
-										cn.ucai.fulicenter.utils.Utils.getResourceString(LoginActivity.this,result.getRetCode()), Toast.LENGTH_SHORT).show();
+								Toast.makeText(getApplicationContext(), getResources().getString(R.string.Login_failed), Toast.LENGTH_SHORT).show();
 						}
 					}
 
@@ -314,12 +316,12 @@ public class LoginActivity extends BaseActivity {
 
 		userlist.put(Constant.NEW_FRIENDS_USERNAME, newFriends);
 		// 添加"群聊"
-		User groupUser = new User();
-		String strGroup = getResources().getString(cn.ucai.fulicenter.R.string.group_chat);
-		groupUser.setUsername(Constant.GROUP_USERNAME);
-		groupUser.setNick(strGroup);
-		groupUser.setHeader("");
-		userlist.put(Constant.GROUP_USERNAME, groupUser);
+	//	User groupUser = new User();
+	//	String strGroup = getResources().getString(cn.ucai.fulicenter.R.string.group_chat);
+	//	groupUser.setUsername(Constant.GROUP_USERNAME);
+	//	groupUser.setNick(strGroup);
+	//	groupUser.setHeader("");
+	//	userlist.put(Constant.GROUP_USERNAME, groupUser);
 
 
 
