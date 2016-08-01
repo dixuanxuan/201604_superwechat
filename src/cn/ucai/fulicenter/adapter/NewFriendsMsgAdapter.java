@@ -35,14 +35,12 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 
 import cn.ucai.fulicenter.I;
-import cn.ucai.fulicenter.bean.GroupAvatar;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.db.InviteMessgeDao;
 import cn.ucai.fulicenter.domain.InviteMessage;
 import cn.ucai.fulicenter.domain.InviteMessage.InviteMesageStatus;
-import cn.ucai.fulicenter.task.DownloadMemberMapTask;
 import cn.ucai.fulicenter.utils.UserUtils;
 import cn.ucai.fulicenter.utils.Utils;
 
@@ -192,8 +190,8 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 					if(msg.getGroupId() == null) //同意好友请求
 						EMChatManager.getInstance().acceptInvitation(msg.getFrom());
 					else //同意加群申请
-					    EMGroupManager.getInstance().acceptApplication(msg.getFrom(), msg.getGroupId());
-					addMemberToAppGroup(msg.getFrom(),msg.getGroupId());
+				//	    EMGroupManager.getInstance().acceptApplication(msg.getFrom(), msg.getGroupId());
+				//	addMemberToAppGroup(msg.getFrom(),msg.getGroupId());
 					((Activity) context).runOnUiThread(new Runnable() {
 
 						@Override
@@ -225,27 +223,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 		}).start();
 	}
 
-	private void addMemberToAppGroup(final String username, final String hxid) {
-		final  OkHttpUtils2<String > utils=new OkHttpUtils2<>();
-		utils.setRequestUrl(I.REQUEST_ADD_GROUP_MEMBER)
-				.addParam(I.Member.USER_NAME,username)
-				.addParam(I.Member.GROUP_ID,hxid)
-				.targetClass(String.class)
-				.execute(new OkHttpUtils2.OnCompleteListener<String>() {
-					@Override
-					public void onSuccess(String s) {
-						Result result = Utils.getResultFromJson(s, GroupAvatar.class);
-						if (result!=null&&result.isRetMsg()){
-							new DownloadMemberMapTask(context,hxid);
-						}
-					}
-					@Override
-					public void onError(String error) {
-						Log.e(TAG,"error="+error);
 
-					}
-				});
-	}
 
 	private static class ViewHolder {
 		ImageView avator;

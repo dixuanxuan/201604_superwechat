@@ -20,7 +20,6 @@ import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.db.UserDao;
 import cn.ucai.fulicenter.task.DownloadContactListTask;
-import cn.ucai.fulicenter.task.DownloadGroupListTask;
 import cn.ucai.fulicenter.utils.Utils;
 
 /**
@@ -106,7 +105,6 @@ public class SplashActivity extends BaseActivity {
 
 					}
 					new DownloadContactListTask(SplashActivity.this,username).excute();
-					new DownloadGroupListTask(SplashActivity.this,username).excute();
 					long costTime = System.currentTimeMillis() - start;
 					//等待sleeptime时长
 
