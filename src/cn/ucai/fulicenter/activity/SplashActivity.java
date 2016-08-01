@@ -109,6 +109,7 @@ public class SplashActivity extends BaseActivity {
 					new DownloadGroupListTask(SplashActivity.this,username).excute();
 					long costTime = System.currentTimeMillis() - start;
 					//等待sleeptime时长
+
 					if (sleepTime - costTime > 0) {
 						try {
 							Thread.sleep(sleepTime - costTime);
