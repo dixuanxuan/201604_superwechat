@@ -2,8 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff">
+    android:background="@color/list_background">
     <!-- 底部菜单栏-->
+
     <RadioGroup
         android:id="@+id/menu"
         android:layout_alignParentBottom="true"
@@ -16,29 +17,26 @@
             android:text="新品"
             android:drawableTop="@drawable/selector_menu_item_new_good"
             style="@style/menu_item_style"
-            android:onClick="onCheckedChanged"
             android:button="@null"
             android:checked="true"
-
             />
         <RadioButton
             android:id="@+id/rbBoutique"
             android:text="精品"
             android:drawableTop="@drawable/selector_menu_item_boutique"
             style="@style/menu_item_style"
-            android:onClick="onCheckedChanged"
             android:button="@null"
-            android:checked="true"
+            android:checked="false"
+
 
             />
         <RadioButton
             android:id="@+id/rbCategory"
             android:text="分类"
-            android:drawableTop="@drawable/selector_menu_item_category"
+            android:drawableTop="@drawable/selector_menu_item_cart"
             style="@style/menu_item_style"
-            android:onClick="onCheckedChanged"
             android:button="@null"
-            android:checked="true"
+            android:checked="false"
             />
 
         <RelativeLayout
@@ -53,9 +51,8 @@
                 android:layout_width="wrap_content"
                 android:layout_centerInParent="true"
                 style="@style/menu_item_style"
-                android:onClick="onCheckedChanged"
                 android:button="@null"
-                android:checked="true"
+                android:checked="false"
 
                 />
             <TextView
@@ -75,10 +72,16 @@
             android:drawableTop="@drawable/selector_menu_item_personal_center"
             android:layout_marginTop="5dp"
             style="@style/menu_item_style"
-            android:onClick="onCheckedChanged"
             android:button="@null"
-            android:checked="true"
+            android:checked="false"
             />
     </RadioGroup>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vpPager"
+        android:layout_above="@id/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
 
+    </android.support.v4.view.ViewPager>
 </RelativeLayout>

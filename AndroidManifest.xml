@@ -183,11 +183,11 @@
             android:theme="@style/horizontal_slide"></activity>
 
         <!-- 公开的群聊列表 -->
-        <activity
+      <!--  <activity
             android:name=".activity.PublicGroupsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan"></activity>-->
         <activity
             android:name=".activity.PublicChatRoomsActivity"
             android:screenOrientation="portrait"
@@ -207,12 +207,12 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"></activity>
-        <!-- 群聊简单信息 -->
+      <!--  &lt;!&ndash; 群聊简单信息 &ndash;&gt;
         <activity
             android:name=".activity.GroupSimpleDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"></activity>
-        <!-- 群组黑名单用户列表 -->
+        &lt;!&ndash; 群组黑名单用户列表 &ndash;&gt;
         <activity
             android:name=".activity.GroupBlacklistActivity"
             android:screenOrientation="portrait"
@@ -220,7 +220,7 @@
         <activity
             android:name=".activity.PublicGroupsSeachActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"></activity>
+            android:theme="@style/horizontal_slide"></activity>-->
         <activity
             android:name=".activity.EditActivity"
             android:screenOrientation="portrait"
