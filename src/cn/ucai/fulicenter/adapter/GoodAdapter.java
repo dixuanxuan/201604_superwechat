@@ -1,7 +1,6 @@
 package cn.ucai.fulicenter.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -10,12 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.baidu.mapapi.map.GroundOverlayOptions;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.NewGoodBean;
 
@@ -35,9 +30,9 @@ public class GoodAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ViewHolder holder=null;
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        holder=new GoodViewHoder( inflater.inflate(R.layout.item_good, null, false));
+        ViewHolder holder=null;
+        holder=new GoodViewHoder( inflater.inflate(R.layout.item_good, parent, false));
         return  holder;
     }
 

@@ -1,14 +1,31 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cn.ucai.fulicenter.fragment.NewGoodFragment">
-
+    tools:context="cn.ucai.fulicenter.fragment.NewGoodFragment">-->
+    <LinearLayout
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+  >
     <!-- TODO: Update blank fragment layout -->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </android.support.v7.widget.RecyclerView>
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/srlNewGood"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/list_background">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvNewGood"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-</FrameLayout>
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>
