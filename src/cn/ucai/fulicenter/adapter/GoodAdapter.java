@@ -10,9 +10,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import cn.ucai.fulicenter.D;
+import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.NewGoodBean;
 import cn.ucai.fulicenter.utils.ImageUtils;
@@ -50,6 +53,7 @@ public class GoodAdapter extends RecyclerView.Adapter<ViewHolder> {
         this.mContext = mContext;
         mGoodList=new ArrayList<NewGoodBean>();
         mGoodList.addAll(list);
+        soryByAddTime();
     }
 
     @Override
@@ -103,6 +107,7 @@ public class GoodAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
     public void addList(ArrayList<NewGoodBean> List) {
         mGoodList.addAll(List);
+        soryByAddTime();
         notifyDataSetChanged();
     }
     @Override
@@ -127,7 +132,16 @@ public class GoodAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void addNewGood(ArrayList<NewGoodBean>list){
         mGoodList.clear();
         mGoodList.addAll(list);
+        soryByAddTime();
         notifyDataSetChanged();
+    }
+    private  void  soryByAddTime(){
+        Collections.sort(mGoodList, new Comparator<NewGoodBean>() {
+            @Override
+            public int compare(NewGoodBean goodLeft, NewGoodBean goodRight) {
+                return (int)(Long.valueOf(goodRight.getAddTime())-Long.valueOf(goodLeft.getAddTime()));
+            }
+        });
     }
 
 }

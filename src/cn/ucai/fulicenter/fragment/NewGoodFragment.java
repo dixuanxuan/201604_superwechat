@@ -96,12 +96,12 @@ public class NewGoodFragment extends Fragment {
     }
 
     private void downloadData( final  int action,int pageId) {
-        OkHttpUtils2<String> utils=new OkHttpUtils2<>();
+         final  OkHttpUtils2<String> utils=new OkHttpUtils2<>();
         utils.url(I.SERVER_ROOT)
                 .addParam(I.KEY_REQUEST,I.REQUEST_FIND_NEW_BOUTIQUE_GOODS)
-                .addParam(I.CategoryGood.CAT_ID,I.CAT_ID+"")
+                .addParam(I.NewAndBoutiqueGood.CAT_ID,I.CAT_ID+"")
                 .addParam(I.PAGE_ID,pageId+"")
-                .addParam(I.PAGE_SIZE,5+"")
+                .addParam(I.PAGE_SIZE,1+"")
                 .targetClass(String.class)
                 .execute(new OkHttpUtils2.OnCompleteListener<String>() {
                     @Override

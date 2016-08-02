@@ -45,7 +45,7 @@ public class NewGoodBean implements Serializable {
 	/** 导购链接*/
 	private String colorUrl;
 	/** 商品上架日期，单位：毫秒*/
-	private long addTime;
+	private String addTime;
 	public int getId() {
 		return id;
 	}
@@ -142,10 +142,10 @@ public class NewGoodBean implements Serializable {
 	public void setColorUrl(String colorUrl) {
 		this.colorUrl = colorUrl;
 	}
-	public long getAddTime() {
+	public String getAddTime() {
 		return addTime;
 	}
-	public void setAddTime(long addTime) {
+	public void setAddTime(String addTime) {
 		this.addTime = addTime;
 	}
 	
