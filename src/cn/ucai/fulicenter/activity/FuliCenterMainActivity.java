@@ -29,6 +29,7 @@ public class FuliCenterMainActivity extends BaseActivity {
     ViewPager mViewPager;
     Fragment[] mFragment;
     ViewPageAdapter mViewPageAdapter;
+    NewGoodFragment mNewGoodFragment;
     @Override
     protected  void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +62,16 @@ public class FuliCenterMainActivity extends BaseActivity {
         mrbTabs[2]=mrbCategory;
         mrbTabs[3]=mrbCart;
         mrbTabs[4]=mrbContact;
+        mNewGoodFragment=new NewGoodFragment();
+
+        // 添加显示第一个fragment
+      /*  getSupportFragmentManager().
+                beginTransaction()
+                .add(cn.ucai.fulicenter.R.id.fragment_container, mNewGoodFragment)
+              //  .add(cn.ucai.fulicenter.R.id.fragment_container, contactListFragment)
+              //  .hide(contactListFragment).
+                .show(mNewGoodFragment)
+                .commit();*/
         mViewPager= (ViewPager) findViewById(R.id.vpPager);
         mViewPageAdapter=new ViewPageAdapter(getSupportFragmentManager(),mFragment);
         mViewPager.setAdapter(mViewPageAdapter);

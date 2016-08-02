@@ -20,7 +20,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
-public class UserUtils {
+public class
+UserUtils {
 	private  static  final  String TAG=UserUtils.class.getSimpleName();
     /**
      * 根据username获取相应user，由于demo没有真实的用户数据，这里给的模拟的数据；
