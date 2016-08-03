@@ -64,7 +64,7 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<ViewHolder> {
                 holder=new FooterViewHolder(layout);
                 break;
             case  I.TYPE_ITEM:
-                layout=LayoutInflater.from(mContext).inflate(R.layout.item_good,parent,false);
+                layout=LayoutInflater.from(mContext).inflate(R.layout.item_boutique,parent,false);
                 holder=new BoutiqueViewHolder(layout);
                 break;
         }
@@ -91,10 +91,10 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<ViewHolder> {
 
 
         //    mBoutiqueViewHolder.ivBoutiqueThumb.setImageURI(good.getGoodsThumb());
-           ImageUtils.setGoodThumb(mContext,mBoutiqueViewHolder.ivBoutiqueThumb,boutique.getImageurl());
-           mBoutiqueViewHolder.tvBoutiqueTitle.setText(boutique.getTitle());
-           mBoutiqueViewHolder.tvBoutiqueName.setText(boutique.getName());
-            mBoutiqueViewHolder.tvBoutiqueDesceip.setText(boutique.getDescription());
+             ImageUtils.setGoodThumb(mContext,mBoutiqueViewHolder.ivBoutiqueThumb,boutique.getImageurl());
+             mBoutiqueViewHolder.tvBoutiqueTitle.setText(boutique.getTitle());
+             mBoutiqueViewHolder.tvBoutiqueName.setText(boutique.getName());
+             mBoutiqueViewHolder.tvBoutiqueDesceip.setText(boutique.getDescription());
 
 
 

@@ -19,7 +19,9 @@
         android:gravity="top"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:layout_toRightOf="@+id/ivBoutiqueImg">
+        android:layout_toRightOf="@+id/ivBoutiqueImg"
+        android:background="@color/white"
+        >
         <TextView
             android:id="@+id/tvBoutiqueTitle"
             android:layout_width="match_parent"
@@ -27,13 +29,13 @@
             android:textColor="@color/list_item_title"
             android:layout_marginTop="20dp"
             android:ellipsize="end"
-            android:textSize="20sp"
-            android:text="Aug  28  2f01"/>
+            android:textSize="16sp"
+            android:text="Aug  28  201"/>
         <TextView
             android:id="@+id/tvBoutiqueName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/list_item_title"
+            android:textColor="@color/list_item_name"
             android:layout_marginTop="20dp"
             android:ellipsize="end"
             android:textSize="20sp"
@@ -42,10 +44,11 @@
             android:id="@+id/tvBoutiqueDescripe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/list_item_title"
-            android:layout_marginTop="20dp"
+            android:textColor="@color/gray_normal"
+            android:layout_marginTop="10dp"
             android:ellipsize="end"
-            android:textSize="20sp"
+            android:textSize="18sp"
+            android:maxLines="2"
             android:text="2015  2015"/>
     </LinearLayout>
 </RelativeLayout>

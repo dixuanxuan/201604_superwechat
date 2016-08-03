@@ -86,6 +86,7 @@ class  ViewPageAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int i) {
 
+
         return fragments[i];
     }
 
