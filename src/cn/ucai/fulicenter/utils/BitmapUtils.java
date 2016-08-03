@@ -23,22 +23,14 @@ public final class BitmapUtils {
 		options.inJustDecodeBounds=true;
 		//只获取图片的宽和高
 		BitmapFactory.decodeByteArray(data, 0, data.length, options);
-		int scaleX=1;
-		if(width>0 && width<options.outWidth){
-			scaleX=options.outWidth/width;
-		}
-		int scaleY=1;
-		if (height > 0 && height<options.outHeight) {
-			scaleY=options.outHeight/height;
-		}
+		int scaleX=options.outWidth/width;
+		int scaleY=options.outHeight/height;
 		int scale=scaleX;
 		if(scale<scaleY){
 			scale=scaleY;
 		}
 		options.inJustDecodeBounds=false;
 		options.inSampleSize=scale;
-		//使用Bitmap.Config.RGB_565比默认的Bitmap.Config.RGB_8888节省一半的内存。
-		options.inPreferredConfig=Bitmap.Config.RGB_565;
 		Bitmap bitmap=BitmapFactory.decodeByteArray(data, 0, data.length,options);
 		return bitmap;
 	}

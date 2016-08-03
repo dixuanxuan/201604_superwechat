@@ -20,14 +20,7 @@
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tvRefreshHint"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:visibility="gone"
-                android:text="刷新中、、、"
-                android:gravity="center_horizontal"/>
+<include layout="@layout/common_refresh_hint"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvNewGood"
                 android:layout_width="match_parent"
@@ -35,6 +28,5 @@
 
             </android.support.v7.widget.RecyclerView>
         </LinearLayout>
-
 </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

@@ -64,8 +64,8 @@ public class FuliCenterMainActivity extends BaseActivity {
         mrbTabs[4]=mrbContact;
         mNewGoodFragment=new NewGoodFragment();
 
-        // 添加显示第一个fragment
-      /*  getSupportFragmentManager().
+   /*     // 添加显示第一个fragment
+      getSupportFragmentManager().
                 beginTransaction()
                 .add(cn.ucai.fulicenter.R.id.fragment_container, mNewGoodFragment)
               //  .add(cn.ucai.fulicenter.R.id.fragment_container, contactListFragment)
