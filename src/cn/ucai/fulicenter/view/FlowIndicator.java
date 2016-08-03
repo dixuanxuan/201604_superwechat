@@ -1,4 +1,4 @@
-package cn.ucai.fulicenter.activity.view;
+package cn.ucai.fulicenter.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;

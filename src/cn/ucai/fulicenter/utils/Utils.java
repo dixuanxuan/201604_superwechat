@@ -256,4 +256,5 @@ public class Utils {
         int density = (int) context.getResources().getDisplayMetrics().density;
         return dp*density;
     }
+
 }

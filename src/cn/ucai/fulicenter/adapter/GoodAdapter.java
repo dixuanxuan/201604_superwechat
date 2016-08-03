@@ -1,6 +1,7 @@
 package cn.ucai.fulicenter.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -17,9 +18,11 @@ import java.util.List;
 import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.activity.view.FooterViewHolder;
+import cn.ucai.fulicenter.activity.GoodDetailsActivity;
+
 import cn.ucai.fulicenter.bean.NewGoodBean;
 import cn.ucai.fulicenter.utils.ImageUtils;
+import cn.ucai.fulicenter.view.FooterViewHolder;
 
 /**
  * Created by Administrator on 2016/8/1 0001.
@@ -91,11 +94,18 @@ public class GoodAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
         if (holder instanceof  GoodViewHoder){
             mGoodViewHoder= (GoodViewHoder) holder;
-            NewGoodBean good = mGoodList.get(position);
-        //    mGoodViewHoder.ivGoodThumb.setImageURI(good.getGoodsThumb());
+            final NewGoodBean good = mGoodList.get(position);
+        //    mBoutiqueViewHolder.ivBoutiqueThumb.setImageURI(good.getGoodsThumb());
             ImageUtils.setGoodThumb(mContext,mGoodViewHoder.ivGoodThumb,good.getGoodsThumb());
             mGoodViewHoder.tvGoodName.setText(good.getGoodsName());
             mGoodViewHoder.tvGoodPrice.setText(good.getCurrencyPrice());
+            mGoodViewHoder.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mContext.startActivity(new Intent(mContext,GoodDetailsActivity.class)
+                    .putExtra(D.GoodDetails.KEY_GOODS,good.getGoodsId()));
+                }
+            });
         }
 
     }
@@ -113,11 +123,13 @@ public class GoodAdapter extends RecyclerView.Adapter<ViewHolder> {
     public int getItemCount() {
 
         return mGoodList!=null?mGoodList.size()+1:1;
-       //return  mGoodList.size();
+       //return  mBoutiqueList.size();
     }
 
     public void addItem(ArrayList<NewGoodBean> list) {
-        mGoodList.addAll(list);
+        if (mGoodList!=null){
+            mGoodList.addAll(list);
+        }
         soryByAddTime();
         notifyDataSetChanged();
     }

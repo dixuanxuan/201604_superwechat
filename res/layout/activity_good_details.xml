@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/good_detail_bg">
+    android:background="@color/good_detail_bg_white">
     <RelativeLayout
         android:id="@+id/layouttitle"
         android:layout_width="match_parent"
@@ -36,6 +36,7 @@
         android:padding="5dp"
         android:src="@drawable/bg_cart_selected"/>
     <TextView
+        android:id="@+id/tvcartcount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="10sp"
@@ -47,7 +48,7 @@
     <RelativeLayout
         android:id="@+id/layoutbanner"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="25dp"
         android:layout_below="@+id/layouttitle">
         <TextView
@@ -83,11 +84,13 @@
             android:textColor="@color/good_detail_currency_price"
             android:text="tv_good_price_current"/>
 <RelativeLayout
+    android:background="@color/list_background"
     android:layout_width="wrap_content"
     android:layout_height="190dp"
     android:layout_marginTop="50dp"
     android:layout_below="@+id/tvgoodpricecurrent">
     <cn.ucai.fulicenter.view.SlideAutoLoopView
+
         android:id="@+id/salv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -106,12 +109,12 @@
 </RelativeLayout>
     </RelativeLayout>
     <WebView
+        android:background="@color/good_detail_bg_white"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
         android:id="@+id/goodbref"
         android:layout_below="@+id/layoutbanner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </WebView>
-
-
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

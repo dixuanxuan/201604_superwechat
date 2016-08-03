@@ -1,4 +1,4 @@
-package cn.ucai.fulicenter.activity.view;
+package cn.ucai.fulicenter.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -46,7 +46,7 @@ public class SlideAutoLoopView extends ViewPager {
     Timer mTimer;
     Handler mHandler;
     boolean mAutoSwitch=false;
-    
+
     public SlideAutoLoopView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext=context;
@@ -80,23 +80,23 @@ public class SlideAutoLoopView extends ViewPager {
      */
     private void setOnPageChangeListener() {
         this.setOnPageChangeListener(new OnPageChangeListener() {
-            
+
             @Override
             public void onPageSelected(int position) {
                 //设置指示器中实心圆的切换
                 mFlowIndicator.setFocus(position%mCount);
             }
-            
+
             @Override
             public void onPageScrolled(int arg0, float arg1, int arg2) {
                 // TODO Auto-generated method stub
-                
+
             }
-            
+
             @Override
             public void onPageScrollStateChanged(int arg0) {
                 // TODO Auto-generated method stub
-                
+
             }
         });
     }
@@ -130,7 +130,7 @@ public class SlideAutoLoopView extends ViewPager {
         String[] albumImgUrl;
         int count;
         ImageLoader imageLoader;
-        
+
         public SlideAutoLooopAdapter(Context context, String[] albumImgUrl,
                                      int count) {
             super();
@@ -150,10 +150,10 @@ public class SlideAutoLoopView extends ViewPager {
 
         @Override
         public boolean isViewFromObject(View arg0, Object arg1) {
-            
+
             return arg0==arg1;
         }
-        
+
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             final ImageView iv=new ImageView(context);
@@ -167,11 +167,11 @@ public class SlideAutoLoopView extends ViewPager {
                 public void onSuccess(String path, Bitmap bitmap) {
                     iv.setImageBitmap(bitmap);
                 }
-                
+
                 @Override
                 public void error(String errorMsg) {
                     // TODO Auto-generated method stub
-                    
+
                 }
             });
             if(bitmap==null){
@@ -182,13 +182,13 @@ public class SlideAutoLoopView extends ViewPager {
             container.addView(iv);
             return iv;
         }
-        
+
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View)object);
         }
     }
-    
+
     /**
      * 开始图片的轮播
      */
