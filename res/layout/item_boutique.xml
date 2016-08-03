@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutboutiqueitem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+    <ImageView
+        android:id="@+id/ivBoutiqueImg"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/nopic"
+        android:scaleType="fitXY"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        android:gravity="top"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_toRightOf="@+id/ivBoutiqueImg">
+        <TextView
+            android:id="@+id/tvBoutiqueTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/list_item_title"
+            android:layout_marginTop="20dp"
+            android:ellipsize="end"
+            android:textSize="20sp"
+            android:text="Aug  28  2f01"/>
+        <TextView
+            android:id="@+id/tvBoutiqueName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/list_item_title"
+            android:layout_marginTop="20dp"
+            android:ellipsize="end"
+            android:textSize="20sp"
+            android:text="大换血"/>
+        <TextView
+            android:id="@+id/tvBoutiqueDescripe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/list_item_title"
+            android:layout_marginTop="20dp"
+            android:ellipsize="end"
+            android:textSize="20sp"
+            android:text="2015  2015"/>
+    </LinearLayout>
+</RelativeLayout>

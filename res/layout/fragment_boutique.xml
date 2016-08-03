@@ -1,13 +1,33 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cn.ucai.fulicenter.fragment.BoutiqueFragment">
-
+    tools:context="cn.ucai.fulicenter.fragment.NewGoodFragment">-->
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srlBoutique"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="111111111111111111111" />
+        android:background="@color/list_background">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <include layout="@layout/common_refresh_hint"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvBoutique"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-</FrameLayout>
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>
+
