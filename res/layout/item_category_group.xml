@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/white"
+    tools:context="cn.ucai.fulicenter.fragment.CategoryFragment">
+    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:id="@+id/ivCateGroupThumb"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/nopic"
+        />
+    <TextView
+        android:id="@+id/tvGroupName"
+        android:layout_toRightOf="@+id/ivCateGroupThumb"
+        android:layout_marginLeft="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="饰物"
+        android:textSize="20sp"
+        android:textColor="#000"
+        android:layout_centerVertical="true" />
+    <ImageView
+        android:id="@+id/ivIndicator"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/expand_on"
+        android:layout_toRightOf="@+id/tvGroupName"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        />
+</RelativeLayout>
