@@ -124,18 +124,18 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (position==getItemCount()-1){
-            return  I.TYPE_FOOTER;
-        }else {
+//        if (position==getItemCount()-1){
+//            return  I.TYPE_FOOTER;
+//        }else {
             return  I.TYPE_ITEM;
-        }
+    //    }
     }
 
     @Override
     public int getItemCount() {
 
-        return mBoutiqueList !=null? mBoutiqueList.size()+1:1;
-       //return  mBoutiqueList.size();
+      //  return mBoutiqueList !=null? mBoutiqueList.size()+1:1;
+        return mBoutiqueList !=null? mBoutiqueList.size():0;
     }
 
     public void addItem(ArrayList<BoutiqueBean> list) {
