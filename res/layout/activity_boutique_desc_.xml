@@ -11,6 +11,7 @@
     android:layout_height="match_parent"
     >
     <!-- TODO: Update blank fragment layout -->
+    <include layout="@layout/common_head_title"/>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srlBoutique"
         android:layout_width="match_parent"

@@ -30,6 +30,7 @@ public class FuliCenterMainActivity extends BaseActivity {
     Fragment[] mFragment;
     ViewPageAdapter mViewPageAdapter;
     NewGoodFragment mNewGoodFragment;
+    Fragment[] getmFragment;
     @Override
     protected  void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +125,7 @@ class  ViewPageAdapter extends FragmentStatePagerAdapter {
             setRadioButtonStatus(index);
             index=currentIndex;
         }
+
     }
 
     private void setRadioButtonStatus(int index) {

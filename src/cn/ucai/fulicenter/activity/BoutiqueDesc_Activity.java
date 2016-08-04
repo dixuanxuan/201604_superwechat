@@ -149,6 +149,8 @@ public class BoutiqueDesc_Activity extends Activity {
     }
 
     private void initView() {
+        String name=getIntent().getStringExtra(D.Category.KEY_NAME);
+        DisplayUtils.initBackTitle(mContext,name);
        mSwipeRefreshLayout= (SwipeRefreshLayout) findViewById(R.id.srlBoutique);
         mSwipeRefreshLayout.setColorSchemeColors(
                 R.color.google_yellow,

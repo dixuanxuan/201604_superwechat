@@ -2,6 +2,7 @@ package cn.ucai.fulicenter.view;
 
 import android.app.Activity;
 import android.view.View;
+import android.widget.TextView;
 
 import cn.ucai.fulicenter.R;
 
@@ -16,5 +17,9 @@ public class DisplayUtils  {
                 activity.finish();
             }
         });
+    }
+    public  static  void  initBackTitle(final  Activity  activity ,final  String title){
+        iniitBack(activity);
+        ((TextView)activity.findViewById(R.id.tvCommonTitle)).setText(title);
     }
 }

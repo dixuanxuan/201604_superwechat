@@ -87,8 +87,6 @@ public class BoutiqueDetailsActivity extends  BaseActivity {
         mSlideAutoLoopView.startPlayLoop(mFlowIndicator,
                 getAlbumImageUrl(),getAlbumImageSize());
         mWebView.loadDataWithBaseURL(null,mGoodDetail.getGoodsBrief(),D.TEXT_HTML,D.UTF_8,null);
-
-
     }
 
     private String[] getAlbumImageUrl() {
@@ -106,8 +104,8 @@ public class BoutiqueDetailsActivity extends  BaseActivity {
     private int getAlbumImageSize() {
         if (mGoodDetail.getProperties()!=null&&mGoodDetail.getProperties().length>0){
             return  mGoodDetail.getProperties()[0].getAlbums().length;
-
-        }return 0;
+        }
+        return 0;
     }
 
     /*    private  void  getGoodDetailsByGoodId(OkHttpUtils2.OnCompleteListener<GoodDetailsBean> listener){
