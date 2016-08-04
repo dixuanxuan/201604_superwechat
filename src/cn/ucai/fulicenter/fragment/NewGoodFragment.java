@@ -45,7 +45,6 @@ public class NewGoodFragment extends Fragment {
 
     }*/
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,12 +56,10 @@ public class NewGoodFragment extends Fragment {
         setListener();
         return  view;
     }
-
     private void setListener() {
         setPullDownRefreshListener();
         setPullUpRefreshListener();
     }
-
     private void setPullUpRefreshListener() {
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastItemPositon;
@@ -83,7 +80,6 @@ public class NewGoodFragment extends Fragment {
                     }
                 }
             }
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -116,7 +112,7 @@ public class NewGoodFragment extends Fragment {
                 tvRefreshing.setVisibility(View.GONE);
                 mSwipeRefreshLayout.setRefreshing(false);
                 mGoodAdapter.setMore(true);
-                mGoodAdapter.setFooterText("加载更多");
+             //   mGoodAdapter.setFooterText("加载更多");
                 if (result!=null){
                     Gson gson=new Gson();
                     NewGoodBean[] newGoodBeen=gson.fromJson(result,NewGoodBean[].class);
@@ -124,7 +120,7 @@ public class NewGoodFragment extends Fragment {
                     if (action==I.ACTION_DOWNLOAD||action==I.ACTION_PULL_DOWN){
                         mGoodAdapter.initItem(goodBeanArrayList);
                     }else {
-                        mGoodAdapter.initItem(goodBeanArrayList);
+                        mGoodAdapter.addItem(goodBeanArrayList);
                     }
                     if (goodBeanArrayList.size()<I.PAGE_SIZE_DEFAULT){
                         mGoodAdapter.setMore(false);
@@ -161,7 +157,6 @@ public class NewGoodFragment extends Fragment {
                 R.color.google_green,
                 R.color.google_red,
                 R.color.google_yellow
-
         );
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rvNewGood);
         gm=new GridLayoutManager(mContext,2);

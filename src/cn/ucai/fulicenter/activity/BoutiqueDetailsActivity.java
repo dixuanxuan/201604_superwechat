@@ -1,11 +1,7 @@
 package cn.ucai.fulicenter.activity;
 
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
-import android.view.animation.LayoutAnimationController;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -14,18 +10,12 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.AlbumBean;
 import cn.ucai.fulicenter.bean.GoodDetailsBean;
-import cn.ucai.fulicenter.bean.NewGoodBean;
-import cn.ucai.fulicenter.bean.PropertyBean;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
-import cn.ucai.fulicenter.utils.Utils;
 import cn.ucai.fulicenter.view.DisplayUtils;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
@@ -34,8 +24,8 @@ import cn.ucai.fulicenter.view.SlideAutoLoopView;
 /**
  * Created by Administrator on 2016/8/3 0003.
  */
-public class GoodDetailsActivity extends  BaseActivity {
-    private  static  final  String TAG=GoodDetailsActivity.class.getSimpleName();
+public class BoutiqueDetailsActivity extends  BaseActivity {
+    private  static  final  String TAG=BoutiqueDetailsActivity.class.getSimpleName();
     ImageView ivShare;
     ImageView  ivCollect;
     ImageView  ivCart;
@@ -50,7 +40,7 @@ public class GoodDetailsActivity extends  BaseActivity {
     FlowIndicator mFlowIndicator;
     WebView mWebView;
     int goodId;
-    GoodDetailsActivity mContext;
+    BoutiqueDetailsActivity mContext;
     GoodDetailsBean mGoodDetail;
 
     @Override
@@ -61,8 +51,6 @@ public class GoodDetailsActivity extends  BaseActivity {
         initView();
         initData();
     }
-
-
     private void initData() {
         goodId=getIntent().getIntExtra(D.GoodDetails.KEY_GOODS, 0);
         Log.e(TAG,"goodId="+goodId);
@@ -120,8 +108,6 @@ public class GoodDetailsActivity extends  BaseActivity {
             return  mGoodDetail.getProperties()[0].getAlbums().length;
 
         }return 0;
-
-
     }
 
     /*    private  void  getGoodDetailsByGoodId(OkHttpUtils2.OnCompleteListener<GoodDetailsBean> listener){
@@ -138,9 +124,7 @@ public class GoodDetailsActivity extends  BaseActivity {
                 .addParam(D.GoodDetails.KEY_GOODS_ID,String.valueOf(goodId))
                 .targetClass(String.class)
                 .execute(listener);
-
     }
-
     private void initView() {
         DisplayUtils.iniitBack(mContext);
         ivShare = (ImageView) findViewById(R.id.ivgoodshare);
@@ -158,7 +142,7 @@ public class GoodDetailsActivity extends  BaseActivity {
         mFlowIndicator = (FlowIndicator) findViewById(R.id.indicator);
         mWebView = (WebView) findViewById(R.id.goodbref);
 
-       WebSettings settings = mWebView.getSettings();
+        WebSettings settings = mWebView.getSettings();
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setBuiltInZoomControls(true);
     }

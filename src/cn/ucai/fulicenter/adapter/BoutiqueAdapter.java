@@ -1,6 +1,7 @@
 package cn.ucai.fulicenter.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -13,8 +14,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.activity.BoutiqueDesc_Activity;
+import cn.ucai.fulicenter.activity.GoodDetailsActivity;
 import cn.ucai.fulicenter.bean.BoutiqueBean;
 import cn.ucai.fulicenter.utils.ImageUtils;
 import cn.ucai.fulicenter.view.FooterViewHolder;
@@ -84,19 +88,23 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<ViewHolder> {
         if (holder instanceof FooterViewHolder){
             mFooterViewHolder= (FooterViewHolder) holder;
             mFooterViewHolder.tvFooter.setText(footerText);
+
         }
         if (holder instanceof BoutiqueViewHolder){
             mBoutiqueViewHolder = (BoutiqueViewHolder) holder;
             final BoutiqueBean boutique = mBoutiqueList.get(position);
-
-
         //    mBoutiqueViewHolder.ivBoutiqueThumb.setImageURI(good.getGoodsThumb());
              ImageUtils.setGoodThumb(mContext,mBoutiqueViewHolder.ivBoutiqueThumb,boutique.getImageurl());
              mBoutiqueViewHolder.tvBoutiqueTitle.setText(boutique.getTitle());
              mBoutiqueViewHolder.tvBoutiqueName.setText(boutique.getName());
              mBoutiqueViewHolder.tvBoutiqueDesceip.setText(boutique.getDescription());
-
-
+                mBoutiqueViewHolder.layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mContext.startActivity(new Intent(mContext,BoutiqueDesc_Activity.class)
+                                .putExtra(D.Category.KEY_CAT_ID,boutique.getId()));
+                    }
+                });
 
         //    mBoutiqueViewHolder.ivBoutiqueThumb.setImageURI(good.getGoodsThumb());
 //            ImageUtils.setGoodThumb(mContext,mBoutiqueViewHolder.ivBoutiqueThumb,good.getGoodsThumb());

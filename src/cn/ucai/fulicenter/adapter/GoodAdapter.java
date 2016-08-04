@@ -63,7 +63,6 @@ public class GoodAdapter extends RecyclerView.Adapter<ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View layout;
         ViewHolder holder=null;
-
         switch (viewType){
             case I.TYPE_FOOTER:
              layout=LayoutInflater.from(mContext).inflate(R.layout.item_footer,parent,false);
@@ -107,7 +106,6 @@ public class GoodAdapter extends RecyclerView.Adapter<ViewHolder> {
                 }
             });
         }
-
     }
 
     @Override
