@@ -59,7 +59,7 @@ public class BoutiqueDesc_Activity extends Activity {
 
     private void setListener() {
         setPullDownListener();
-        setPullUpRefreshListener();
+    //    setPullUpRefreshListener();
     }
 
     private void setPullUpRefreshListener() {

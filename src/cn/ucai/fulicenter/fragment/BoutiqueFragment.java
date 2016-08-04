@@ -46,7 +46,7 @@ public class BoutiqueFragment extends Fragment {
 
 
     public BoutiqueFragment() {
-        // Required empty public constructor
+       //  Required empty public constructor
     }
 
     @Override

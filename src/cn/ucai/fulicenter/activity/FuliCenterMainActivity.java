@@ -13,6 +13,7 @@ import android.widget.TextView;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.fragment.BoutiqueFragment;
 import cn.ucai.fulicenter.fragment.CartFragment;
+import cn.ucai.fulicenter.fragment.CategoryFragment;
 import cn.ucai.fulicenter.fragment.ContactFragment;
 import cn.ucai.fulicenter.fragment.NewGoodFragment;
 
@@ -44,7 +45,7 @@ public class FuliCenterMainActivity extends BaseActivity {
         mFragment=new Fragment[5];
         mFragment[0]=new NewGoodFragment();
         mFragment[1]=new BoutiqueFragment();
-        mFragment[2]=new CartFragment();
+        mFragment[2]=new CategoryFragment();
         mFragment[3]=new CartFragment();
         mFragment[4]=new ContactFragment();
 
