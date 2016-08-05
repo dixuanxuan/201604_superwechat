@@ -15,15 +15,19 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.GoodAdapter;
+import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.NewGoodBean;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.utils.Utils;
+import cn.ucai.fulicenter.view.CatChildFilterButton;
+import cn.ucai.fulicenter.view.DisplayUtils;
 
 public class CategoryChildActivity extends Activity {
     private  final  static  String TAG=CategoryChildActivity.class.getSimpleName();
@@ -38,6 +42,10 @@ public class CategoryChildActivity extends Activity {
     boolean mSortPriceAsc;
     boolean mSortAddTimeAsc;
     int sortBy;
+
+    CatChildFilterButton mCatChildFilterButton;
+    String name;
+    ArrayList<CategoryChildBean> childList;
 
 
     int pageId=0;
@@ -64,6 +72,7 @@ public class CategoryChildActivity extends Activity {
         SortStatusChangedListener listener=new SortStatusChangedListener();
         btnSortPrice.setOnClickListener(listener);
         btnSortAddTime.setOnClickListener(listener);
+        mCatChildFilterButton.setOnCatFilterClickListener(name,childList);
     }
 
     private void setPullUpRefreshListener() {
@@ -102,8 +111,10 @@ public class CategoryChildActivity extends Activity {
        });
     }
 
-    private void initData() {
-        goodId=getIntent().getIntExtra(I.NewAndBoutiqueGood.CAT_ID,0);
+    private void
+    initData() {
+        goodId=getIntent().getIntExtra(I.CategoryChild.CAT_ID,0);
+         childList = (ArrayList<CategoryChildBean>) getIntent().getSerializableExtra("childList");
         if (goodId>0){
             findViewGoodList(new OkHttpUtils2.OnCompleteListener<String>() {
                 @Override
@@ -158,7 +169,7 @@ public class CategoryChildActivity extends Activity {
 
     private void initView() {
 //        String name=getIntent().getStringExtra(D.Category.KEY_NAME);
-  //     DisplayUtils.initBackTitle(mContext,name);
+      DisplayUtils.iniitBack(mContext);
        mSwipeRefreshLayout= (SwipeRefreshLayout) findViewById(R.id.srlCategoryChild);
         mSwipeRefreshLayout.setColorSchemeColors(
                 R.color.google_yellow,
@@ -176,6 +187,9 @@ public class CategoryChildActivity extends Activity {
 
         btnSortAddTime = (Button) findViewById(R.id.btn_sort_addtime);
         btnSortPrice = (Button) findViewById(R.id.btn_sort_price);
+        mCatChildFilterButton= (CatChildFilterButton) findViewById(R.id.btnCatChildFilter);
+        name=getIntent().getStringExtra(I.CategoryGroup.NAME);
+        mCatChildFilterButton.setText(name);
     }
     class  SortStatusChangedListener implements  View.OnClickListener{
 
