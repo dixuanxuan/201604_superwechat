@@ -1,7 +1,7 @@
 package cn.ucai.fulicenter.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -12,7 +12,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ucai.fulicenter.D;
+import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.activity.CategoryChildActivity;
 import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.CategoryGroupBean;
 import cn.ucai.fulicenter.utils.ImageUtils;
@@ -99,19 +102,28 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         ChildViewHolder holder=null;
         if (convertView==null){
+
             convertView=View.inflate(mContext,R.layout.item_catogry_child,null);
             holder=new ChildViewHolder();
+
             holder.layoutCategoryChild = (RelativeLayout) convertView.findViewById(R.id.layout_catogry_child);
             holder.tvCategoruChildName = (TextView) convertView.findViewById(R.id.tvCatogryChildName);
             holder.ivCateChildThumb = (ImageView) convertView.findViewById(R.id.ivCategoryChildThumb);
             convertView.setTag(holder);
         }else {
-                holder= (ChildViewHolder) convertView.getTag();
+            holder= (ChildViewHolder) convertView.getTag();
         }
-        CategoryChildBean child = getChild(groupPosition, childPosition);
+        final CategoryChildBean child = getChild(groupPosition, childPosition);
         if (child!=null){
             ImageUtils.setGroupCategoryImage(mContext,holder.ivCateChildThumb,child.getImageUrl());
             holder.tvCategoruChildName.setText(child.getName());
+            holder.layoutCategoryChild.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mContext.startActivity(new Intent(mContext,CategoryChildActivity.class)
+                    .putExtra(I.NewAndBoutiqueGood.CAT_ID,child.getId()));
+                }
+            });
         }
         return convertView;
     }
@@ -126,7 +138,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
         notifyDataSetChanged();
     }
 
-    class  GroupViewHolder  {
+    class  GroupViewHolder {
         ImageView ivGroupThumb;
         TextView tvGroupName;
         ImageView ivIndicator;

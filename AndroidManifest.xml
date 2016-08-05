@@ -78,6 +78,11 @@
             android:name=".activity.BoutiqueDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide" />
+        <!-- 分类商品详情 -->
+        <activity
+            android:name=".activity.CategoryChildActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide" />
         <!-- 登陆 -->
         <activity
             android:name=".activity.LoginActivity"

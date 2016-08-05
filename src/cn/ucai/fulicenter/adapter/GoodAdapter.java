@@ -98,6 +98,7 @@ public class GoodAdapter extends RecyclerView.Adapter<ViewHolder> {
             ImageUtils.setGoodThumb(mContext,mGoodViewHoder.ivGoodThumb,good.getGoodsThumb());
             mGoodViewHoder.tvGoodName.setText(good.getGoodsName());
             mGoodViewHoder.tvGoodPrice.setText(good.getCurrencyPrice());
+
             mGoodViewHoder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
