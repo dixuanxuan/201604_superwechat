@@ -1,6 +1,7 @@
 package cn.ucai.fulicenter.activity;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -8,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -15,14 +18,12 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.GoodAdapter;
 import cn.ucai.fulicenter.bean.NewGoodBean;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.utils.Utils;
-import cn.ucai.fulicenter.view.DisplayUtils;
 
 public class CategoryChildActivity extends Activity {
     private  final  static  String TAG=CategoryChildActivity.class.getSimpleName();
@@ -32,6 +33,12 @@ public class CategoryChildActivity extends Activity {
     GridLayoutManager mGridLayoutManager;
     GoodAdapter mGoodAdapter;
     List<NewGoodBean> mGoodList;
+    Button btnSortPrice;
+    Button btnSortAddTime;
+    boolean mSortPriceAsc;
+    boolean mSortAddTimeAsc;
+    int sortBy;
+
 
     int pageId=0;
     int goodId;
@@ -45,6 +52,7 @@ public class CategoryChildActivity extends Activity {
         setContentView(R.layout.activity_category_child);
         mContext=this;
         mGoodList=new ArrayList<>();
+        sortBy=I.SORT_BY_ADDTIME_DESC;
         initView();
         initData();
         setListener();
@@ -53,6 +61,9 @@ public class CategoryChildActivity extends Activity {
     private void setListener() {
         setPullDownListener();
         setPullUpRefreshListener();
+        SortStatusChangedListener listener=new SortStatusChangedListener();
+        btnSortPrice.setOnClickListener(listener);
+        btnSortAddTime.setOnClickListener(listener);
     }
 
     private void setPullUpRefreshListener() {
@@ -106,6 +117,10 @@ public class CategoryChildActivity extends Activity {
                         Gson gson=new Gson();
                         NewGoodBean[] newGoodBeen = gson.fromJson(result, NewGoodBean[].class);
                         ArrayList<NewGoodBean> goodBeanArrayList = Utils.array2List(newGoodBeen);
+                        for(NewGoodBean s :goodBeanArrayList){
+                            Log.e(TAG,"-------------"+s.getAddTime());
+                        }
+
                         if (action==I.ACTION_PULL_DOWN||action==I.ACTION_DOWNLOAD){
                             mGoodAdapter.initItem(goodBeanArrayList);
                         }else {
@@ -143,7 +158,7 @@ public class CategoryChildActivity extends Activity {
 
     private void initView() {
 //        String name=getIntent().getStringExtra(D.Category.KEY_NAME);
-//        DisplayUtils.initBackTitle(mContext,name);
+  //     DisplayUtils.initBackTitle(mContext,name);
        mSwipeRefreshLayout= (SwipeRefreshLayout) findViewById(R.id.srlCategoryChild);
         mSwipeRefreshLayout.setColorSchemeColors(
                 R.color.google_yellow,
@@ -158,6 +173,49 @@ public class CategoryChildActivity extends Activity {
         mGoodAdapter=new GoodAdapter(mContext,mGoodList);
         mRecyclerView.setAdapter(mGoodAdapter);
         tvRefreshing = (TextView) findViewById(R.id.tvRefreshHint);
+
+        btnSortAddTime = (Button) findViewById(R.id.btn_sort_addtime);
+        btnSortPrice = (Button) findViewById(R.id.btn_sort_price);
+    }
+    class  SortStatusChangedListener implements  View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.btn_sort_price:
+                    if (mSortPriceAsc){
+                        setButtonDrawable(R.drawable.arrow_order_down,btnSortPrice);
+                        sortBy=I.SORT_BY_PRICE_ASC;
+                    }else {
+                        setButtonDrawable(R.drawable.arrow_order_up,btnSortPrice);
+                        sortBy=I.SORT_BY_PRICE_DESC;
+                    }
+                    mSortPriceAsc=!mSortPriceAsc;
+                    break;
+                case  R.id.btn_sort_addtime:
+                    if (mSortAddTimeAsc){
+                        setButtonDrawable(R.drawable.arrow_order_down,btnSortAddTime);
+                        sortBy=I.SORT_BY_ADDTIME_ASC;
+                    }else {
+                        setButtonDrawable(R.drawable.arrow_order_up,btnSortAddTime);
+                        sortBy=I.SORT_BY_ADDTIME_DESC;
+                    }
+                    mSortAddTimeAsc=!mSortAddTimeAsc;
+                    break;
+            }
+            mGoodAdapter.setSortBy(sortBy);
+        }
+    }
+
+    /**
+     * Button更换箭头方向
+     * @param image  替换的Image
+     * @param button 点击的button
+     */
+    public void setButtonDrawable(int image,Button button){
+        Drawable drawable=getResources().getDrawable(image);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        button.setCompoundDrawables(null,null,drawable,null);
     }
 
 }
