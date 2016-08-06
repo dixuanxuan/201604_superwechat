@@ -170,19 +170,15 @@ public class GoodAdapter extends RecyclerView.Adapter<ViewHolder> {
                 switch (sortBy){
                     case I.SORT_BY_ADDTIME_DESC:
                         result= (int)(Long.valueOf(goodRight.getAddTime())-Long.valueOf(goodLeft.getAddTime()));
-                        Log.e(TAG,"result="+result);
                         break;
                     case I.SORT_BY_ADDTIME_ASC:
                          result= (int)(Long.valueOf(goodLeft.getAddTime())-Long.valueOf(goodRight.getAddTime()));
-
                         break;
                     case I.SORT_BY_PRICE_DESC:
-                        result= convertPrice(goodRight.getCurrencyPrice())-
-                                convertPrice(goodLeft.getCurrencyPrice());
+                        result= convertPrice(goodRight.getCurrencyPrice())- convertPrice(goodLeft.getCurrencyPrice());
                         break;
                     case  I.SORT_BY_PRICE_ASC:
-                        result= convertPrice(goodLeft.getCurrencyPrice())-
-                                convertPrice(goodRight.getCurrencyPrice());
+                        result= convertPrice(goodLeft.getCurrencyPrice())- convertPrice(goodRight.getCurrencyPrice());
                         break;
                 }
                 return result;

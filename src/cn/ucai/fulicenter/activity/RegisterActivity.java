@@ -34,6 +34,7 @@ import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.listener.OnSetAvatarListener;
 import cn.ucai.fulicenter.utils.Utils;
+import cn.ucai.fulicenter.view.DisplayUtils;
 
 import com.easemob.exceptions.EaseMobException;
 
@@ -69,13 +70,13 @@ public class RegisterActivity extends BaseActivity {
 	}
 
 	private void setListener() {
-		findViewById(R.id.btnLogin).setOnClickListener(
-				new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
+//		findViewById(R.id.btnLogin).setOnClickListener(
+//				new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				finish();
+//			}
+//		});
 		findViewById(R.id.btnRegister).setOnClickListener(
 				new View.OnClickListener() {
 			@Override
@@ -115,6 +116,7 @@ public class RegisterActivity extends BaseActivity {
 		userNameEditText = (EditText) findViewById(R.id.username);
 		passwordEditText = (EditText) findViewById(cn.ucai.fulicenter.R.id.password);
 		confirmPwdEditText = (EditText) findViewById(cn.ucai.fulicenter.R.id.confirm_password);
+		DisplayUtils.initBackTitle(this,"账户登录");
 	}
 
 	/**

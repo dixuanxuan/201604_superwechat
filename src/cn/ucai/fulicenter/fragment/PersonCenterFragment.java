@@ -12,10 +12,10 @@ import cn.ucai.fulicenter.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ContactFragment extends Fragment {
+public class PersonCenterFragment extends Fragment {
 
 
-    public ContactFragment() {
+    public PersonCenterFragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class ContactFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_contact, container, false);
+        return inflater.inflate(R.layout.fragment_personal_centert, container, false);
     }
 
 }

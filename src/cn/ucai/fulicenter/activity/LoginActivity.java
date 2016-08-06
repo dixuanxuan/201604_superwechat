@@ -56,6 +56,7 @@ import cn.ucai.fulicenter.domain.User;
 import cn.ucai.fulicenter.task.DownloadContactListTask;
 import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.UserUtils;
+import cn.ucai.fulicenter.view.DisplayUtils;
 
 /**
  * 登陆页面
@@ -90,6 +91,7 @@ public class LoginActivity extends BaseActivity {
 
 		usernameEditText = (EditText) findViewById(cn.ucai.fulicenter.R.id.username);
 		passwordEditText = (EditText) findViewById(cn.ucai.fulicenter.R.id.password);
+		DisplayUtils.iniitBack(this);
 		setListener();
 
 

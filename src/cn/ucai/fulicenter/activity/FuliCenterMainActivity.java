@@ -1,7 +1,6 @@
 package cn.ucai.fulicenter.activity;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -14,7 +13,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.fragment.BoutiqueFragment;
 import cn.ucai.fulicenter.fragment.CartFragment;
 import cn.ucai.fulicenter.fragment.CategoryFragment;
-import cn.ucai.fulicenter.fragment.ContactFragment;
+import cn.ucai.fulicenter.fragment.PersonCenterFragment;
 import cn.ucai.fulicenter.fragment.NewGoodFragment;
 
 public class FuliCenterMainActivity extends BaseActivity {
@@ -47,7 +46,7 @@ public class FuliCenterMainActivity extends BaseActivity {
         mFragment[1]=new BoutiqueFragment();
         mFragment[2]=new CategoryFragment();
         mFragment[3]=new CartFragment();
-        mFragment[4]=new ContactFragment();
+        mFragment[4]=new PersonCenterFragment();
 
     }
 
