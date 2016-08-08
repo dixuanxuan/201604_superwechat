@@ -1,8 +1,10 @@
 package cn.ucai.fulicenter.fragment;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -25,6 +27,7 @@ import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.SettingsActivity;
+import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.utils.ImageUtils;
 import cn.ucai.fulicenter.utils.UserUtils;
 
@@ -59,15 +62,16 @@ public class PersonCenterFragment extends Fragment {
                              Bundle savedInstanceState) {
         mContext=getActivity();
         View layout=inflater.inflate(R.layout.fragment_personal_centert, container, false);
-            initView(layout);
+        initView(layout);
         setListerner();
-        //initData();
+        initData();
         return layout;
     }
 
     private void setListerner() {
         MyClickListener listener=new MyClickListener();
         mtvSettings.setOnClickListener(listener);
+        updateCollectCountListener();
 
     }
     class  MyClickListener implements  View.OnClickListener{
@@ -87,13 +91,18 @@ public class PersonCenterFragment extends Fragment {
     }
 
     private void initData() {
-        mCollectCount=FuLiCenterApplication.getInstance().getCollectCount();
-        mtvCollecCount.setText(""+mCollectCount);
-        if (FuLiCenterApplication.getInstance().getUser()!=null){
-            UserUtils.setCurrentUserAvatar(mContext,mivUserAvatar);
+//        mCollectCount=FuLiCenterApplication.getInstance().getCollectCount();
+//        mtvCollecCount.setText(""+mCollectCount);
+        if (DemoHXSDKHelper.getInstance().isLogined()){
+            UserAvatar user = FuLiCenterApplication.getInstance().getUser();
+            Log.e(TAG,"user="+user);
+            UserUtils.setAappCurrentUserAvatar(mContext,mivUserAvatar);
             UserUtils.setCurrentUserNick(mtvUserName);
         }
     }
+
+
+
     private void initView(View layout) {
         mivUserAvatar = (ImageView) layout.findViewById(R.id.iv_user_avatar);
         mtvUserName = (TextView) layout.findViewById(R.id.tv_user_name);
@@ -129,5 +138,24 @@ public class PersonCenterFragment extends Fragment {
         SimpleAdapter simpleAdapter=new SimpleAdapter
                 (mContext,imageList,R.layout.simple_grid_item,new String[]{"image"},new int[]{R.id.iv_Image});
         mOrderLsit.setAdapter(simpleAdapter);
+    }
+    class UpdateCollectCount extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int count = FuLiCenterApplication.getInstance().getCollectCount();
+            Log.e(TAG,"count="+count);
+            mtvCollecCount.setText(count+"");
+        }
+    } UpdateCollectCount mReceiver;
+    private  void updateCollectCountListener(){
+        mReceiver=new UpdateCollectCount();
+        IntentFilter filter=new IntentFilter("update_collection");
+        mContext.registerReceiver(mReceiver,filter);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mContext.unregisterReceiver(mReceiver);
+
     }
 }

@@ -1,14 +1,20 @@
 package cn.ucai.fulicenter.activity;
 
+import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import cn.ucai.fulicenter.DemoHXSDKHelper;
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.fragment.BoutiqueFragment;
 import cn.ucai.fulicenter.fragment.CartFragment;
@@ -23,14 +29,16 @@ public class FuliCenterMainActivity extends BaseActivity {
     RadioButton mrbCart;
     RadioButton mrbContact;
     TextView tvCartHint;
-    int index;
-    int currentIndex;
+   private int index;
+    private int currentIndex;
     RadioButton[] mrbTabs;
     ViewPager mViewPager;
     Fragment[] mFragment;
     ViewPageAdapter mViewPageAdapter;
     NewGoodFragment mNewGoodFragment;
+    private final  String TAG= FuLiCenterApplication.class.getCanonicalName();
     Fragment[] getmFragment;
+    public  static  final  int ACTION_LOGIN=100;
     @Override
     protected  void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +71,7 @@ public class FuliCenterMainActivity extends BaseActivity {
         mrbTabs[2]=mrbCategory;
         mrbTabs[3]=mrbCart;
         mrbTabs[4]=mrbContact;
-        mNewGoodFragment=new NewGoodFragment();
+        //mNewGoodFragment=new NewGoodFragment();
 
    /*     // 添加显示第一个fragment
       getSupportFragmentManager().
@@ -86,14 +94,11 @@ class  ViewPageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-
-
-        return fragments[i];
+        return fragments[i] ;
     }
 
     @Override
     public int getCount() {
-
         return fragments.length;
     }
 }
@@ -117,15 +122,38 @@ class  ViewPageAdapter extends FragmentStatePagerAdapter {
                 mViewPager.setCurrentItem(3);
                 break;
             case  R.id.rbContact:
-                index=4;
-                mViewPager.setCurrentItem(4);
+                if (DemoHXSDKHelper.getInstance().isLogined()){
+                    index=4 ;
+                    mViewPager.setCurrentItem(4);
+                }else {
+                    gotoLogin();
+                }
                 break;
         }
+        Log.e(TAG,"index="+index+",currentIndex"+currentIndex);
         if (index!=currentIndex){
             setRadioButtonStatus(index);
-            index=currentIndex;
+            currentIndex=index;
         }
-
+        //setFragment();
+    }
+    private void setFragment(){
+        if (index!=currentIndex){
+            FragmentTransaction trx=getSupportFragmentManager().beginTransaction();
+            trx.hide(mFragment[currentIndex]);
+            if (!mFragment[index].isAdded()){
+                trx.add(R.id.fragment_container,mFragment[index]);
+            }
+            trx.show(mFragment[index]).commit();
+            setRadioButtonStatus(index);
+            currentIndex=index;
+        }
+    }
+    private void gotoLogin() {
+        startActivityForResult(new Intent(this,LoginActivity.class),ACTION_LOGIN);
+//        if(DemoHXSDKHelper.getInstance().isLogined()){
+//            setRadioButtonStatus(index);
+//        }
     }
 
     private void setRadioButtonStatus(int index) {
@@ -138,5 +166,35 @@ class  ViewPageAdapter extends FragmentStatePagerAdapter {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e(TAG,"requestCode="+requestCode+",resultCode"+resultCode);
+        if (requestCode==ACTION_LOGIN){
+            if (DemoHXSDKHelper.getInstance().isLogined()){
+                setRadioButtonStatus(currentIndex);
+                index=4;
+            }else {
+                setRadioButtonStatus(currentIndex);
+            }
+//            }else {
+//                mViewPager.setCurrentItem(index);
+//                Log.e(TAG,"index="+index+",currentIndex"+currentIndex);
+//            }
+        }
+    }
 
+   @Override
+    protected void onResume() {
+        super.onResume();
+         currentIndex=index;
+        if (!DemoHXSDKHelper.getInstance().isLogined()&&index==4){
+            index=0;
+            setRadioButtonStatus(index);
+           // setRadioButtonStatus(currentIndex);
+        }
+         mViewPager.setCurrentItem(index);
+        setRadioButtonStatus(index);
+            //setFragment();
+    }
 }

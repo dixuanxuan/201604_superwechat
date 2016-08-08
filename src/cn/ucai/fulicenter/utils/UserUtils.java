@@ -77,8 +77,8 @@ UserUtils {
 	 */
 	public static void setAppUserAvatar(Context context, String username, ImageView imageView){
 		String path="";
+		path=getUserAvatarPath(username);
 		if(path != null && username!= null){
-			path=getUserAvatarPath(username);
 			Log.e(TAG,"path="+path);
 			Picasso.with(context).load(path).placeholder(cn.ucai.fulicenter.R.drawable.default_avatar).into(imageView);
 		}else{
@@ -105,11 +105,9 @@ UserUtils {
 		path.append(I.QUESTION).append(I.KEY_REQUEST)
 				.append(I.EQUL).append(I.REQUEST_DOWNLOAD_AVATAR)
 				.append(I.AND)
-				.append(I.NAME_OR_HXID).append(I.EQUL).append(username)
-				.append(I.AND)
-				.append(I.AVATAR_TYPE).append(I.EQUL).append(I.AVATAR_TYPE_USER_PATH);
+				.append(I.AVATAR_TYPE).append(I.EQUL).append(username);
+		Log.e(TAG,"path==========="+path);
 		return  path.toString();
-
 	}
     /**
      * 设置当前用户头像
