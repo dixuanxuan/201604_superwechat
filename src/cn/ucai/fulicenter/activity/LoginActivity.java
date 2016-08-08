@@ -53,6 +53,7 @@ import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.db.UserDao;
 import cn.ucai.fulicenter.domain.User;
+import cn.ucai.fulicenter.task.DownloadCollectCountTask;
 import cn.ucai.fulicenter.task.DownloadContactListTask;
 import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.UserUtils;
@@ -126,9 +127,11 @@ public class LoginActivity extends BaseActivity {
 		FuLiCenterApplication.getInstance().setUserName(currentUsername);
 		FuLiCenterApplication.getInstance().setPassword(currentPassword);
 		FuLiCenterApplication.getInstance().setUser(user);
+		Log.e(TAG,"user========="+user.toString());
 		FuLiCenterApplication.currentUserNick=user.getMUserNick();
 
-		new DownloadContactListTask(LoginActivity.this,currentUsername).excute();
+		//new DownloadContactListTask(LoginActivity.this,currentUsername).excute();
+		new DownloadCollectCountTask(LoginActivity.this,currentUsername).excute();
 
 		try {
 			// ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
@@ -160,7 +163,7 @@ public class LoginActivity extends BaseActivity {
 		}
 		// 进入主页面
 		Intent intent = new Intent(LoginActivity.this,
-				MainActivity.class);
+				FuliCenterMainActivity.class);
 		startActivity(intent);
 
 		finish();
