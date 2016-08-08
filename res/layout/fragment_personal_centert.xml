@@ -186,6 +186,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
+                android:textColor="@color/black"
                 android:text="查看全部已购宝贝" />
             <ImageView
                 android:layout_width="wrap_content"
@@ -196,7 +197,7 @@
         <GridView
             android:id="@+id/center_user_order_lis"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:layout_marginTop="1dp"
             android:cacheColorHint="#00000000"
             android:background="@color/white"
@@ -280,6 +281,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
+                android:textColor="@color/black"
                 android:text="暂无可用优惠券"/>
             <ImageView
                 android:layout_width="wrap_content"
@@ -313,7 +315,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:text="一卡在手，逛店无忧"/>
+                android:text="一卡在手，逛店无忧"
+                android:textColor="@color/black"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -341,6 +344,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
+                android:textColor="@color/black"
                 android:text="领金币，看优惠" />
             <ImageView
                 android:layout_width="wrap_content"

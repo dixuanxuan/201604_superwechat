@@ -123,6 +123,8 @@ public class FuLiCenterApplication extends Application {
 	private List<UserAvatar>  userlist=new ArrayList<UserAvatar>();
 	/*全局的当前登录用户的好友的Map集合*/
 	private  Map<String ,UserAvatar> userMap=new HashMap<String ,UserAvatar>();
+	/*全局的当前登录用户的收藏数*/
+	int collectCount;
 
 
 
@@ -175,4 +177,11 @@ public class FuLiCenterApplication extends Application {
 		this.b = b;
 	}
 
+	public int getCollectCount() {
+		return collectCount;
+	}
+
+	public void setCollectCount(int collectCount) {
+		this.collectCount = collectCount;
+	}
 }

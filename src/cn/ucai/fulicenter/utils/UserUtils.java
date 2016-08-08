@@ -1,6 +1,7 @@
 package cn.ucai.fulicenter.utils;
 
 import android.content.Context;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
@@ -119,6 +120,15 @@ UserUtils {
 			Picasso.with(context).load(user.getAvatar()).placeholder(cn.ucai.fulicenter.R.drawable.default_avatar).into(imageView);
 		} else {
 			Picasso.with(context).load(cn.ucai.fulicenter.R.drawable.default_avatar).into(imageView);
+		}
+	}
+	/**
+	 * 设置当前用户头像
+	 */
+	public static void setAppCurrentUserAvatar(ImageView imageView) {
+		String userName = FuLiCenterApplication.getInstance().getUserName();
+		if (userName != null && imageView != null) {
+			setAppUserAvatar(null,userName,imageView);
 		}
 	}
 
