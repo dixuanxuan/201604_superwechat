@@ -26,6 +26,7 @@ import java.util.HashMap;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.activity.CollectActivity;
 import cn.ucai.fulicenter.activity.SettingsActivity;
 import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.utils.ImageUtils;
@@ -71,6 +72,7 @@ public class PersonCenterFragment extends Fragment {
     private void setListerner() {
         MyClickListener listener=new MyClickListener();
         mtvSettings.setOnClickListener(listener);
+        mLayoutCenterCollect.setOnClickListener(listener);
         updateCollectCountListener();
 
     }
@@ -82,6 +84,9 @@ public class PersonCenterFragment extends Fragment {
                     case R.id.tv_center_settings:
                     case R.id.center_user_info:
                         startActivity(new Intent(mContext, SettingsActivity.class));
+                        break;
+                    case R.id.layout_center_collect:
+                        startActivity(new Intent(mContext, CollectActivity.class));
                         break;
                 }
             }else {

@@ -105,7 +105,7 @@ public class SplashActivity extends BaseActivity {
 						FuLiCenterApplication.currentUserNick=user.getMUserNick();
 
 					}
-					new DownloadContactListTask(SplashActivity.this,username).excute();
+					//new DownloadContactListTask(SplashActivity.this,username).excute();
 					new DownloadCollectCountTask(SplashActivity.this,username).excute();
 					long costTime = System.currentTimeMillis() - start;
 					//等待sleeptime时长
