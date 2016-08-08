@@ -2,8 +2,10 @@ package cn.ucai.fulicenter.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +16,15 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.easemob.chat.EMChatManager;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.activity.SettingsActivity;
 import cn.ucai.fulicenter.utils.ImageUtils;
 import cn.ucai.fulicenter.utils.UserUtils;
 
@@ -54,9 +60,32 @@ public class PersonCenterFragment extends Fragment {
         mContext=getActivity();
         View layout=inflater.inflate(R.layout.fragment_personal_centert, container, false);
             initView(layout);
-      //  initData();
+        setListerner();
+        //initData();
         return layout;
     }
+
+    private void setListerner() {
+        MyClickListener listener=new MyClickListener();
+        mtvSettings.setOnClickListener(listener);
+
+    }
+    class  MyClickListener implements  View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            if (DemoHXSDKHelper.getInstance().isLogined()){
+                switch (v.getId()){
+                    case R.id.tv_center_settings:
+                    case R.id.center_user_info:
+                        startActivity(new Intent(mContext, SettingsActivity.class));
+                        break;
+                }
+            }else {
+                Log.e(TAG,"not Logined ...");
+            }
+        }
+    }
+
     private void initData() {
         mCollectCount=FuLiCenterApplication.getInstance().getCollectCount();
         mtvCollecCount.setText(""+mCollectCount);
