@@ -1,6 +1,10 @@
 package cn.ucai.fulicenter.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -55,7 +59,8 @@ public class CollectActivity extends Activity {
 
     private void setListener() {
         setPullDownListener();
-    //    setPullUpRefreshListener();
+        setPullUpRefreshListener();
+        setUpdateCollectListListener();
     }
 
     private void setPullUpRefreshListener() {
@@ -164,5 +169,25 @@ public class CollectActivity extends Activity {
         mRecyclerView.setAdapter(mGoodAdapter);
         tvRefreshing = (TextView) findViewById(R.id.tvRefreshHint);
     }
+    class UpdateCollectListReceiver extends BroadcastReceiver{
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            initData();
+        }
+    }
+    UpdateCollectListReceiver mReceiver;
+    private  void setUpdateCollectListListener(){
+        mReceiver=new UpdateCollectListReceiver();
+        IntentFilter filter=new IntentFilter("update_collec_list");
+        registerReceiver(mReceiver,filter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mReceiver!=null){
+            unregisterReceiver(mReceiver);
+        }
+    }
 }
