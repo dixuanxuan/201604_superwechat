@@ -1,10 +1,12 @@
 package cn.ucai.fulicenter.activity;
 
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.LayoutAnimationController;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -30,6 +32,7 @@ import cn.ucai.fulicenter.bean.NewGoodBean;
 import cn.ucai.fulicenter.bean.PropertyBean;
 import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
+import cn.ucai.fulicenter.task.DownloadCollectCountTask;
 import cn.ucai.fulicenter.utils.Utils;
 import cn.ucai.fulicenter.view.DisplayUtils;
 import cn.ucai.fulicenter.view.FlowIndicator;
@@ -57,6 +60,7 @@ public class GoodDetailsActivity extends  BaseActivity {
     int goodId;
     GoodDetailsActivity mContext;
     GoodDetailsBean mGoodDetail;
+    boolean isCollect;
 
     @Override
     public void onCreate(Bundle arg0) {
@@ -65,6 +69,12 @@ public class GoodDetailsActivity extends  BaseActivity {
         mContext = this;
         initView();
         initData();
+        setListener();
+    }
+
+    private void setListener() {
+        MyListener listener=new MyListener();
+        ivCollect.setOnClickListener(listener);
     }
 
 
@@ -76,6 +86,7 @@ public class GoodDetailsActivity extends  BaseActivity {
                 @Override
                 public void onSuccess(String result) {
                     if (result!=null){
+
                         Log.e(TAG,"result="+result);
                         Gson gson=new Gson();
                         mGoodDetail=gson.fromJson(result,GoodDetailsBean.class);
@@ -189,10 +200,11 @@ public class GoodDetailsActivity extends  BaseActivity {
                         public void onSuccess(MessageBean result) {
                             Log.e(TAG,"result="+result);
                             if (result!=null&&result.isSuccess()){
-                                ivCollect.setImageResource(R.drawable.bg_collect_out);
+                                isCollect=true;
                             }else {
-                                ivCollect.setImageResource(R.drawable.bg_collect_in);
+                                isCollect=false;
                             }
+                            updateCollectStatus();
 
                         }
 
@@ -204,6 +216,60 @@ public class GoodDetailsActivity extends  BaseActivity {
         }
 
     }
+    class  MyListener  implements  View.OnClickListener{
 
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.ivcollect:
+                    goodColect();
+            }
+
+        }
+    }
+//取消或者注册收藏
+    private void goodColect() {
+        if (DemoHXSDKHelper.getInstance().isLogined()){
+           if (isCollect){
+               //取消收藏
+               OkHttpUtils2<MessageBean> utils2=new OkHttpUtils2<MessageBean>();
+               utils2.setRequestUrl(I.REQUEST_DELETE_COLLECT)
+                       .addParam(I.Collect.USER_NAME, FuLiCenterApplication.getInstance().getUserName())
+                       .addParam(I.Collect.GOODS_ID,goodId+"")
+                       .targetClass(MessageBean.class)
+                       .execute(new OkHttpUtils2.OnCompleteListener<MessageBean>() {
+                           @Override
+                           public void onSuccess(MessageBean result) {
+                               Log.e(TAG,"result="+result);
+                               if (result!=null&&result.isSuccess()){
+                                   new DownloadCollectCountTask(mContext,FuLiCenterApplication.getInstance().getUserName()).excute();
+                               }else {
+                                   Log.e(TAG,"fail");
+                               }
+                               updateCollectStatus();
+                               Toast.makeText(mContext,result.getMsg(),Toast.LENGTH_SHORT).show();
+
+                           }
+
+                           @Override
+                           public void onError(String error) {
+                               Log.e(TAG,"error="+error);
+                           }
+                       });
+           }else {
+               //添加收藏
+           }
+
+        }else {
+            startActivity(new Intent(mContext,LoginActivity.class));
+        }
+    }
+    private void  updateCollectStatus (){
+        if (isCollect){
+            ivCollect.setImageResource(R.drawable.bg_collect_out);
+        }else {
+            ivCollect.setImageResource(R.drawable.bg_collect_in);
+        }
+    }
 
 }
