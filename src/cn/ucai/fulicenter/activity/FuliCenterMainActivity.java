@@ -1,6 +1,9 @@
 package cn.ucai.fulicenter.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +24,7 @@ import cn.ucai.fulicenter.fragment.CartFragment;
 import cn.ucai.fulicenter.fragment.CategoryFragment;
 import cn.ucai.fulicenter.fragment.PersonCenterFragment;
 import cn.ucai.fulicenter.fragment.NewGoodFragment;
+import cn.ucai.fulicenter.utils.Utils;
 
 public class FuliCenterMainActivity extends BaseActivity {
     RadioButton mrbNewGood;
@@ -36,6 +40,8 @@ public class FuliCenterMainActivity extends BaseActivity {
     Fragment[] mFragment;
     ViewPageAdapter mViewPageAdapter;
     NewGoodFragment mNewGoodFragment;
+
+    updateCartNumReceiver mReceiver;
     private final  String TAG= FuLiCenterApplication.class.getCanonicalName();
     Fragment[] getmFragment;
     public  static  final  int ACTION_LOGIN=100;
@@ -45,6 +51,11 @@ public class FuliCenterMainActivity extends BaseActivity {
         setContentView(R.layout.activity_fuli_center_main);
         initFragment();
         initView();
+        setListener();
+    }
+
+    private void setListener() {
+        setUpdateCartCountListener();
     }
 
     private void initFragment() {
@@ -196,5 +207,37 @@ class  ViewPageAdapter extends FragmentStatePagerAdapter {
          mViewPager.setCurrentItem(index);
         setRadioButtonStatus(index);
             //setFragment();
+    }
+    private  void setUpdateCartCountListener(){
+        mReceiver=new updateCartNumReceiver();
+        IntentFilter filter=new IntentFilter("update_cart_list");
+        registerReceiver(mReceiver,filter);
+    }
+    class   updateCartNumReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateCartNum();
+        }
+    }
+
+    private void updateCartNum() {
+        int count = Utils.sumCartCount();
+        if (!DemoHXSDKHelper.getInstance().isLogined()||count==0){
+            tvCartHint.setText(String.valueOf(0));
+            tvCartHint.setVisibility(View.GONE);
+
+        }else {
+            tvCartHint.setText(String.valueOf(count));
+            tvCartHint.setVisibility(View.VISIBLE);
+
+        }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mReceiver!=null){
+            unregisterReceiver(mReceiver);
+        }
     }
 }
