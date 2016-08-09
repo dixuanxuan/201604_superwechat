@@ -50,11 +50,12 @@ public class GoodDetailsActivity extends  BaseActivity {
     ImageView  ivCollect;
     ImageView  ivCart;
     TextView    tvCartCount;
-
+//    int i=0;
     TextView tvGoodEnglishName;
     TextView tvGoodName;
     TextView tvGoodPriceCurrent;
     TextView tvGoodPriceShop;
+
 
     SlideAutoLoopView mSlideAutoLoopView;
     FlowIndicator mFlowIndicator;
@@ -82,6 +83,8 @@ public class GoodDetailsActivity extends  BaseActivity {
 
 
     private void initData() {
+//        i=Utils.sumCartCount();
+//        tvCartCount.setText(i+"");
         goodId=getIntent().getIntExtra(D.GoodDetails.KEY_GOODS, 0);
         Log.e(TAG,"goodId="+goodId);
         if (goodId>0){
@@ -143,14 +146,6 @@ public class GoodDetailsActivity extends  BaseActivity {
 
     }
 
-    /*    private  void  getGoodDetailsByGoodId(OkHttpUtils2.OnCompleteListener<GoodDetailsBean> listener){
-            OkHttpUtils2<GoodDetailsBean> utils=new OkHttpUtils2<GoodDetailsBean>();
-            utils.setRequestUrl(I.REQUEST_FIND_GOODS_DETAILS)
-                    .addParam(D.GoodDetails.KEY_GOODS,String.valueOf(goodId))
-                    .targetClass(GoodDetailsBean.class)
-                    .execute(listener);
-
-        }*/
     private  void  getGoodDetailsByGoodId(OkHttpUtils2.OnCompleteListener<String> listener){
         OkHttpUtils2<String> utils=new OkHttpUtils2<String>();
         utils.setRequestUrl(I.REQUEST_FIND_GOOD_DETAILS)
@@ -177,7 +172,7 @@ public class GoodDetailsActivity extends  BaseActivity {
         mFlowIndicator = (FlowIndicator) findViewById(R.id.indicator);
         mWebView = (WebView) findViewById(R.id.goodbref);
 
-       WebSettings settings = mWebView.getSettings();
+        WebSettings settings = mWebView.getSettings();
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setBuiltInZoomControls(true);
     }
@@ -186,6 +181,20 @@ public class GoodDetailsActivity extends  BaseActivity {
     protected void onResume() {
         super.onResume();
         initCollectStatus();
+        initCartStatus();
+
+
+    }
+
+    private void initCartStatus() {
+        int count=Utils.sumCartCount();
+        if (count>0){
+            tvCartCount.setVisibility(View.VISIBLE);
+            tvCartCount.setText(""+count);
+        }else {
+            tvCartCount.setVisibility(View.GONE);
+            tvCartCount.setText("0");
+        }
 
     }
 
@@ -267,18 +276,18 @@ public class GoodDetailsActivity extends  BaseActivity {
         if (DemoHXSDKHelper.getInstance().isLogined()){
            if (isCollect){
                //取消收藏
-               OkHttpUtils2<MessageBean > utils2=new OkHttpUtils2<MessageBean>();
+               OkHttpUtils2<String  > utils2=new OkHttpUtils2<String>();
                utils2.setRequestUrl(I.REQUEST_DELETE_COLLECT)
                        .addParam(I.Collect.USER_NAME, FuLiCenterApplication.getInstance().getUserName())
                        .addParam(I.Collect.GOODS_ID,goodId+"")
-                       .targetClass(MessageBean.class)
-                       .execute(new OkHttpUtils2.OnCompleteListener<MessageBean>() {
+                       .targetClass(String.class)
+                       .execute(new OkHttpUtils2.OnCompleteListener<String>() {
                            @Override
-                           public void onSuccess(MessageBean result) {
-//                               Gson gson=new Gson();
-//                               MessageBean messageBean = gson.fromJson(result, MessageBean.class);
+                           public void onSuccess(String result) {
+                               Gson gson=new Gson();
+                               MessageBean messageBean = gson.fromJson(result, MessageBean.class);
                                Log.e(TAG,"result="+result);
-                               if (result!=null&&result.isSuccess()){
+                               if (messageBean!=null&&messageBean.isSuccess()){
                                    isCollect=false;
                                    new DownloadCollectCountTask(mContext,FuLiCenterApplication.getInstance().getUserName()).excute();
                                    sendStickyBroadcast(new Intent("update_collec_list"));
@@ -286,7 +295,7 @@ public class GoodDetailsActivity extends  BaseActivity {
                                    Log.e(TAG,"fail");
                                }
                                updateCollectStatus();
-                               Toast.makeText(mContext,result.getMsg(),Toast.LENGTH_SHORT).show();
+                               Toast.makeText(mContext,messageBean.getMsg(),Toast.LENGTH_SHORT).show();
 
                            }
                            @Override
@@ -295,8 +304,9 @@ public class GoodDetailsActivity extends  BaseActivity {
                            }
                        });
            }else {
+
                //添加收藏
-               OkHttpUtils2<MessageBean> utils=new OkHttpUtils2<>();
+               OkHttpUtils2<String> utils=new OkHttpUtils2<>();
                utils.setRequestUrl(I.REQUEST_ADD_COLLECT)
                        .addParam(I.Collect.USER_NAME,FuLiCenterApplication.getInstance().getUserName())
                        .addParam(I.Collect.GOODS_ID,mGoodDetail.getGoodsId()+"")
@@ -305,14 +315,14 @@ public class GoodDetailsActivity extends  BaseActivity {
                        .addParam(I.Collect.USER_NAME,mGoodDetail.getGoodsName())
                        .addParam(I.Collect.GOODS_ENGLISH_NAME,mGoodDetail.getGoodsEnglishName())
                        .addParam(I.Collect.GOODS_IMG,mGoodDetail.getGoodsImg())
-                       .targetClass(MessageBean.class)
-                       .execute(new OkHttpUtils2.OnCompleteListener<MessageBean>() {
+                       .targetClass(String.class)
+                       .execute(new OkHttpUtils2.OnCompleteListener<String>() {
                            @Override
-                           public void onSuccess(MessageBean result) {
+                           public void onSuccess(String result) {
+                               Gson gson=new Gson();
+                               MessageBean messageBean = gson.fromJson(result, MessageBean.class);
                                Log.e(TAG,"result="+result);
-//                               Gson gson=new Gson();
-//                               MessageBean messageBean = gson.fromJson(result, MessageBean.class);
-                               if (result!=null&&result.isSuccess()){
+                               if (messageBean!=null&&messageBean.isSuccess()){
                                    isCollect=true;
                                    new DownloadCollectCountTask(mContext,FuLiCenterApplication.getInstance().getUserName()).excute();
                                    sendStickyBroadcast(new Intent("update_collec_list"));
@@ -320,7 +330,7 @@ public class GoodDetailsActivity extends  BaseActivity {
                                    Log.e(TAG,"fail");
                                }
                                updateCollectStatus();
-                               Toast.makeText(mContext,result.getMsg(),Toast.LENGTH_SHORT).show();
+                               Toast.makeText(mContext,messageBean.getMsg(),Toast.LENGTH_SHORT).show();
                            }
                            @Override
                            public void onError(String error) {
