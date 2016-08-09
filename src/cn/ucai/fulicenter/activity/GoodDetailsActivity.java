@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.ucai.fulicenter.D;
+import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
@@ -167,46 +168,42 @@ public class GoodDetailsActivity extends  BaseActivity {
         settings.setBuiltInZoomControls(true);
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        initCollectStatus();
-//
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initCollectStatus();
 
-//    private void initCollectStatus() {
-//        UserAvatar user = FuLiCenterApplication.getInstance().getUser();
-//        if (user!=null){
-//            findisCollect(user, new OkHttpUtils2.OnCompleteListener<String>() {
-//                @Override
-//                public void onSuccess(String result) {
-//                    if (result!=null){
-//                        Gson gson=new Gson();
-//                        MessageBean[] messageBeen = gson.fromJson(result, MessageBean[].class);
-//                        ArrayList<MessageBean> messageArray = Utils.array2List(messageBeen);
-//                        if (!messageArray.isEmpty()) {
-//                            ivCollect.setImageResource(R.drawable.bg_collect_out);
-//                        }else {
-//                            ivCollect.setImageResource(R.drawable.bg_collect_in);
-//                        }
-//                    }
-//                }
-//                @Override
-//                public void onError(String error) {
-//
-//                }
-//            });
-//
-//        }else {
-//            ivCollect.setImageResource(R.drawable.bg_collect_in);
-//        }
-//    }
-//
-//    private void findisCollect(UserAvatar user,OkHttpUtils2.OnCompleteListener<String> listener) {
-//        OkHttpUtils2<String> utils2=new OkHttpUtils2<>();
-//        utils2.setRequestUrl(I.REQUEST_IS_COLLECT)
-//                .addParam(I.Collect.USER_NAME,user.getMUserName())
-//                .addParam(I.Collect.GOODS_ID,mGoodDetail.getGoodsId()+"")
-//                .execute(listener);
-//    }
+    }
+
+    private void initCollectStatus() {
+
+        String userName = FuLiCenterApplication.getInstance().getUserName();
+        if (DemoHXSDKHelper.getInstance().isLogined()){
+            OkHttpUtils2<MessageBean> utils2=new OkHttpUtils2<>();
+            utils2.setRequestUrl(I.REQUEST_IS_COLLECT)
+                    .addParam(I.Collect.USER_NAME,userName)
+                    .addParam(I.Collect.GOODS_ID,goodId+"")
+                    .targetClass(MessageBean.class)
+                    .execute(new OkHttpUtils2.OnCompleteListener<MessageBean>() {
+                        @Override
+                        public void onSuccess(MessageBean result) {
+                            Log.e(TAG,"result="+result);
+                            if (result!=null&&result.isSuccess()){
+                                ivCollect.setImageResource(R.drawable.bg_collect_out);
+                            }else {
+                                ivCollect.setImageResource(R.drawable.bg_collect_in);
+                            }
+
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            Log.e(TAG,"error="+error);
+                        }
+                    });
+        }
+
+    }
+
+
 }

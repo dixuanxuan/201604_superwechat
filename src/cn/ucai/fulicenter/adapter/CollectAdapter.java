@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -17,10 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.ucai.fulicenter.D;
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.GoodDetailsActivity;
 import cn.ucai.fulicenter.bean.CollectBean;
+import cn.ucai.fulicenter.bean.MessageBean;
+import cn.ucai.fulicenter.data.OkHttpUtils2;
+import cn.ucai.fulicenter.task.DownloadCollectCountTask;
 import cn.ucai.fulicenter.utils.ImageUtils;
 import cn.ucai.fulicenter.view.FooterViewHolder;
 
@@ -107,6 +113,31 @@ public class CollectAdapter extends RecyclerView.Adapter<ViewHolder> {
             mCollectViewHoder.ivDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    OkHttpUtils2<MessageBean> utils2=new OkHttpUtils2<MessageBean>();
+                    utils2.setRequestUrl(I.REQUEST_DELETE_COLLECT)
+                            .addParam(I.Collect.USER_NAME, FuLiCenterApplication.getInstance().getUserName())
+                            .addParam(I.Collect.GOODS_ID,collect.getGoodsId()+"")
+                            .targetClass(MessageBean.class)
+                            .execute(new OkHttpUtils2.OnCompleteListener<MessageBean>() {
+                                @Override
+                                public void onSuccess(MessageBean result) {
+                                    Log.e(TAG,"result="+result);
+                                    if (result!=null&&result.isSuccess()){
+                                        new DownloadCollectCountTask(mContext,FuLiCenterApplication.getInstance().getUserName()).excute();
+                                        mGoodList.remove(collect);
+                                        notifyDataSetChanged();
+                                    }else {
+                                        Log.e(TAG,"fail");
+                                    }
+                                    Toast.makeText(mContext,result.getMsg(),Toast.LENGTH_SHORT).show();
+
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    Log.e(TAG,"error="+error);
+                                }
+                            });
 
                 }
             });
