@@ -18,12 +18,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.ucai.fulicenter.D;
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.AlbumBean;
+import cn.ucai.fulicenter.bean.CollectBean;
 import cn.ucai.fulicenter.bean.GoodDetailsBean;
+import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.bean.NewGoodBean;
 import cn.ucai.fulicenter.bean.PropertyBean;
+import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.utils.Utils;
 import cn.ucai.fulicenter.view.DisplayUtils;
@@ -162,4 +166,47 @@ public class GoodDetailsActivity extends  BaseActivity {
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setBuiltInZoomControls(true);
     }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        initCollectStatus();
+//
+//    }
+
+//    private void initCollectStatus() {
+//        UserAvatar user = FuLiCenterApplication.getInstance().getUser();
+//        if (user!=null){
+//            findisCollect(user, new OkHttpUtils2.OnCompleteListener<String>() {
+//                @Override
+//                public void onSuccess(String result) {
+//                    if (result!=null){
+//                        Gson gson=new Gson();
+//                        MessageBean[] messageBeen = gson.fromJson(result, MessageBean[].class);
+//                        ArrayList<MessageBean> messageArray = Utils.array2List(messageBeen);
+//                        if (!messageArray.isEmpty()) {
+//                            ivCollect.setImageResource(R.drawable.bg_collect_out);
+//                        }else {
+//                            ivCollect.setImageResource(R.drawable.bg_collect_in);
+//                        }
+//                    }
+//                }
+//                @Override
+//                public void onError(String error) {
+//
+//                }
+//            });
+//
+//        }else {
+//            ivCollect.setImageResource(R.drawable.bg_collect_in);
+//        }
+//    }
+//
+//    private void findisCollect(UserAvatar user,OkHttpUtils2.OnCompleteListener<String> listener) {
+//        OkHttpUtils2<String> utils2=new OkHttpUtils2<>();
+//        utils2.setRequestUrl(I.REQUEST_IS_COLLECT)
+//                .addParam(I.Collect.USER_NAME,user.getMUserName())
+//                .addParam(I.Collect.GOODS_ID,mGoodDetail.getGoodsId()+"")
+//                .execute(listener);
+//    }
 }
