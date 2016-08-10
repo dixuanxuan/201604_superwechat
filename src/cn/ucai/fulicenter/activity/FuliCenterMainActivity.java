@@ -45,6 +45,8 @@ public class FuliCenterMainActivity extends BaseActivity {
     private final  String TAG= FuLiCenterApplication.class.getCanonicalName();
     Fragment[] getmFragment;
     public  static  final  int ACTION_LOGIN=100;
+    public  static  final  int ACTION_LOGIN_PERSONAL=100;
+    public  static  final  int ACTION_LOGIN_CART=200;
     @Override
     protected  void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,7 +131,11 @@ class  ViewPageAdapter extends FragmentStatePagerAdapter {
                 mViewPager.setCurrentItem(2);
                 break;
             case  R.id.rbCart:
-                index=3;
+                if (DemoHXSDKHelper.getInstance().isLogined()){
+                    index=3;
+                }else {
+                    gotoLogin(ACTION_LOGIN_CART);
+                }
                 mViewPager.setCurrentItem(3);
                 break;
             case  R.id.rbContact:
@@ -137,7 +143,7 @@ class  ViewPageAdapter extends FragmentStatePagerAdapter {
                     index=4 ;
                     mViewPager.setCurrentItem(4);
                 }else {
-                    gotoLogin();
+                    gotoLogin(ACTION_LOGIN_PERSONAL);
                 }
                 break;
         }
@@ -160,8 +166,8 @@ class  ViewPageAdapter extends FragmentStatePagerAdapter {
             currentIndex=index;
         }
     }
-    private void gotoLogin() {
-        startActivityForResult(new Intent(this,LoginActivity.class),ACTION_LOGIN);
+    private void gotoLogin(int action) {
+        startActivityForResult(new Intent(this,LoginActivity.class),action);
 //        if(DemoHXSDKHelper.getInstance().isLogined()){
 //            setRadioButtonStatus(index);
 //        }
@@ -181,17 +187,21 @@ class  ViewPageAdapter extends FragmentStatePagerAdapter {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e(TAG,"requestCode="+requestCode+",resultCode"+resultCode);
-        if (requestCode==ACTION_LOGIN){
-            if (DemoHXSDKHelper.getInstance().isLogined()){
+        if (DemoHXSDKHelper.getInstance().isLogined()){
+        if (requestCode==ACTION_LOGIN_PERSONAL){
                 setRadioButtonStatus(currentIndex);
                 index=4;
+            }
+            if (requestCode==ACTION_LOGIN_CART){
+                setRadioButtonStatus(currentIndex);
+                index=3;
             }else {
                 setRadioButtonStatus(currentIndex);
             }
 //            }else {
 //                mViewPager.setCurrentItem(index);
 //                Log.e(TAG,"index="+index+",currentIndex"+currentIndex);
-//            }
+//            }INT
         }
     }
 
@@ -212,6 +222,7 @@ class  ViewPageAdapter extends FragmentStatePagerAdapter {
     private  void setUpdateCartCountListener(){
         mReceiver=new updateCartNumReceiver();
         IntentFilter filter=new IntentFilter("update_cart_list");
+        filter.addAction("update_user");
         registerReceiver(mReceiver,filter);
     }
     class   updateCartNumReceiver extends BroadcastReceiver{

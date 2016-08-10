@@ -74,6 +74,7 @@ public class CartAdapter extends RecyclerView.Adapter<ViewHolder> {
         if (goods==null){
             return;
         }
+
         mCartViewHolder.tvGoodName.setText(goods.getGoodsName());
         mCartViewHolder.tvCartCount.setText(""+cart.getCount());
         mCartViewHolder.mCheckBox.setChecked(cart.isChecked());
