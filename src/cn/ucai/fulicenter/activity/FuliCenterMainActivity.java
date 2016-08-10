@@ -206,6 +206,7 @@ class  ViewPageAdapter extends FragmentStatePagerAdapter {
         }
          mViewPager.setCurrentItem(index);
         setRadioButtonStatus(index);
+       updateCartNum();
             //setFragment();
     }
     private  void setUpdateCartCountListener(){

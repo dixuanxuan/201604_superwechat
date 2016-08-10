@@ -106,7 +106,7 @@ public class CollectAdapter extends RecyclerView.Adapter<ViewHolder> {
         if (holder instanceof CollectViewHoder){
             mCollectViewHoder = (CollectViewHoder) holder;
             final CollectBean collect = mGoodList.get(position);
-        //    mBoutiqueViewHolder.ivBoutiqueThumb.setImageURI(good.getGoodsThumb());
+        //    mCartViewHolder.ivBoutiqueThumb.setImageURI(good.getGoodsThumb());
             ImageUtils.setGoodThumb(mContext, mCollectViewHoder.ivGoodThumb,collect.getGoodsThumb());
             mCollectViewHoder.tvGoodName.setText(collect.getGoodsName());
             Picasso.with(mContext).load(R.drawable.delete).placeholder(R.drawable.delete).error(R.drawable.delete).into(mCollectViewHoder.ivDelete);
@@ -164,7 +164,7 @@ public class CollectAdapter extends RecyclerView.Adapter<ViewHolder> {
     public int getItemCount() {
 
         return mGoodList!=null?mGoodList.size()+1:1;
-       //return  mBoutiqueList.size();
+       //return  mCartList.size();
     }
 
     public void addItem(ArrayList<CollectBean> list) {

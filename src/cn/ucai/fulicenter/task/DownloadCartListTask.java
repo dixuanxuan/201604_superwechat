@@ -59,16 +59,15 @@ public class DownloadCartListTask {
                                                 }
                                             });
                                     cartList.add(cart);
-
                                 } else {
                                     cartList.get(cartList.indexOf(cart)).setChecked(cart.isChecked());
                                     cartList.get(cartList.indexOf(cart)).setCount(cart.getCount());
                                 }
-                                mContext.sendStickyBroadcast(new Intent("update_cart_list"));
+                               // mContext.sendStickyBroadcast(new Intent("update_cart_list"));
                             }
+                            mContext.sendStickyBroadcast(new Intent("update_cart_list"));
                             Log.e(TAG,"cartList.size="+cartList.size());
                         }
-
                     }
                     @Override
                     public void onError(String error) {

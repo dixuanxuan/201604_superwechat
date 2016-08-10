@@ -93,7 +93,7 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<ViewHolder> {
         if (holder instanceof BoutiqueViewHolder){
             mBoutiqueViewHolder = (BoutiqueViewHolder) holder;
             final BoutiqueBean boutique = mBoutiqueList.get(position);
-        //    mBoutiqueViewHolder.ivBoutiqueThumb.setImageURI(good.getGoodsThumb());
+        //    mCartViewHolder.ivBoutiqueThumb.setImageURI(good.getGoodsThumb());
              ImageUtils.setGoodThumb(mContext,mBoutiqueViewHolder.ivBoutiqueThumb,boutique.getImageurl());
              mBoutiqueViewHolder.tvBoutiqueTitle.setText(boutique.getTitle());
              mBoutiqueViewHolder.tvBoutiqueName.setText(boutique.getName());
@@ -107,11 +107,11 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<ViewHolder> {
                     }
                 });
 
-        //    mBoutiqueViewHolder.ivBoutiqueThumb.setImageURI(good.getGoodsThumb());
-//            ImageUtils.setGoodThumb(mContext,mBoutiqueViewHolder.ivBoutiqueThumb,good.getGoodsThumb());
-//            mBoutiqueViewHolder.tvBoutiquetitle.setText(good.getGoodsName());
-//            mBoutiqueViewHolder.tvBoutiqueName.setText(good.getCurrencyPrice());
-//            mBoutiqueViewHolder.layout.setOnClickListener(new View.OnClickListener() {
+        //    mCartViewHolder.ivBoutiqueThumb.setImageURI(good.getGoodsThumb());
+//            ImageUtils.setGoodThumb(mContext,mCartViewHolder.ivBoutiqueThumb,good.getGoodsThumb());
+//            mCartViewHolder.tvBoutiquetitle.setText(good.getGoodsName());
+//            mCartViewHolder.tvBoutiqueName.setText(good.getCurrencyPrice());
+//            mCartViewHolder.layout.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
 //                    mContext.startActivity(new Intent(mContext,GoodDetailsActivity.class)
@@ -134,7 +134,7 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public int getItemCount() {
 
-      //  return mBoutiqueList !=null? mBoutiqueList.size()+1:1;
+      //  return mCartList !=null? mCartList.size()+1:1;
         return mBoutiqueList !=null? mBoutiqueList.size():0;
     }
 

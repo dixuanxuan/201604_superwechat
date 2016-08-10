@@ -107,7 +107,7 @@ public class GoodAdapter extends RecyclerView.Adapter<ViewHolder> {
         if (holder instanceof  GoodViewHoder){
             mGoodViewHoder= (GoodViewHoder) holder;
             final NewGoodBean good = mGoodList.get(position);
-        //    mBoutiqueViewHolder.ivBoutiqueThumb.setImageURI(good.getGoodsThumb());
+        //    mCartViewHolder.ivBoutiqueThumb.setImageURI(good.getGoodsThumb());
             ImageUtils.setGoodThumb(mContext,mGoodViewHoder.ivGoodThumb,good.getGoodsThumb());
             mGoodViewHoder.tvGoodName.setText(good.getGoodsName());
             mGoodViewHoder.tvGoodPrice.setText(good.getCurrencyPrice());
@@ -135,7 +135,7 @@ public class GoodAdapter extends RecyclerView.Adapter<ViewHolder> {
     public int getItemCount() {
 
         return mGoodList!=null?mGoodList.size()+1:1;
-       //return  mBoutiqueList.size();
+       //return  mCartList.size();
     }
 
     public void addItem(ArrayList<NewGoodBean> list) {

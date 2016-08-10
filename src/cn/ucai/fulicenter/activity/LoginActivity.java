@@ -133,7 +133,6 @@ public class LoginActivity extends BaseActivity {
 
 		//new DownloadContactListTask(LoginActivity.this,currentUsername).excute();
 		new DownloadCollectCountTask(LoginActivity.this,currentUsername).excute();
-
 		new DownloadCartListTask(LoginActivity.this,currentUsername).execute();
 
 		try {
