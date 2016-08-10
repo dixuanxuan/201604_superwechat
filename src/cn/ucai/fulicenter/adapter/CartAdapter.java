@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,17 +35,12 @@ public class CartAdapter extends RecyclerView.Adapter<ViewHolder> {
     List<CartBean> mCartList;
     CartViewHolder mCartViewHolder;
     boolean isMore;
-
-
     public boolean isMore() {
         return isMore;
     }
-
     public void setMore(boolean more) {
         isMore = more;
     }
-
-
     public CartAdapter(Context mContext, List<CartBean> list) {
         this.mContext = mContext;
         mCartList =new ArrayList<CartBean>();
@@ -89,14 +85,10 @@ public class CartAdapter extends RecyclerView.Adapter<ViewHolder> {
                 new UpdateCartListTask(mContext,cart).execute();
             }
         });
+        mCartViewHolder.ivAddCart.setOnClickListener(new ChangeCountListener(cart,1));
+        mCartViewHolder.ivReduceCart.setOnClickListener(new ChangeCountListener(cart,-1));
 
         }
-
-
-
-
-
-
     @Override
     public int getItemCount() {
 
@@ -132,7 +124,21 @@ public class CartAdapter extends RecyclerView.Adapter<ViewHolder> {
             tvGoodPrice = (TextView) itemView.findViewById(R.id.tvGoodPrice);
         }
     }
+    class  ChangeCountListener implements View.OnClickListener{
+        CartBean cartBean;
+        int setCount;
+        public ChangeCountListener(CartBean cart,int count) {
+            Log.e("listener","count="+cart.getCount()+",set"+count);
+            this.cartBean=cart;
+            this.setCount=count;
+        }
 
-
+        @Override
+        public void onClick(View v) {
+            this.cartBean.setCount(cartBean.getCount()+setCount);
+            Log.e("listener","count="+cartBean.getCount());
+            new UpdateCartListTask(mContext,cartBean).execute();
+        }
+    }
 
 }

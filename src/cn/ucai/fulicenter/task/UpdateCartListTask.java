@@ -2,6 +2,7 @@ package cn.ucai.fulicenter.task;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -44,15 +45,47 @@ public class UpdateCartListTask {
 
                     @Override
                     public void onError(String error) {
+                        Log.e(TAG,"error="+error);
 
                     }
                 });
             }else {
                 //删除
+                deleteCart(new OkHttpUtils2.OnCompleteListener<MessageBean>() {
+                    @Override
+                    public void onSuccess(MessageBean result) {
+                        if (result!=null&&result.isSuccess()){
+                            cartList.remove(cartList.indexOf(mCart));
+                            mContext.sendStickyBroadcast(new Intent("update_cart_list"));
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        Log.e(TAG,"error="+error);
+                    }
+                });
 
             }
         }else {
             //添加
+            addCart(new OkHttpUtils2.OnCompleteListener<MessageBean>() {
+                @Override
+                public void onSuccess(MessageBean result) {
+                    if (result!=null&&result.isSuccess()){
+                        mCart.setId(Integer.valueOf(result.getMsg()));
+                        cartList.add(mCart);
+                        mContext.sendStickyBroadcast(new Intent("update_cart_list"));
+                    }
+
+                }
+
+                @Override
+                public void onError(String error) {
+                    Log.e(TAG,"error="+error);
+
+                }
+            });
         }
 
     }
@@ -62,6 +95,25 @@ public class UpdateCartListTask {
                 .addParam(I.Cart.ID,String.valueOf(mCart.getId()))
                 .addParam(I.Cart.COUNT,mCart.getCount()+"")
                 .addParam(I.Cart.IS_CHECKED,mCart.isChecked()+"")
+                .targetClass(MessageBean.class).
+                execute(listener);
+
+    }
+    private void deleteCart(OkHttpUtils2.OnCompleteListener<MessageBean> listener){
+        OkHttpUtils2<MessageBean> utils2=new OkHttpUtils2<>();
+        utils2.setRequestUrl(I.REQUEST_DELETE_CART)
+                .addParam(I.Cart.ID,String.valueOf(mCart.getId()))
+                .targetClass(MessageBean.class).
+                execute(listener);
+
+    }
+    private void addCart(OkHttpUtils2.OnCompleteListener<MessageBean> listener){
+        OkHttpUtils2<MessageBean> utils2=new OkHttpUtils2<>();
+        utils2.setRequestUrl(I.REQUEST_ADD_CART)
+                .addParam(I.Cart.ID,String.valueOf(mCart.getGoods().getGoodsId()))
+                .addParam(I.Cart.COUNT,mCart.getCount()+"")
+                .addParam(I.Cart.IS_CHECKED,mCart.isChecked()+"")
+                .addParam(I.Cart.USER_NAME,FuLiCenterApplication.getInstance().getUserName())
                 .targetClass(MessageBean.class).
                 execute(listener);
 
