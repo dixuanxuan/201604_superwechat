@@ -1,6 +1,10 @@
 package cn.ucai.fulicenter.fragment;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,6 +23,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
@@ -27,6 +32,7 @@ import cn.ucai.fulicenter.adapter.BoutiqueAdapter;
 import cn.ucai.fulicenter.adapter.CartAdapter;
 import cn.ucai.fulicenter.bean.CartBean;
 import cn.ucai.fulicenter.bean.CartBeen;
+import cn.ucai.fulicenter.bean.GoodDetailsBean;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.utils.Utils;
 
@@ -45,13 +51,12 @@ public class CartFragment extends Fragment {
     TextView tvRefreshing;
     int action=I.ACTION_DOWNLOAD;
 
-
     TextView tvSum;
     TextView tvSave;
     TextView tvBuy;
+    UpdateCartReceiver mReceiver;
 
-
-
+   // updateCartReceiver mReceiver;
 
     public CartFragment() {
        //  Required empty public constructor
@@ -73,6 +78,7 @@ public class CartFragment extends Fragment {
     private void setListener() {
         setPullDownRefreshListener();
         setPullUpRefreshListener();
+        setUpdateCartListener();
 
     }
 
@@ -81,7 +87,6 @@ public class CartFragment extends Fragment {
             int lastItemPositon;
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-
                 super.onScrollStateChanged(recyclerView, newState);
                 int a=RecyclerView.SCROLL_STATE_DRAGGING;
                 int b=RecyclerView.SCROLL_STATE_IDLE;
@@ -118,13 +123,13 @@ public class CartFragment extends Fragment {
                 initData();
             }
         });
-
     }
 
     private void initData() {
         List<CartBean> cartList = FuLiCenterApplication.getInstance().getCartList();
         mCartList.clear();
         mCartList.addAll(cartList);
+        sumPrice();
         tvRefreshing.setVisibility(View.GONE);
         mSwipeRefreshLayout.setRefreshing(false);
         mCartAdapter.setMore(true);
@@ -173,6 +178,45 @@ public class CartFragment extends Fragment {
         tvSum = (TextView) view.findViewById(R.id.tv_sum);
 
     }
+    public  void  sumPrice(){
+        int sumPrice=0;
+        int savePrice=0;
+        int currentPrice=0;
+        if (mCartList!=null&&mCartList.size()>0){
+            for (CartBean cart: mCartList){
+                GoodDetailsBean goods = cart.getGoods();
+                if (goods!=null&&cart.isChecked()){
+                    sumPrice+=convertPrice(goods.getRankPrice())*cart.getCount();
+                    currentPrice+=convertPrice(goods.getCurrencyPrice())*cart.getCount();
+                }
+            }
+        }
+        savePrice=sumPrice-currentPrice;
+        tvSum.setText("合计："+sumPrice);
+        tvSave.setText("节省 "+savePrice);
+    }
+    private  int convertPrice(String  price){
+        price=price.substring(price.indexOf("￥")+1);
+        return Integer.valueOf(price);
+    }
+    class  UpdateCartReceiver extends  BroadcastReceiver{
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            initData();
+        }
+    }
+    private  void  setUpdateCartListener(){
+        mReceiver=new UpdateCartReceiver();
+        IntentFilter filter=new IntentFilter("update_cart_list");
+        mContext.registerReceiver(mReceiver,filter);
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mReceiver!=null){
+            mContext.unregisterReceiver(mReceiver);
+        }
+    }
 }

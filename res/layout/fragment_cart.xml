@@ -38,8 +38,8 @@
         android:layout_centerVertical="true"
         android:background="@color/cart_buy_bg"
         android:text="购买"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:textSize="18sp"
         android:textColor="@color/white" />
 </RelativeLayout>
