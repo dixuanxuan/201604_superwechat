@@ -18,8 +18,7 @@ import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.BoutiqueDesc_Activity;
-import cn.ucai.fulicenter.activity.GoodDetailsActivity;
-import cn.ucai.fulicenter.bean.BoutiqueBean;
+import cn.ucai.fulicenter.bean.CartBeen;
 import cn.ucai.fulicenter.utils.ImageUtils;
 import cn.ucai.fulicenter.view.FooterViewHolder;
 
@@ -28,7 +27,7 @@ import cn.ucai.fulicenter.view.FooterViewHolder;
  */
 public class BoutiqueAdapter extends RecyclerView.Adapter<ViewHolder> {
     Context mContext;
-    List<BoutiqueBean> mBoutiqueList;
+    List<CartBeen> mBoutiqueList;
     BoutiqueViewHolder mBoutiqueViewHolder;
     boolean isMore;
     String footerText;
@@ -51,9 +50,9 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public BoutiqueAdapter(Context mContext, List<BoutiqueBean> list) {
+    public BoutiqueAdapter(Context mContext, List<CartBeen> list) {
         this.mContext = mContext;
-        mBoutiqueList =new ArrayList<BoutiqueBean>();
+        mBoutiqueList =new ArrayList<CartBeen>();
         mBoutiqueList.addAll(list);
     }
 
@@ -75,7 +74,7 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<ViewHolder> {
         return  holder;
     }
 
-    public void initItem(ArrayList<BoutiqueBean> list) {
+    public void initItem(ArrayList<CartBeen> list) {
         if (mBoutiqueList !=null){
             mBoutiqueList.clear();
         }
@@ -92,7 +91,7 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
         if (holder instanceof BoutiqueViewHolder){
             mBoutiqueViewHolder = (BoutiqueViewHolder) holder;
-            final BoutiqueBean boutique = mBoutiqueList.get(position);
+            final CartBeen boutique = mBoutiqueList.get(position);
         //    mCartViewHolder.ivBoutiqueThumb.setImageURI(good.getGoodsThumb());
              ImageUtils.setGoodThumb(mContext,mBoutiqueViewHolder.ivBoutiqueThumb,boutique.getImageurl());
              mBoutiqueViewHolder.tvBoutiqueTitle.setText(boutique.getTitle());
@@ -138,7 +137,7 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<ViewHolder> {
         return mBoutiqueList !=null? mBoutiqueList.size():0;
     }
 
-    public void addItem(ArrayList<BoutiqueBean> list) {
+    public void addItem(ArrayList<CartBeen> list) {
         if (mBoutiqueList !=null){
             mBoutiqueList.addAll(list);
         }

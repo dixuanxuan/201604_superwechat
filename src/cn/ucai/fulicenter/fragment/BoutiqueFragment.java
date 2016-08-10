@@ -22,9 +22,7 @@ import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.FuliCenterMainActivity;
 import cn.ucai.fulicenter.adapter.BoutiqueAdapter;
-import cn.ucai.fulicenter.adapter.GoodAdapter;
-import cn.ucai.fulicenter.bean.BoutiqueBean;
-import cn.ucai.fulicenter.bean.NewGoodBean;
+import cn.ucai.fulicenter.bean.CartBeen;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.utils.Utils;
 
@@ -34,7 +32,7 @@ import cn.ucai.fulicenter.utils.Utils;
 public class BoutiqueFragment extends Fragment {
     private  static  final  String TAG=BoutiqueFragment.class.getSimpleName();
     FuliCenterMainActivity mContext;
-    List<BoutiqueBean> mBoutiqueList;
+    List<CartBeen> mBoutiqueList;
     SwipeRefreshLayout mSwipeRefreshLayout;
     RecyclerView mRecyclerView;
     GridLayoutManager gm;
@@ -54,7 +52,7 @@ public class BoutiqueFragment extends Fragment {
                              Bundle savedInstanceState) {
         mContext= (FuliCenterMainActivity) getContext();
         View view = View.inflate(mContext,R.layout.fragment_new_good, null);
-        mBoutiqueList=new ArrayList<BoutiqueBean>();
+        mBoutiqueList=new ArrayList<CartBeen>();
         mBoutiqueList=new ArrayList<>();
         initView(view);
         initData();
@@ -123,8 +121,8 @@ public class BoutiqueFragment extends Fragment {
                 mBoutiqueAdapter.setMore(true);
                 if (result!=null){
                     Gson gson=new Gson();
-                    BoutiqueBean[] boutiqueBeen=gson.fromJson(result,BoutiqueBean[].class);
-                    ArrayList<BoutiqueBean> boutiqueBeanArrayList = Utils.array2List(boutiqueBeen);
+                    CartBeen[] boutiqueBeen=gson.fromJson(result,CartBeen[].class);
+                    ArrayList<CartBeen> boutiqueBeanArrayList = Utils.array2List(boutiqueBeen);
                     if (action==I.ACTION_DOWNLOAD||action==I.ACTION_PULL_DOWN){
                         mBoutiqueAdapter.initItem(boutiqueBeanArrayList);
                     }else {
