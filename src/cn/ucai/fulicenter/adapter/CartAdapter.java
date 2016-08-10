@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.BoutiqueDesc_Activity;
 import cn.ucai.fulicenter.bean.CartBean;
 import cn.ucai.fulicenter.bean.GoodDetailsBean;
+import cn.ucai.fulicenter.task.UpdateCartListTask;
 import cn.ucai.fulicenter.utils.ImageUtils;
 import cn.ucai.fulicenter.view.FooterViewHolder;
 
@@ -80,7 +82,17 @@ public class CartAdapter extends RecyclerView.Adapter<ViewHolder> {
         mCartViewHolder.mCheckBox.setChecked(cart.isChecked());
         mCartViewHolder.tvGoodPrice.setText(goods.getCurrencyPrice());
         ImageUtils.setGoodThumb(mContext,mCartViewHolder.ivGoodThumb,goods.getGoodsThumb());
+        mCartViewHolder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                cart.setChecked(isChecked);
+                new UpdateCartListTask(mContext,cart).execute();
+            }
+        });
+
         }
+
+
 
 
 

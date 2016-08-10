@@ -226,9 +226,9 @@ class  ViewPageAdapter extends FragmentStatePagerAdapter {
         registerReceiver(mReceiver,filter);
     }
     class   updateCartNumReceiver extends BroadcastReceiver{
-
         @Override
         public void onReceive(Context context, Intent intent) {
+
             updateCartNum();
         }
     }
