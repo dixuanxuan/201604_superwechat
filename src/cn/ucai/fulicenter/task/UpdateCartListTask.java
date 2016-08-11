@@ -59,7 +59,6 @@ public class UpdateCartListTask {
                             mContext.sendStickyBroadcast(new Intent("update_cart_list"));
                         }
                     }
-
                     @Override
                     public void onError(String error) {
                         Log.e(TAG,"error="+error);
