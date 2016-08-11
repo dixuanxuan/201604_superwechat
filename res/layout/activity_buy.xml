@@ -53,6 +53,7 @@
             android:textSize="18sp"
             android:text="手机号"/>
         <EditText
+            android:inputType="phone"
             android:id="@+id/ed_order_phone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -115,6 +116,7 @@
             android:textSize="18sp" />
     </RelativeLayout>
     <Button
+        android:id="@+id/btnBuy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
