@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.NavUtils;
@@ -83,10 +84,8 @@ public class GoodDetailsActivity extends  BaseActivity {
         MyListener listener=new MyListener();
         ivCollect.setOnClickListener(listener);
         ivShare.setOnClickListener(listener);
-        tvCartCount.setOnClickListener(listener);
+        ivCart.setOnClickListener(listener);
         setUpdateCartCountListener();
-
-
     }
 
 
@@ -148,19 +147,14 @@ public class GoodDetailsActivity extends  BaseActivity {
     private int getAlbumImageSize() {
         if (mGoodDetail.getProperties()!=null&&mGoodDetail.getProperties().length>0){
             return  mGoodDetail.getProperties()[0].getAlbums().length;
-
         }return 0;
-
-
     }
-
     private  void  getGoodDetailsByGoodId(OkHttpUtils2.OnCompleteListener<String> listener){
         OkHttpUtils2<String> utils=new OkHttpUtils2<String>();
         utils.setRequestUrl(I.REQUEST_FIND_GOOD_DETAILS)
                 .addParam(D.GoodDetails.KEY_GOODS_ID,String.valueOf(goodId))
                 .targetClass(String.class)
                 .execute(listener);
-
     }
 
     private void initView() {
@@ -169,7 +163,6 @@ public class GoodDetailsActivity extends  BaseActivity {
         ivCollect=(ImageView) findViewById(R.id.ivcollect);
         ivCart=(ImageView) findViewById(R.id.ivgoodcart);
         tvCartCount=(TextView) findViewById(R.id.tvcartcount);
-
 
         tvGoodEnglishName = (TextView) findViewById(R.id.tvgoodenglish);
         tvGoodName = (TextView) findViewById(R.id.tvgoodname);
@@ -190,8 +183,6 @@ public class GoodDetailsActivity extends  BaseActivity {
         super.onResume();
         initCollectStatus();
         initCartStatus();
-
-
     }
 
     private void initCartStatus() {
@@ -203,7 +194,6 @@ public class GoodDetailsActivity extends  BaseActivity {
             tvCartCount.setVisibility(View.GONE);
             tvCartCount.setText("0");
         }
-
     }
 
     private void initCollectStatus() {
@@ -225,7 +215,6 @@ public class GoodDetailsActivity extends  BaseActivity {
                                 isCollect=false;
                             }
                             updateCollectStatus();
-
                         }
 
                         @Override
@@ -237,7 +226,6 @@ public class GoodDetailsActivity extends  BaseActivity {
 
     }
     class  MyListener  implements  View.OnClickListener{
-
         @Override
         public void onClick(View v) {
             switch (v.getId()){
@@ -251,33 +239,38 @@ public class GoodDetailsActivity extends  BaseActivity {
                     addCart();
                     break;
             }
-
         }
     }
     private void addCart(){
-        Log.e(TAG,"addCart.....");
         List<CartBean> cartList = FuLiCenterApplication.getInstance().getCartList();
+        Log.e(TAG,"addCart.....");
         CartBean cart=new CartBean();
         boolean isExits=false;
        for (CartBean cartBean: cartList){
            if (cartBean.getGoodsId()==goodId){
+               Log.e(TAG,"goHome"+"gohome");
+               cart.setId(goodId);
+               cart.setGoodsId(cartBean.getGoodsId());
                cart.setChecked(cartBean.isChecked());
-               cart.setCount(cartBean.getCount()+1);
+               cart.setCount(cart.getId()+1);
                cart.setGoods(mGoodDetail);
                cart.setUserName(cartBean.getUserName());
                isExits=true;
            }
+           Log.e(TAG,"addCart....isExit="+isExits);
+
        }
-        Log.e(TAG,"addCart....isExit="+isExits);
         if (!isExits){
-            cart=new CartBean();
+            cart.setId(goodId);
             cart.setChecked(true);
             cart.setCount(1);
             cart.setGoods(mGoodDetail);
             cart.setUserName(FuLiCenterApplication.getInstance().getUserName());
-
         }
+
+        Log.e(TAG,"cart="+cart);
         new UpdateCartListTask(mContext,cart).execute();
+
     }
     private void showShare() {
         ShareSDK.initSDK(this);
@@ -348,7 +341,7 @@ public class GoodDetailsActivity extends  BaseActivity {
                        .addParam(I.Collect.GOODS_ID,mGoodDetail.getGoodsId()+"")
                        .addParam(I.Collect.ADD_TIME,mGoodDetail.getAddTime()+"")
                        .addParam(I.Collect.GOODS_THUMB,I.Collect.GOODS_THUMB)
-                       .addParam(I.Collect.USER_NAME,mGoodDetail.getGoodsName())
+                       .addParam(I.Collect.GOODS_NAME,mGoodDetail.getGoodsName())
                        .addParam(I.Collect.GOODS_ENGLISH_NAME,mGoodDetail.getGoodsEnglishName())
                        .addParam(I.Collect.GOODS_IMG,mGoodDetail.getGoodsImg())
                        .targetClass(String.class)
@@ -368,16 +361,16 @@ public class GoodDetailsActivity extends  BaseActivity {
                                updateCollectStatus();
                                Toast.makeText(mContext,messageBean.getMsg(),Toast.LENGTH_SHORT).show();
                            }
-                           @Override
-                           public void onError(String error) {
+                                @Override
+                                public void onError(String error) {
                                Log.e(TAG,"error="+error);
                            }
-                       });
-           }
-        }else {
-            startActivity(new Intent(mContext,LoginActivity.class));
-        }
-    }
+                                });
+                                }
+                             }else {
+                                 startActivity(new Intent(mContext,LoginActivity.class));
+                                 }
+                                 }
     private void  updateCollectStatus (){
         if (isCollect){
             ivCollect.setImageResource(R.drawable.bg_collect_out);
@@ -386,11 +379,9 @@ public class GoodDetailsActivity extends  BaseActivity {
         }
     }
     class updateCartNumReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             updateCartNum();
-
         }
     }
     updateCartNumReceiver mReceiver;

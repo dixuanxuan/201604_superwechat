@@ -138,7 +138,7 @@ public class CartFragment extends Fragment {
             if (action==I.ACTION_DOWNLOAD||action==I.ACTION_PULL_DOWN){
                 mCartAdapter.initItem(mCartList);
             }else {
-                mCartAdapter.addItem(mCartList);
+                mCartAdapter.initItem(mCartList);
                     }
             if (mCartList.size()<I.PAGE_SIZE_DEFAULT){
                 mCartAdapter.setMore(false);

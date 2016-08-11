@@ -22,7 +22,7 @@ public class CartBean implements Serializable {
      */
 
     private int id=0;
-        private String userName;
+    private String userName;
     private int goodsId;
     private int count;
     @JsonProperty("isChecked")

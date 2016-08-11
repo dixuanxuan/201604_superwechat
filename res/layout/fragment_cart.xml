@@ -7,7 +7,7 @@
 <RelativeLayout
     android:id="@+id/layout_cart_sum"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="60dp"
     android:background="@color/white">
     <TextView
         android:layout_centerHorizontal="true"
@@ -36,9 +36,9 @@
         android:layout_alignParentRight="true"
         android:gravity="center"
         android:layout_centerVertical="true"
-        android:background="@color/cart_buy_bg"
+        android:background="@color/orange"
         android:text="购买"
-        android:paddingLeft="10dp"
+        android:paddingLeft="1dp"
         android:paddingRight="10dp"
         android:textSize="18sp"
         android:textColor="@color/white" />
