@@ -99,6 +99,11 @@
             android:name=".activity.CollectActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide" />
+        <!-- 分类商品详情 -->
+        <activity
+            android:name=".activity.BuyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide" />
         <!-- 登陆 -->
         <activity
             android:name=".activity.LoginActivity"

@@ -27,6 +27,7 @@ import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.activity.BuyActivity;
 import cn.ucai.fulicenter.activity.FuliCenterMainActivity;
 import cn.ucai.fulicenter.adapter.BoutiqueAdapter;
 import cn.ucai.fulicenter.adapter.CartAdapter;
@@ -55,6 +56,7 @@ public class CartFragment extends Fragment {
     TextView tvSave;
     TextView tvBuy;
     UpdateCartReceiver mReceiver;
+    int sumPrice=0;
 
    // updateCartReceiver mReceiver;
 
@@ -79,8 +81,23 @@ public class CartFragment extends Fragment {
         setPullDownRefreshListener();
         setPullUpRefreshListener();
         setUpdateCartListener();
+        setPullUpRefreshListener();
+        setBuyListener();
 
     }
+
+    private void setBuyListener() {
+
+            tvBuy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (DemoHXSDKHelper.getInstance().isLogined()
+                            &&sumPrice>0){
+                    startActivity(new Intent(mContext, BuyActivity.class));
+                }}
+            });
+        }
+
 
     private void setPullUpRefreshListener() {
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -179,7 +196,7 @@ public class CartFragment extends Fragment {
 
     }
     public  void  sumPrice(){
-        int sumPrice=0;
+
         int savePrice=0;
         int currentPrice=0;
         if (mCartList!=null&&mCartList.size()>0){

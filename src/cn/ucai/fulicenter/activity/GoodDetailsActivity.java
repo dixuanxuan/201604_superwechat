@@ -258,7 +258,6 @@ public class GoodDetailsActivity extends  BaseActivity {
                isExits=true;
            }
            Log.e(TAG,"addCart....isExit="+isExits);
-
        }
         if (!isExits){
             cart.setId(goodId);
