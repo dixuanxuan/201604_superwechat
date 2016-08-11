@@ -237,9 +237,11 @@ public class GoodDetailsActivity extends  BaseActivity {
                     break;
                 case R.id.ivgoodcart:
                     addCart();
+
                     break;
             }
         }
+
     }
     private void addCart(){
         List<CartBean> cartList = FuLiCenterApplication.getInstance().getCartList();
